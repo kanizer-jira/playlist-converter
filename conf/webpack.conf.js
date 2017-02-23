@@ -2,45 +2,68 @@ const webpack = require('webpack');
 const conf = require('./gulp.conf');
 const path = require('path');
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FailPlugin = require('webpack-fail-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.json$/,
-        loaders: [
-          'json-loader'
+        use: [
+          {
+            loader: 'json-loader'
+          }
         ]
       },
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader',
-        enforce: 'pre'
+        loader: 'tslint-loader',
+        enforce: 'pre',
+        options: {
+          // so you can format like this or with loader objects
+        }
       },
       {
-        test: /\.(css|styl|stylus)$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'stylus-loader',
-          'postcss-loader'
-        ]
+        test: /\.(css|scss)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                // sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+                sourceMapFilename: '[file].map'
+              }
+            },
+            'postcss-loader'
+          ]
+        })
       },
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        loaders: [
-          'babel-loader'
+        use: [
+          {
+            loader: 'ts-loader'
+          }
         ]
       },
       {
         test: /\.html$/,
-        loaders: [
-          'html-loader'
+        use: [
+          {
+            loader: 'html-loader'
+          }
         ]
       }
     ]
@@ -50,6 +73,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     FailPlugin,
     new HtmlWebpackPlugin({
+      css: 'styles.css',
       template: conf.path.src('index.html')
     }),
     new webpack.ContextReplacementPlugin(
@@ -58,15 +82,32 @@ module.exports = {
     ),
     new webpack.LoaderOptionsPlugin({
       options: {
-        postcss: () => [autoprefixer]
+        postcss: () => [autoprefixer],
+        resolve: {},
+        ts: {
+          configFileName: 'tsconfig.json'
+        },
+        tslint: {
+          configuration: require('../tslint.json')
+        }
       },
       debug: true
-    })
+    }),
+    // extract styles into separate doc to load separately from js lifecycle
+    new ExtractTextPlugin('styles.css')
   ],
   devtool: 'source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),
     filename: 'index.js'
+  },
+  resolve: {
+    extensions: [
+      '.webpack.js',
+      '.web.js',
+      '.js',
+      '.ts'
+    ]
   },
   entry: `./${conf.path.src('index')}`
 };
