@@ -1,5 +1,4 @@
 ## Playlist Converter
-testing
 Util to convert playlists into MP3s.
 
 #### Install dependencies (first run)
