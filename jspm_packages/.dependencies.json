@@ -1,0 +1,897 @@
+{
+  "npm:babel-plugin-transform-decorators-legacy@1.3.4": {
+    "deps": {
+      "babel-plugin-syntax-decorators": "npm:babel-plugin-syntax-decorators@^6.1.18",
+      "babel-runtime": "npm:babel-runtime@^6.2.0",
+      "babel-template": "npm:babel-template@^6.3.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-flow-strip-types@6.22.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@^6.18.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-es2015-typeof-symbol@6.23.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-transform-class-properties@6.23.0": {
+    "deps": {
+      "babel-helper-function-name": "npm:babel-helper-function-name@^6.23.0",
+      "babel-plugin-syntax-class-properties": "npm:babel-plugin-syntax-class-properties@^6.8.0",
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-template": "npm:babel-template@^6.23.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:zone.js@0.7.7": {
+    "deps": {},
+    "peerDeps": {
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "timers": "github:jspm/nodelibs-timers@^0.2.0-alpha"
+    }
+  },
+  "npm:core-js@2.4.1": {
+    "deps": {},
+    "peerDeps": {
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:rxjs@5.1.1": {
+    "deps": {
+      "symbol-observable": "npm:symbol-observable@^1.0.1"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-angular2-annotations@5.1.0": {
+    "deps": {
+      "babel-generator": "npm:babel-generator@^6.8.0"
+    },
+    "peerDeps": {
+      "babel-plugin-transform-decorators-legacy": "npm:babel-plugin-transform-decorators-legacy@^1.3.4",
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha"
+    }
+  },
+  "npm:@angular/common@2.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "@angular/core": "npm:@angular/core@2.4.8"
+    }
+  },
+  "npm:@angular/http@2.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "rxjs": "npm:rxjs@^5.0.1",
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.8"
+    }
+  },
+  "npm:@angular/platform-browser@2.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/common": "npm:@angular/common@2.4.8"
+    }
+  },
+  "npm:@angular/compiler@2.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "@angular/core": "npm:@angular/core@2.4.8"
+    }
+  },
+  "npm:@angular/core@2.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "rxjs": "npm:rxjs@^5.0.1",
+      "zone.js": "npm:zone.js@^0.7.2"
+    }
+  },
+  "npm:@angular/platform-browser-dynamic@2.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/common": "npm:@angular/common@2.4.8",
+      "@angular/compiler": "npm:@angular/compiler@2.4.8",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.8"
+    }
+  },
+  "npm:@angular/router@3.4.8": {
+    "deps": {},
+    "peerDeps": {
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/common": "npm:@angular/common@2.4.8",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.8",
+      "rxjs": "npm:rxjs@^5.0.1"
+    }
+  },
+  "npm:reflect-metadata@0.1.10": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-syntax-decorators@6.13.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:symbol-observable@1.0.4": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-syntax-class-properties@6.13.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:babel-plugin-syntax-flow@6.18.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:babel-helper-function-name@6.23.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-types": "npm:babel-types@^6.23.0",
+      "babel-traverse": "npm:babel-traverse@^6.23.0",
+      "babel-helper-get-function-arity": "npm:babel-helper-get-function-arity@^6.22.0",
+      "babel-template": "npm:babel-template@^6.23.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-template@6.23.0": {
+    "deps": {
+      "babylon": "npm:babylon@^6.11.0",
+      "babel-traverse": "npm:babel-traverse@^6.23.0",
+      "babel-types": "npm:babel-types@^6.23.0",
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "lodash": "npm:lodash@^4.2.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-generator@6.23.0": {
+    "deps": {
+      "babel-messages": "npm:babel-messages@^6.23.0",
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-types": "npm:babel-types@^6.23.0",
+      "detect-indent": "npm:detect-indent@^4.0.0",
+      "jsesc": "npm:jsesc@^1.3.0",
+      "lodash": "npm:lodash@^4.2.0",
+      "source-map": "npm:source-map@^0.5.0",
+      "trim-right": "npm:trim-right@^1.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:babel-runtime@6.23.0": {
+    "deps": {
+      "core-js": "npm:core-js@^2.4.0",
+      "regenerator-runtime": "npm:regenerator-runtime@^0.10.0"
+    },
+    "peerDeps": {}
+  },
+  "github:frankwallis/plugin-typescript@7.0.3": {
+    "deps": {},
+    "peerDeps": {
+      "typescript": "npm:typescript@^2.0.0"
+    }
+  },
+  "npm:babel-helper-get-function-arity@6.22.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-types": "npm:babel-types@^6.22.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:babel-traverse@6.23.1": {
+    "deps": {
+      "babel-code-frame": "npm:babel-code-frame@^6.22.0",
+      "babel-messages": "npm:babel-messages@^6.23.0",
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "babel-types": "npm:babel-types@^6.23.0",
+      "babylon": "npm:babylon@^6.15.0",
+      "debug": "npm:debug@^2.2.0",
+      "globals": "npm:globals@^9.0.0",
+      "invariant": "npm:invariant@^2.2.0",
+      "lodash": "npm:lodash@^4.2.0"
+    },
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:babel-types@6.23.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0",
+      "esutils": "npm:esutils@^2.0.2",
+      "lodash": "npm:lodash@^4.2.0",
+      "to-fast-properties": "npm:to-fast-properties@^1.0.1"
+    },
+    "peerDeps": {}
+  },
+  "npm:babylon@6.16.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:trim-right@1.0.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:detect-indent@4.0.0": {
+    "deps": {
+      "repeating": "npm:repeating@^2.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:lodash@4.17.4": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:regenerator-runtime@0.10.3": {
+    "deps": {},
+    "peerDeps": {
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:babel-messages@6.23.0": {
+    "deps": {
+      "babel-runtime": "npm:babel-runtime@^6.22.0"
+    },
+    "peerDeps": {
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+    }
+  },
+  "npm:jsesc@1.3.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:invariant@2.2.2": {
+    "deps": {
+      "loose-envify": "npm:loose-envify@^1.0.0"
+    },
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:babel-code-frame@6.22.0": {
+    "deps": {
+      "chalk": "npm:chalk@^1.1.0",
+      "esutils": "npm:esutils@^2.0.2",
+      "js-tokens": "npm:js-tokens@^3.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:source-map@0.5.6": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:esutils@2.0.2": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:to-fast-properties@1.0.2": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:globals@9.16.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:repeating@2.0.1": {
+    "deps": {
+      "is-finite": "npm:is-finite@^1.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:debug@2.6.1": {
+    "deps": {
+      "ms": "npm:ms@0.7.2"
+    },
+    "peerDeps": {}
+  },
+  "npm:chalk@1.1.3": {
+    "deps": {
+      "ansi-styles": "npm:ansi-styles@^2.2.1",
+      "escape-string-regexp": "npm:escape-string-regexp@^1.0.2",
+      "has-ansi": "npm:has-ansi@^2.0.0",
+      "strip-ansi": "npm:strip-ansi@^3.0.0",
+      "supports-color": "npm:supports-color@^2.0.0"
+    },
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:loose-envify@1.3.1": {
+    "deps": {
+      "js-tokens": "npm:js-tokens@^3.0.0"
+    },
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+    }
+  },
+  "npm:ms@0.7.2": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:has-ansi@2.0.0": {
+    "deps": {
+      "ansi-regex": "npm:ansi-regex@^2.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:is-finite@1.0.2": {
+    "deps": {
+      "number-is-nan": "npm:number-is-nan@^1.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:js-tokens@3.0.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:strip-ansi@3.0.1": {
+    "deps": {
+      "ansi-regex": "npm:ansi-regex@^2.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:supports-color@2.0.0": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:ansi-styles@2.2.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:escape-string-regexp@1.0.5": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:number-is-nan@1.0.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:ansi-regex@2.1.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:typescript@2.2.1": {
+    "deps": {
+      "source-map-support": "npm:source-map-support"
+    },
+    "peerDeps": {
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
+      "os": "github:jspm/nodelibs-os@^0.2.0-alpha"
+    }
+  },
+  "npm:source-map-support@0.4.11": {
+    "deps": {
+      "source-map": "npm:source-map@^0.5.3"
+    },
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-util@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-path@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-process@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-stream@0.2.0-alpha": {
+    "deps": {
+      "stream-browserify": "npm:stream-browserify@^2.0.1"
+    },
+    "peerDeps": {}
+  },
+  "npm:stream-browserify@2.0.1": {
+    "deps": {
+      "inherits": "npm:inherits@~2.0.1",
+      "readable-stream": "npm:readable-stream@^2.0.2"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha"
+    }
+  },
+  "npm:inherits@2.0.3": {
+    "deps": {},
+    "peerDeps": {
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+    }
+  },
+  "npm:readable-stream@2.2.3": {
+    "deps": {
+      "buffer-shims": "npm:buffer-shims@^1.0.0",
+      "core-util-is": "npm:core-util-is@1.0",
+      "isarray": "npm:isarray@1.0",
+      "inherits": "npm:inherits@~2.0.1",
+      "process-nextick-args": "npm:process-nextick-args@~1.0.6",
+      "string_decoder": "npm:string_decoder@0.10",
+      "util-deprecate": "npm:util-deprecate@~1.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+    }
+  },
+  "npm:buffer-shims@1.0.0": {
+    "deps": {},
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:core-util-is@1.0.2": {
+    "deps": {},
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:isarray@1.0.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:string_decoder@0.10.31": {
+    "deps": {},
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:process-nextick-args@1.0.7": {
+    "deps": {},
+    "peerDeps": {
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:util-deprecate@1.0.2": {
+    "deps": {},
+    "peerDeps": {
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-crypto@0.2.0-alpha": {
+    "deps": {
+      "crypto-browserify": "npm:crypto-browserify@^3.11.0"
+    },
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-events@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-timers@0.2.0-alpha": {
+    "deps": {
+      "timers-browserify": "npm:timers-browserify@^1.4.2"
+    },
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-fs@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:timers-browserify@1.4.2": {
+    "deps": {
+      "process": "npm:process@0.11"
+    },
+    "peerDeps": {
+      "timers": "github:jspm/nodelibs-timers@^0.2.0-alpha",
+      "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha"
+    }
+  },
+  "npm:crypto-browserify@3.11.0": {
+    "deps": {
+      "browserify-cipher": "npm:browserify-cipher@^1.0.0",
+      "browserify-sign": "npm:browserify-sign@^4.0.0",
+      "create-ecdh": "npm:create-ecdh@^4.0.0",
+      "create-hash": "npm:create-hash@^1.1.0",
+      "create-hmac": "npm:create-hmac@^1.1.0",
+      "diffie-hellman": "npm:diffie-hellman@^5.0.0",
+      "inherits": "npm:inherits@^2.0.1",
+      "pbkdf2": "npm:pbkdf2@^3.0.3",
+      "public-encrypt": "npm:public-encrypt@^4.0.0",
+      "randombytes": "npm:randombytes@^2.0.0"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha"
+    }
+  },
+  "npm:process@0.11.9": {
+    "deps": {},
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha"
+    }
+  },
+  "npm:browserify-cipher@1.0.0": {
+    "deps": {
+      "browserify-aes": "npm:browserify-aes@^1.0.4",
+      "browserify-des": "npm:browserify-des@^1.0.0",
+      "evp_bytestokey": "npm:evp_bytestokey@^1.0.0"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:create-hash@1.1.2": {
+    "deps": {
+      "cipher-base": "npm:cipher-base@^1.0.1",
+      "inherits": "npm:inherits@^2.0.1",
+      "ripemd160": "npm:ripemd160@^1.0.0",
+      "sha.js": "npm:sha.js@^2.3.6"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha"
+    }
+  },
+  "npm:create-ecdh@4.0.0": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.1.0",
+      "elliptic": "npm:elliptic@^6.0.0"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:create-hmac@1.1.4": {
+    "deps": {
+      "create-hash": "npm:create-hash@^1.1.0",
+      "inherits": "npm:inherits@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha"
+    }
+  },
+  "npm:pbkdf2@3.0.9": {
+    "deps": {
+      "create-hmac": "npm:create-hmac@^1.1.2"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:browserify-sign@4.0.0": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.1.1",
+      "browserify-rsa": "npm:browserify-rsa@^4.0.0",
+      "create-hash": "npm:create-hash@^1.1.0",
+      "create-hmac": "npm:create-hmac@^1.1.2",
+      "elliptic": "npm:elliptic@^6.0.0",
+      "inherits": "npm:inherits@^2.0.1",
+      "parse-asn1": "npm:parse-asn1@^5.0.0"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha"
+    }
+  },
+  "npm:public-encrypt@4.0.0": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.1.0",
+      "browserify-rsa": "npm:browserify-rsa@^4.0.0",
+      "create-hash": "npm:create-hash@^1.1.0",
+      "parse-asn1": "npm:parse-asn1@^5.0.0",
+      "randombytes": "npm:randombytes@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "constants": "github:jspm/nodelibs-constants@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha"
+    }
+  },
+  "npm:randombytes@2.0.3": {
+    "deps": {},
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:diffie-hellman@5.0.2": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.1.0",
+      "miller-rabin": "npm:miller-rabin@^4.0.0",
+      "randombytes": "npm:randombytes@^2.0.0"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-child_process@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-assert@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-buffer@0.2.0-alpha": {
+    "deps": {
+      "buffer-browserify": "npm:buffer@^4.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:evp_bytestokey@1.0.0": {
+    "deps": {
+      "create-hash": "npm:create-hash@^1.1.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:browserify-des@1.0.0": {
+    "deps": {
+      "cipher-base": "npm:cipher-base@^1.0.1",
+      "des.js": "npm:des.js@^1.0.0",
+      "inherits": "npm:inherits@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:cipher-base@1.0.3": {
+    "deps": {
+      "inherits": "npm:inherits@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
+      "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha"
+    }
+  },
+  "npm:browserify-rsa@4.0.1": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.1.0",
+      "randombytes": "npm:randombytes@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "constants": "github:jspm/nodelibs-constants@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:ripemd160@1.0.1": {
+    "deps": {},
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:parse-asn1@5.0.0": {
+    "deps": {
+      "asn1.js": "npm:asn1.js@^4.0.0",
+      "browserify-aes": "npm:browserify-aes@^1.0.0",
+      "create-hash": "npm:create-hash@^1.1.0",
+      "evp_bytestokey": "npm:evp_bytestokey@^1.0.0",
+      "pbkdf2": "npm:pbkdf2@^3.0.3"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha"
+    }
+  },
+  "npm:browserify-aes@1.0.6": {
+    "deps": {
+      "buffer-xor": "npm:buffer-xor@^1.0.2",
+      "cipher-base": "npm:cipher-base@^1.0.0",
+      "create-hash": "npm:create-hash@^1.1.0",
+      "evp_bytestokey": "npm:evp_bytestokey@^1.0.0",
+      "inherits": "npm:inherits@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha"
+    }
+  },
+  "npm:miller-rabin@4.0.0": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.0.0",
+      "brorand": "npm:brorand@^1.0.1"
+    },
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha"
+    }
+  },
+  "npm:sha.js@2.4.8": {
+    "deps": {
+      "inherits": "npm:inherits@^2.0.1"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha"
+    }
+  },
+  "npm:elliptic@6.4.0": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.4.0",
+      "brorand": "npm:brorand@^1.0.1",
+      "hash.js": "npm:hash.js@^1.0.0",
+      "hmac-drbg": "npm:hmac-drbg@^1.0.0",
+      "inherits": "npm:inherits@^2.0.1",
+      "minimalistic-assert": "npm:minimalistic-assert@^1.0.0",
+      "minimalistic-crypto-utils": "npm:minimalistic-crypto-utils@^1.0.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:bn.js@4.11.6": {
+    "deps": {},
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:buffer@4.9.1": {
+    "deps": {
+      "base64-js": "npm:base64-js@^1.0.2",
+      "ieee754": "npm:ieee754@^1.1.4",
+      "isarray": "npm:isarray@^1.0.0"
+    },
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+    }
+  },
+  "npm:des.js@1.0.0": {
+    "deps": {
+      "inherits": "npm:inherits@^2.0.1",
+      "minimalistic-assert": "npm:minimalistic-assert@^1.0.0"
+    },
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:minimalistic-assert@1.0.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:brorand@1.1.0": {
+    "deps": {},
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha"
+    }
+  },
+  "npm:buffer-xor@1.0.3": {
+    "deps": {},
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:hash.js@1.0.3": {
+    "deps": {
+      "inherits": "npm:inherits@^2.0.1"
+    },
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha"
+    }
+  },
+  "npm:minimalistic-crypto-utils@1.0.1": {
+    "deps": {},
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha"
+    }
+  },
+  "npm:hmac-drbg@1.0.0": {
+    "deps": {
+      "hash.js": "npm:hash.js@^1.0.3",
+      "minimalistic-assert": "npm:minimalistic-assert@^1.0.0",
+      "minimalistic-crypto-utils": "npm:minimalistic-crypto-utils@^1.0.1"
+    },
+    "peerDeps": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha"
+    }
+  },
+  "npm:asn1.js@4.9.1": {
+    "deps": {
+      "bn.js": "npm:bn.js@^4.0.0",
+      "inherits": "npm:inherits@^2.0.1",
+      "minimalistic-assert": "npm:minimalistic-assert@^1.0.0"
+    },
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha"
+    }
+  },
+  "npm:ieee754@1.1.8": {
+    "deps": {},
+    "peerDeps": {
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha"
+    }
+  },
+  "npm:base64-js@1.2.0": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-module@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-vm@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-string_decoder@0.2.0-alpha": {
+    "deps": {
+      "string_decoder-browserify": "npm:string_decoder@^0.10.31"
+    },
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-constants@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "github:jspm/nodelibs-os@0.2.0-alpha": {
+    "deps": {
+      "os-browserify": "npm:os-browserify@^0.2.0"
+    },
+    "peerDeps": {}
+  },
+  "npm:os-browserify@0.2.1": {
+    "deps": {},
+    "peerDeps": {
+      "os": "github:jspm/nodelibs-os@^0.2.0-alpha"
+    }
+  },
+  "github:jspm/nodelibs-net@0.2.0-alpha": {
+    "deps": {},
+    "peerDeps": {}
+  }
+}

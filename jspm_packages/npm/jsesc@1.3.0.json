@@ -1,0 +1,9 @@
+{
+  "main": "jsesc.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    }
+  }
+}

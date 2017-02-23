@@ -1,0 +1,20 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*": {
+      "globals": {
+        "process": "process"
+      }
+    },
+    "*.json": {
+      "format": "json"
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./lib/path": "./lib/path/index.js",
+    "./lib/path/inference": "./lib/path/inference/index.js",
+    "./lib/scope": "./lib/scope/index.js"
+  }
+}

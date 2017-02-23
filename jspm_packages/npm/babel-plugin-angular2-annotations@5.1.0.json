@@ -1,0 +1,16 @@
+{
+  "main": "lib/index.js",
+  "format": "cjs",
+  "meta": {
+    "*.json": {
+      "format": "json"
+    },
+    "test/integration/init.js": {
+      "format": "esm"
+    }
+  },
+  "map": {
+    "./lib": "./lib/index.js",
+    "./test/unit": "./test/unit/index.js"
+  }
+}
