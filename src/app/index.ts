@@ -9,6 +9,8 @@ import {HeaderComponent} from './header';
 import {TitleComponent} from './title';
 import {FooterComponent} from './footer';
 
+// AppModule / Root Module ref:
+// https://angular.io/docs/ts/latest/guide/appmodule.html
 @NgModule({
   imports: [
     BrowserModule,
