@@ -30,6 +30,8 @@ npm run build
 App dependencies:
 - yo fountain-webapp
   - Angular 2, @angular/router, TypeScript, Webpack and SASS
+- Run tslint from cli (need global npm install):
+  - `tslint -c tslint.json 'src/index.ts'`
 
 ## TODO
 1. Deploy script

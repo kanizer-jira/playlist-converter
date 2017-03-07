@@ -6,9 +6,9 @@
       ["_", "isDefined"]
     ],
     "class-name": true,
-    "comment-format": [true,
-      "check-space",
-      "check-lowercase"
+    "comment-format": [
+      true,
+      "check-space"
     ],
     "curly": true,
     "eofline": true,

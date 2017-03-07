@@ -1,18 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {QueueItem} from './queue';
 
 @Component({
-  selector: 'cheapthrills-app',
-  template: require('./main.html') // tslint:disable-line:no-var-requires
+  selector: 'cheap-thrills-queue-items',
+  template: require('./queue-item.html')
 })
-export class MainComponent {
+export class QueueItemComponent {
+  @Input() public queueItem: QueueItem;
 
-  // ------------------------------------------------------------
-  //
-  // lifecycle events for reference
-  //
-  // ------------------------------------------------------------
+  constructor() {
+    // console.log('hello', this);
+  }
 
   ngOnInit() {
+    // console.log('ngOnInit: queueItem:', this.queueItem);
+
     // Properties are resolved and things like
     // this.mapWindow and this.mapControls
     // had a chance to resolve from the
