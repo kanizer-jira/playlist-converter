@@ -1,26 +1,26 @@
-import {TechComponent} from './tech';
+import {QueueItemComponent} from './queue-item';
 import {TestBed, async} from '@angular/core/testing';
 
-describe('tech component', () => {
+describe('queue item component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TechComponent
+        QueueItemComponent
       ]
     });
     TestBed.compileComponents();
   }));
 
   it('should render Gulp', () => {
-    const fixture = TestBed.createComponent(TechComponent);
-    fixture.componentInstance.tech = {
+    const fixture = TestBed.createComponent(QueueItemComponent);
+    fixture.componentInstance.queueItem = {
       title: 'Gulp',
       logo: 'http://fountainjs.io/assets/imgs/gulp.png',
       text1: 'The streaming build system',
       text2: 'Automate and enhance your workflow'
     };
     fixture.detectChanges();
-    const tech = fixture.nativeElement;
-    expect(tech.querySelector('h3').textContent.trim()).toBe('Gulp');
+    const queueItem = fixture.nativeElement;
+    expect(queueItem.querySelector('h3').textContent.trim()).toBe('Gulp');
   });
 });

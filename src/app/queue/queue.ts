@@ -17,11 +17,11 @@ export class QueueItem {
   template: require('./queue.html')
 })
 export class QueueComponent {
-  public queue: QueueItem[];
+  public queueArray: QueueItem[];
   public queueItem: QueueItem;
 
   constructor(public http: Http) {
-    this.getQueueData().subscribe(result => this.queue = result);
+    this.getQueueData().subscribe(result => this.queueArray = result);
   }
 
   getQueueData(): Observable<QueueItem[]> {

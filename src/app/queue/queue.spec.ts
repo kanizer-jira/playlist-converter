@@ -1,19 +1,19 @@
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {Component, Input} from '@angular/core';
-import {TechsComponent, Tech} from './techs';
+import {QueueComponent, QueueItem} from './queue';
 import {TestBed, inject, async} from '@angular/core/testing';
 import {Observable} from 'rxjs/Rx';
 
 @Component({
-  selector: 'fountain-tech',
+  selector: 'cheap-thrills-queue',
   template: ''
 })
-class MockTechComponent {
-  @Input() public tech: Tech;
+class MockQueueItemComponent {
+  @Input() public queueItem: QueueItem;
 }
 
-const techsJson = [
+const queueJson = [
   {
     key: 'gulp',
     title: 'Gulp',
@@ -37,12 +37,12 @@ const techsJson = [
   }
 ];
 
-describe('techs component', () => {
+describe('queue component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TechsComponent,
-        MockTechComponent
+        QueueComponent,
+        MockQueueItemComponent
       ],
       providers: [
         MockBackend,
@@ -56,37 +56,37 @@ describe('techs component', () => {
     TestBed.compileComponents();
   }));
 
-  describe('techs component methods', () => {
-    it('should get techs', inject([MockBackend], (mockBackend: MockBackend) => {
-      const fixture = TestBed.createComponent(TechsComponent);
-      const techs: TechsComponent = fixture.componentInstance;
+  describe('queue component methods', () => {
+    it('should get queue', inject([MockBackend], (mockBackend: MockBackend) => {
+      const fixture = TestBed.createComponent(QueueComponent);
+      const queue: QueueComponent = fixture.componentInstance;
       let conn: MockConnection;
-      const response = new Response(new ResponseOptions({body: techsJson}));
+      const response = new Response(new ResponseOptions({body: queueJson}));
       mockBackend.connections.subscribe((connection: MockConnection) => {
         conn = connection;
       });
-      techs.getTechs().subscribe(jsonObject => {
-        techs.techs = jsonObject;
+      queue.getQueueData().subscribe(jsonObject => {
+        queue.queueArray = jsonObject;
       });
       conn.mockRespond(response);
-      expect(techs.techs.length).toBe(3);
+      expect(queue.queueArray.length).toBe(3);
       mockBackend.verifyNoPendingRequests();
     }));
   });
 
-  describe('techs component rendering', () => {
+  describe('queue component rendering', () => {
     beforeEach(() => {
-      TechsComponent.prototype.getTechs = function () {
-        const response = new Response(new ResponseOptions({body: techsJson}));
+      QueueComponent.prototype.getQueueData = function () {
+        const response = new Response(new ResponseOptions({body: queueJson})); // TODO - wtf is queueJson?
         return Observable.of(response).map(response => response.json());
       };
     });
 
-    it('should mock the techs and render 3 elements <tech>', () => {
-      const fixture = TestBed.createComponent(TechsComponent);
+    it('should mock the queue and render 3 elements <tech>', () => {
+      const fixture = TestBed.createComponent(QueueComponent);
       fixture.detectChanges();
-      const techs = fixture.nativeElement;
-      expect(techs.querySelectorAll('fountain-tech').length).toBe(3);
+      const queue = fixture.nativeElement;
+      expect(queue.querySelectorAll('cheap-thrills-queue').length).toBe(3);
     });
   });
 });

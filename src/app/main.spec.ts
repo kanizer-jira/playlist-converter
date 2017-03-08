@@ -2,24 +2,27 @@ import {Component} from '@angular/core';
 import {TestBed, async} from '@angular/core/testing';
 import {MainComponent} from './main';
 
-@Component({selector: 'fountain-techs', template: ''})
-class MockTechsComponent {}
-@Component({selector: 'fountain-footer', template: ''})
-class MockFooterComponent {}
-@Component({selector: 'fountain-header', template: ''})
-class MockHeaderComponent {}
-@Component({selector: 'fountain-title', template: ''})
-class MockTitleComponent {}
+// @Component({selector: 'fountain-techs', template: ''})
+// class MockTechsComponent {}
+// @Component({selector: 'fountain-footer', template: ''})
+// class MockFooterComponent {}
+// @Component({selector: 'fountain-header', template: ''})
+// class MockHeaderComponent {}
+// @Component({selector: 'fountain-title', template: ''})
+// class MockTitleComponent {}
+@Component({selector: 'cheap-thrills-queue', template: ''})
+class MockQueueComponent {}
 
 describe('Main Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         MainComponent,
-        MockTechsComponent,
-        MockFooterComponent,
-        MockHeaderComponent,
-        MockTitleComponent
+        MockQueueComponent
+        // MockTechsComponent,
+        // MockFooterComponent,
+        // MockHeaderComponent,
+        // MockTitleComponent
       ]
     });
     TestBed.compileComponents();
@@ -29,9 +32,10 @@ describe('Main Component', () => {
     const fixture = TestBed.createComponent(MainComponent);
     fixture.detectChanges();
     const main = fixture.nativeElement;
-    expect(main.querySelector('fountain-header')).toBeDefined();
-    expect(main.querySelector('fountain-title')).toBeDefined();
-    expect(main.querySelector('fountain-techs')).toBeDefined();
-    expect(main.querySelector('fountain-footer')).toBeDefined();
+    // expect(main.querySelector('fountain-header')).toBeDefined();
+    // expect(main.querySelector('fountain-title')).toBeDefined();
+    // expect(main.querySelector('fountain-techs')).toBeDefined();
+    // expect(main.querySelector('fountain-footer')).toBeDefined();
+    expect(main.querySelector('cheap-thrills-queue')).toBeDefined();
   });
 });
