@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {Http} from '@angular/http';
+import {Component}  from '@angular/core';
+import {Http}       from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 
 export class QueueItem {
@@ -21,6 +21,7 @@ export class QueueComponent {
   public queueItem: QueueItem;
 
   constructor(public http: Http) {
+    // console.log('http:', http);
     this.getQueueData().subscribe(result => this.queueArray = result);
   }
 

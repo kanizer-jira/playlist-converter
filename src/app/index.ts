@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {routing, RootComponent} from './routes';
 
 import {QueueModule} from './queue';
+import {InputModule} from './input';
 
 import {MainComponent} from './main';
 import {TestRouteComponent} from './test-route';
@@ -13,7 +14,8 @@ import {TestRouteComponent} from './test-route';
   imports: [
     BrowserModule,
     routing,
-    QueueModule // modules are imported vs. declared
+    QueueModule, // modules are imported vs. declared
+    InputModule
   ],
   declarations: [
     RootComponent,
