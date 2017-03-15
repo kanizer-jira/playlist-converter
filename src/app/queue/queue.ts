@@ -1,15 +1,20 @@
-import {Component}  from '@angular/core';
+import {Component, Input}  from '@angular/core';
 import {Http}       from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import { EmitterService } from '../shared/service/emitter.service';
 
-export class QueueItem {
-  constructor(
-    // TODO - update this schema
-    public logo: string,
-    public title: string,
-    public text1: string,
-    public text2: string
-  ) {}
+export interface IPlaylistItem {
+  id: string;
+  position: number;
+  title: string;
+  description: string;
+  thumbnails: any; // TODO - convert to IThumbnail if you feel like it
+}
+
+export interface IThumbnailItem {
+  url: string;
+  width: number;
+  height: number;
 }
 
 @Component({
@@ -17,22 +22,35 @@ export class QueueItem {
   template: require('./queue.html')
 })
 export class QueueComponent {
-  public queueArray: QueueItem[];
-  public queueItem: QueueItem;
+  public queueArray: IPlaylistItem[];
+  public queueItem: IPlaylistItem;
+
+  @Input() playlistKey: string;
 
   constructor(public http: Http) {
-    // console.log('http:', http);
-    this.getQueueData().subscribe(result => this.queueArray = result);
+    // TODO - monitor status of queue items
   }
 
-  getQueueData(): Observable<QueueItem[]> {
-    let test = this.http
-      .get('app/queue/queue-model.json')
-      .map(response => {
-        // console.log('response:', response.json());
-        return response.json();
-      });
-    // console.log('test:', test);
-    return test;
+  ngOnInit() {
+    // listen to input form component
+    // - doesn't register if set in constructor
+    // - returns data object or false if youtube api req fails
+    EmitterService.get(this.playlistKey)
+    .subscribe( (playlistData: IPlaylistItem[]) => {
+      console.log('queue.ts: subscribe: playlistData:', playlistData);
+      this.queueArray = playlistData;
+    });
   }
+
+  // TODO - populate queue items
+
+
+  // getQueueData(): Observable<IPlaylistItem[]> {
+  //   let test = this.http
+  //     .get('app/queue/queue-model.json')
+  //     .map(response => {
+  //       return response.json();
+  //     });
+  //   return test;
+  // }
 }

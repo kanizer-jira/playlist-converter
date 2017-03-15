@@ -1,5 +1,6 @@
 <!-- Input field to capture playlist url / id
      - ReactiveFormsModule
+     - Define playlistKey input
 -->
 <div class="input">
   <!-- ngSubmit replaces `action` attr
@@ -21,8 +22,8 @@
       value="Get playlist"
       >Get playlist</button>
   </form>
-  <div>
-    <!-- TODO - add some kind of status message/indication -->
-    put status message here
+  <div class="">
+    <!-- add some kind of status message/indication -->
+    {{ statusMessage }}
   </div>
 </div>

@@ -5,6 +5,8 @@ import {Component} from '@angular/core';
   template: require('./main.html') // tslint:disable-line:no-var-requires
 })
 export class MainComponent {
+  // Event tracking props
+  private playlistKey: string = 'REQUEST_PLAYLIST_KEY';
 
   // ------------------------------------------------------------
   //

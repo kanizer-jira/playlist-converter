@@ -5,7 +5,8 @@
       <a routerLink="/">Home</a>
       <a routerLink="/test-route">Test Route</a>
     </nav> -->
-    <cheap-thrills-input></cheap-thrills-input>
-    <cheap-thrills-queue></cheap-thrills-queue>
+    <!-- 'playlistKey': maybe a silly way to pass this emitter key around...just demonstrative -->
+    <cheap-thrills-input [playlistKey]="playlistKey"></cheap-thrills-input>
+    <cheap-thrills-queue [playlistKey]="playlistKey"></cheap-thrills-queue>
   </main>
 </div>
