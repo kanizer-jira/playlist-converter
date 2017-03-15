@@ -13,7 +13,7 @@ class MockQueueItemComponent {
   @Input() public queueItem: IPlaylistItem;
 }
 
-const queueJson = [
+const playlistJson = [
   {
     id: '0',
     position: 0,
@@ -74,7 +74,11 @@ describe('queue item component', () => {
     TestBed.compileComponents();
   }));
 
-  describe('queue item component methods', () => {
+  describe('QueueComponent methods', () => {
+    // it('should convert items to request', inject([MockBackend], (mockBackend: MockBackend) => {
+    //
+    // }));
+
     // it('should get queue', inject([MockBackend], (mockBackend: MockBackend) => {
     //   const fixture = TestBed.createComponent(QueueComponent);
     //   const queue: QueueComponent = fixture.componentInstance;

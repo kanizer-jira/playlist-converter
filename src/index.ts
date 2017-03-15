@@ -16,7 +16,6 @@ if (process.env.NODE_ENV === 'production') {
   enableProdMode();
 } else {
   Error['stackTraceLimit'] = Infinity; // tslint:disable-line:no-string-literal
-  // TODO - tslint ignore rules are being ignored :(
   require('zone.js/dist/long-stack-trace-zone'); // tslint:disable-line:no-var-requires
 }
 

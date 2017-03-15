@@ -28,6 +28,8 @@ npm run build
 #### General
 
 App dependencies:
+- npm i -g angular-cli
+  - Commands to generate boilerplate and scaffold components, tests, etc...
 - yo fountain-webapp
   - Angular 2, @angular/router, TypeScript, Webpack and SASS
 - Run tslint from cli (need global npm install):
