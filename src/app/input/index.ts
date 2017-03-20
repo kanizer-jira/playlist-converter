@@ -1,5 +1,3 @@
-// TODO - get snippets for ng boilerplate
-
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HttpModule} from '@angular/http';

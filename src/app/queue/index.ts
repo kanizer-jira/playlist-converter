@@ -3,6 +3,8 @@ import {CommonModule} from '@angular/common';
 import {HttpModule} from '@angular/http';
 
 import {QueueComponent} from './queue';
+import {QueueService} from './queue.service';
+
 import {QueueItemComponent} from './queue-item';
 
 @NgModule({
@@ -13,6 +15,9 @@ import {QueueItemComponent} from './queue-item';
   declarations: [
     QueueItemComponent,
     QueueComponent
+  ],
+  providers: [
+    QueueService
   ],
   exports: [
     QueueComponent

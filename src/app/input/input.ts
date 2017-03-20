@@ -20,15 +20,15 @@ export interface IPlaylistData {
   items: Array<any>;
   nextPageToken: String;
 
-  // // don't care about these
+  // don't care about these:
+
   // etag: String;
   // kind: String;
   // pageInfo: Object;
 }
 
-// TODO - `string` vs `String`; think lowercase is reserved for TS
 export interface IPlaylistItem {
-  id: String;
+  videoId: String;
   thumbnails: Array<any>;
   title: String;
   description: String;
@@ -72,7 +72,7 @@ export class InputComponent {
   // - Response is replaced with an array of DataType;
   //   array because it's like a sequence of responses
   // - <> brackets mean List/Array contents type
-  getComments(): Observable<IPlaylistData[]> {
+  getComments(): Observable<IPlaylistData> {
     const pagination = this.pageToken ? `&pageToken=${this.pageToken}` : '';
 
     return this.http
@@ -84,7 +84,7 @@ export class InputComponent {
       .map((res: Response) => {
         // returns http response; headers, status, body, etc...
         // - converting to an array to match expected response type from Observable (dumb! probably not right?)
-        return [res.json()];
+        return res.json();
         // throw Error('testing');
       })
       // ...errors if any
@@ -97,16 +97,16 @@ export class InputComponent {
   requestPlaylist(event: Event) {
     // capture/handle input event
     this.playlistId = this.captureIdForm.value.playlistId;
-    this.playlistId = this.mockPlaylistId;
+    this.playlistId = this.mockPlaylistId; // TODO - remove when ready to test
 
     // handle request to Youtube Playlist API
     // - subscribe to observer for http reqs to youtube api
     // - doesn't seem to compound listeners to re-assign this subscriber
     this.getComments().subscribe(
-      result => {
-        const simplifiedVideoObjects = result[0].items
+      (result: IPlaylistData) => {
+        const simplifiedVideoObjects = result.items
           .map( (item: any) => ({
-            id: item.snippet.resourceId.videoId,
+            videoId: item.snippet.resourceId.videoId,
             thumbnails: item.snippet.thumbnails,
             title: item.snippet.title,
             description: item.snippet.description,
@@ -122,7 +122,7 @@ export class InputComponent {
         };
 
         // recurse
-        this.pageToken = result[0].nextPageToken;
+        this.pageToken = result.nextPageToken;
         if(this.pageToken) {
           this.requestPlaylist(event);
           return;

@@ -1,27 +1,65 @@
 import { Component, Input }              from '@angular/core';
 import { IPlaylistItem, IThumbnailItem } from './queue';
+import { QueueService } from './queue.service';
+
+export interface IConversionItem {
+  title: string;
+  length: number;
+  link: string; // TODO - convert to URL type
+}
 
 @Component({
-  selector: 'cheap-thrills-queue-items',
+  selector: 'cheap-thrills-queue-item',
   template: require('./queue-item.html')
 })
 export class QueueItemComponent {
-  @Input() public queueItem: IPlaylistItem;
-  public thumbnail: IThumbnailItem;
+  @Input()
+  public queueItem      : IPlaylistItem;
+  public thumbnail      : IThumbnailItem;
+  public conversionData : IConversionItem;
+  private queueService  : QueueService;
 
-  constructor() {
-    // constructor
+  constructor(queueService: QueueService) {
+    // TODO - monitor status of queue items
+    this.queueService = queueService;
+  }
+
+  requestConversion() {
+    this.queueService.getConversion(this.queueItem.videoId).subscribe(
+      (response: IConversionItem) => {
+        this.conversionData = response;
+        console.log('requestConversion: this.conversionData:', this.conversionData);
+        // TODO - pass url to download consolidation endpoint...that you need to make
+      },
+      err => {
+        // TODO - handle error
+        console.log('queue-item.ts: requestConversion: err:', err);
+      }
+    );
   }
 
   ngOnInit() {
-    // Properties are resolved and things like
-    // this.mapWindow and this.mapControls
-    // had a chance to resolve from the
-    // two child components <map-window> and <map-controls>
-
     // setup thumbnail
     this.thumbnail = this.queueItem.thumbnails.default;
+
+    // TODO - should be triggered by queue; rapid requests sometimes bounce back a refresh header with no content
+    // request mp3 conversion
+    this.requestConversion();
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   ngOnDestroy() {
     // Speak now or forever hold your peace

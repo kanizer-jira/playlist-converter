@@ -1,3 +1,4 @@
+/*
 // TODO - refactor for usage in components
 const makeRequest = function(url) {
   // mock fetch
@@ -48,3 +49,4 @@ const coroutine = gen => {
 }
 
 const genericReq = coroutine(createObservible);
+*/

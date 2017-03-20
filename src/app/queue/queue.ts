@@ -1,10 +1,9 @@
 import {Component, Input}  from '@angular/core';
-import {Http}       from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { QueueService } from './queue.service';
 import { EmitterService } from '../shared/service/emitter.service';
 
 export interface IPlaylistItem {
-  id: string;
+  videoId: string;
   position: number;
   title: string;
   description: string;
@@ -22,13 +21,14 @@ export interface IThumbnailItem {
   template: require('./queue.html')
 })
 export class QueueComponent {
-  public queueArray: IPlaylistItem[];
-  public queueItem: IPlaylistItem;
+  @Input()
+  public playlistKey   : string;
+  public queueArray    : IPlaylistItem[];
+  public queueItem     : IPlaylistItem;
+  private qs : QueueService;
 
-  @Input() playlistKey: string;
-
-  constructor(public http: Http) {
-    // TODO - monitor status of queue items
+  constructor(queueService: QueueService) {
+    this.qs = queueService;
   }
 
   ngOnInit() {
@@ -37,20 +37,9 @@ export class QueueComponent {
     // - returns data object or false if youtube api req fails
     EmitterService.get(this.playlistKey)
     .subscribe( (playlistData: IPlaylistItem[]) => {
-      console.log('queue.ts: subscribe: playlistData:', playlistData);
       this.queueArray = playlistData;
+      this.qs.startQueue(); // TODO - replace with user init
     });
   }
 
-  // TODO - populate queue items
-
-
-  // getQueueData(): Observable<IPlaylistItem[]> {
-  //   let test = this.http
-  //     .get('app/queue/queue-model.json')
-  //     .map(response => {
-  //       return response.json();
-  //     });
-  //   return test;
-  // }
 }

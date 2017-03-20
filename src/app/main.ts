@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import { Component, Output } from '@angular/core';
+import { InputModule } from './input';
+import { QueueModule } from './queue';
 
 @Component({
   selector: 'cheapthrills-app',
@@ -20,13 +22,15 @@ export class MainComponent {
     // had a chance to resolve from the
     // two child components <map-window> and <map-controls>
   }
+
   ngOnDestroy() {
     // Speak now or forever hold your peace
   }
+
   ngDoCheck() {
     // Custom change detection
   }
-  // TODO - double check TypeScript typing syntax
+
   ngOnChanges(changes: Object) {
     // Called right after our bindings have been checked but only
     // if one of our bindings has changed.
@@ -35,16 +39,21 @@ export class MainComponent {
     // {
     //   'prop': PropertyUpdate
     // }
+
   }
+
   ngAfterContentInit() {
     // Component content has been initialized
   }
+
   ngAfterContentChecked() {
     // Component content has been Checked
   }
+
   ngAfterViewInit() {
     // Component views are initialized
   }
+
   ngAfterViewChecked() {
     // Component views have been checked
   }

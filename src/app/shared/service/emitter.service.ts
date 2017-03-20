@@ -1,5 +1,14 @@
 /*
  * Event mediator/dispatcher
+
+   EmitterService.get(key)
+   .emit(obj);
+
+   EmitterService.get(key)
+   .subscribe( res => {
+    // do stuff
+   });
+
  */
 
 // https://gist.github.com/sasxa
