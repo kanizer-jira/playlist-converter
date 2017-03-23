@@ -37,6 +37,6 @@ App dependencies:
 
 ## TODO
 1. Deploy script
-2. Tests
+2. Setup deployment environmental vars for keys
 3. Use different Ng2 classes (Module, Component, Directive, Service and Pipe)
 4. use HTML iterators, conditionals, etc...

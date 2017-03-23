@@ -1,20 +1,7 @@
-import {Component, Input}  from '@angular/core';
-import { QueueService } from './queue.service';
-import { EmitterService } from '../shared/service/emitter.service';
-
-export interface IPlaylistItem {
-  videoId: string;
-  position: number;
-  title: string;
-  description: string;
-  thumbnails: any; // TODO - convert to IThumbnail if you feel like it
-}
-
-export interface IThumbnailItem {
-  url: string;
-  width: number;
-  height: number;
-}
+import { Component, Input } from '@angular/core';
+import { QueueService }     from './queue.service';
+import { EmitterService }   from '../shared/service/emitter.service';
+import { IPlaylistItem }    from '../shared/types';
 
 @Component({
   selector: 'cheap-thrills-queue',
@@ -22,13 +9,11 @@ export interface IThumbnailItem {
 })
 export class QueueComponent {
   @Input()
-  public playlistKey   : string;
-  public queueArray    : IPlaylistItem[];
-  public queueItem     : IPlaylistItem;
-  private qs : QueueService;
+  public playlistKey : string;
+  public queueArray  : IPlaylistItem[];
+  public queueItem   : IPlaylistItem;
 
-  constructor(queueService: QueueService) {
-    this.qs = queueService;
+  constructor(private qs: QueueService) {
   }
 
   ngOnInit() {
@@ -38,8 +23,13 @@ export class QueueComponent {
     EmitterService.get(this.playlistKey)
     .subscribe( (playlistData: IPlaylistItem[]) => {
       this.queueArray = playlistData;
+      console.log('queue.ts: playlistData:', playlistData);
       this.qs.startQueue(); // TODO - replace with user init
-    });
+    },
+    (err: any) => {
+      // TODO - display some greyed out error state
+      console.log('wtf', err);
+    } );
   }
 
 }

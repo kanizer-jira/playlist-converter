@@ -18,7 +18,7 @@ module.exports = {
           }
         ]
       },
-      {
+      { // TODO - this object doesn't seem to do shit
         test: /\.ts$/,
         exclude: /node_modules/,
         loader: 'tslint-loader',
@@ -69,6 +69,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      __DEV__: true
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     FailPlugin,

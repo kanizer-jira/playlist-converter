@@ -7,20 +7,20 @@
        - [] declares reference to component prop/instance
        - () binds handler to action
   -->
-  <form [formGroup]="captureIdForm" (ngSubmit)="requestPlaylist($event)" action="">
+  <form [formGroup]="captureIdForm" (ngSubmit)="onSubmit($event)" action="">
     <input
       [ngClass]="{'has-error':!captureIdForm.controls['playlistId'].valid && captureIdForm.controls['playlistId'].touched}"
       formControlName="playlistId"
       name="playlistId"
       type="text"
       placeholder="Playlist ID or URL"
-      />
+    />
     <button
       class=""
       name="playlistButton"
       type="submit"
       value="Get playlist"
-      >Get playlist</button>
+    >Get playlist</button>
   </form>
   <div class="">
     <!-- add some kind of status message/indication -->

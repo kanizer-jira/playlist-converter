@@ -1,7 +1,8 @@
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {TestBed, inject, async} from '@angular/core/testing';
-import { QueueItemComponent, IConversionItem } from './queue-item';
+import { QueueItemComponent } from './queue-item';
+import { IConversionItem } from '../shared/types';
 import { PLAYLIST_DATA, CONVERSION_DATA } from '../shared/mock-data';
 
 describe('queue item component', () => {

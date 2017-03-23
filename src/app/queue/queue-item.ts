@@ -1,12 +1,6 @@
-import { Component, Input }              from '@angular/core';
-import { IPlaylistItem, IThumbnailItem } from './queue';
-import { QueueService } from './queue.service';
-
-export interface IConversionItem {
-  title: string;
-  length: number;
-  link: string; // TODO - convert to URL type
-}
+import { Component, Input }                               from '@angular/core';
+import { QueueService }                                   from './queue.service';
+import { IPlaylistItem, IThumbnailItem, IConversionItem } from '../shared/types';
 
 @Component({
   selector: 'cheap-thrills-queue-item',
@@ -25,49 +19,25 @@ export class QueueItemComponent {
   }
 
   requestConversion() {
-    this.queueService.getConversion(this.queueItem.videoId).subscribe(
-      (response: IConversionItem) => {
-        this.conversionData = response;
-        console.log('requestConversion: this.conversionData:', this.conversionData);
-        // TODO - pass url to download consolidation endpoint...that you need to make
-      },
-      err => {
-        // TODO - handle error
-        console.log('queue-item.ts: requestConversion: err:', err);
-      }
-    );
-  }
-
-  ngOnInit() {
-    // setup thumbnail
-    this.thumbnail = this.queueItem.thumbnails.default;
-
-    // TODO - should be triggered by queue; rapid requests sometimes bounce back a refresh header with no content
-    // request mp3 conversion
-    this.requestConversion();
+    // this.queueService.getConversion(this.queueItem.videoId).subscribe(
+    //   (response: IConversionItem) => {
+    //     this.conversionData = response;
+    //     console.log('requestConversion: this.conversionData:', this.conversionData);
+    //     // TODO - pass url to download consolidation endpoint...that you need to make
+    //   },
+    //   err => {
+    //     // TODO - handle error
+    //     console.log('queue-item.ts: requestConversion: err:', err);
+    //   }
+    // );
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  ngOnDestroy() {
-    // Speak now or forever hold your peace
-  }
-
-  ngDoCheck() {
-    // Custom change detection
-  }
+  // ----------------------------------------------------------------------
+  //
+  // ng2 lifecycle - in sequence
+  //
+  // ----------------------------------------------------------------------
 
   ngOnChanges(changes: any) {
     // Called right after our bindings have been checked but only
@@ -77,6 +47,19 @@ export class QueueItemComponent {
     // {
     //   'prop': PropertyUpdate
     // }
+  }
+
+  ngOnInit() {
+    // setup thumbnail
+    this.thumbnail = this.queueItem.thumbnails.default;
+
+    // TODO - should be triggered by queue; rapid requests sometimes bounce back a refresh header with no content
+    // request mp3 conversion
+    // this.requestConversion();
+  }
+
+  ngDoCheck() {
+    // Custom change detection
   }
 
   ngAfterContentInit() {
@@ -93,6 +76,10 @@ export class QueueItemComponent {
 
   ngAfterViewChecked() {
     // Component views have been checked
+  }
+
+  ngOnDestroy() {
+    // Speak now or forever hold your peace
   }
 
 }
