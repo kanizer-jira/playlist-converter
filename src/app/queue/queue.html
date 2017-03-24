@@ -4,7 +4,14 @@
   </h2>
   <div class="queue">
     <cheap-thrills-queue-item
-    *ngFor="let queueItem of queueArray"
-    [queueItem]="queueItem"></cheap-thrills-queue-item>
+      *ngFor="let queueItem of queueArray"
+      [queueItem]="queueItem">
+    </cheap-thrills-queue-item>
+  </div>
+  <div class="queue-download-button">download button</div>
+  <div
+    [ngClass]="{ 'queue-overlay': true, 'has-error': showOverlay }"
+  >
+    {{ overlayMsg }}
   </div>
 </div>

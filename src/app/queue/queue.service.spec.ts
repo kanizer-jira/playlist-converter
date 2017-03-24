@@ -54,6 +54,9 @@ describe('queue service', () => {
       mockBackend.verifyNoPendingRequests();
     }));
 
+
+    // TODO - refactor after converting to custom service
+
     // it('should get conversion item', inject([MockBackend], (mockBackend: MockBackend) => {
     //   const fixture = TestBed.createComponent(QueueItemComponent);
     //   const queueItem: QueueItemComponent = fixture.componentInstance;
@@ -80,23 +83,5 @@ describe('queue service', () => {
     // }));
 
   });
-
-  // TODO - thumbnail data
-  // TODO - progress data
-
-  // describe('QueueItemComponent rendering', () => {
-  //   it('should render Gulp', () => {
-  //     const fixture = TestBed.createComponent(QueueItemComponent);
-  //     fixture.componentInstance.queueItem = {
-  //       title: 'Gulp',
-  //       logo: 'http://fountainjs.io/assets/imgs/gulp.png',
-  //       text1: 'The streaming build system',
-  //       text2: 'Automate and enhance your workflow'
-  //     };
-  //     fixture.detectChanges();
-  //     const queueItem = fixture.nativeElement;
-  //     expect(queueItem.querySelector('h3').textContent.trim()).toBe('Gulp');
-  //   });
-  // });
 
 });

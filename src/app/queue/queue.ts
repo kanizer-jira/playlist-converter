@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QueueService }     from './queue.service';
+import { QueueService, CONVERSION_QUEUE_COMPLETE }     from './queue.service';
 import { EmitterService }   from '../shared/service/emitter.service';
 import { IPlaylistItem }    from '../shared/types';
 
@@ -12,6 +12,8 @@ export class QueueComponent {
   public playlistKey : string;
   public queueArray  : IPlaylistItem[];
   public queueItem   : IPlaylistItem;
+  public showOverlay : boolean;
+  public overlayMsg  : string;
 
   constructor(private qs: QueueService) {
   }
@@ -23,13 +25,21 @@ export class QueueComponent {
     EmitterService.get(this.playlistKey)
     .subscribe( (playlistData: IPlaylistItem[]) => {
       this.queueArray = playlistData;
-      console.log('queue.ts: playlistData:', playlistData);
       this.qs.startQueue(); // TODO - replace with user init
+      this.showOverlay = false;
     },
     (err: any) => {
       // TODO - display some greyed out error state
       console.log('wtf', err);
+      this.showOverlay = true;
+      this.overlayMsg = 'Playlist request failed.';
     } );
+
+    EmitterService.get(CONVERSION_QUEUE_COMPLETE)
+    .subscribe( (msg: string) => {
+      console.log('queue.ts: conversion queue complete: msg:', msg);
+      // TODO - activate download button
+    });
   }
 
 }

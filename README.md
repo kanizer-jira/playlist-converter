@@ -28,6 +28,8 @@ npm run build
 #### General
 
 App dependencies:
+- FFmpeg
+  - `brew install ffmpeg`
 - npm i -g angular-cli
   - Commands to generate boilerplate and scaffold components, tests, etc...
 - yo fountain-webapp

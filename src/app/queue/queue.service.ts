@@ -23,12 +23,19 @@ const PLAYLIST_API_KEY = devApiKey;
 const PLAYLIST_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet'; // & playlistId, maxResults, key
 const CONVERSION_API_URL: string = 'http://www.youtubeinmp3.com/fetch/';
 const YOUTUBE_URL: string = 'http://www.youtube.com/watch?v=';
+const REQUEST_LIMIT: number = 1;
+const REQUEST_DELAY: number = 500; // ms
+
+// emitter key shared between service and subscribers
+export const CONVERSION_KEY: string = 'CONVERSION_KEY';
+export const CONVERSION_QUEUE_COMPLETE: string = 'CONVERSION_QUEUE_COMPLETE';
 
 @Injectable()
 export class QueueService {
 
+  private requestCounter: number = 0;
+
   constructor(public http: Http) {
-    // TODO - move all queue API related requests to here
     // TODO - unit tests
   }
 
@@ -46,7 +53,7 @@ export class QueueService {
   // - recurse for paginated response
   // - doesn't seem to compound listeners to re-assign this subscriber
   getPlaylistData(playlistKey: string, playlistId: string, pageToken: string = undefined) {
-    this.requestPlaylist(playlistId)
+    this.requestPlaylist(playlistId, pageToken)
     .subscribe( (result: IPlaylistData) => {
       const simplifiedVideoObjects = result.items
       .map( (item: any) => ({
@@ -66,7 +73,7 @@ export class QueueService {
       };
 
       // recurse
-      if(this.pageToken !== result.nextPageToken) {
+      if(result.nextPageToken && this.pageToken !== result.nextPageToken) {
         this.pageToken = result.nextPageToken;
         this.getPlaylistData(playlistKey, playlistId, this.pageToken);
         return;
@@ -76,6 +83,7 @@ export class QueueService {
       EmitterService.get(playlistKey).emit(this.consolidatedData.items);
     },
     err => {
+      console.log('queue.service.ts: error');
       // emit 'error' type event
       EmitterService.get(playlistKey).emit(false);
     },
@@ -117,13 +125,71 @@ export class QueueService {
   //
   // ----------------------------------------------------------------------
 
-  getConversion(videoId: string): Observable<IConversionItem> {
+  // TODO - convert to node custom downloader service
+
+  // getConversionData(index: number) {
+  //   if(!this.consolidatedData) {
+  //     // TODO - thow error
+  //     return;
+  //   }
+
+  //   // TODO - implement interruption if queue is paused...
+  //   // - interrupt subscription
+
+  //   const debouncedUpdate = _.debounce(this.updateQueue, REQUEST_DELAY).bind(this);
+  //   const videoId: string = this.consolidatedData.items[this.queueIndex].videoId;
+
+  //   const videoName: string = this.consolidatedData.items[this.queueIndex].title;
+  //   this.cs.getMP3(videoId, videoName,
+  //     (err, data) => {
+  //       console.log('queue.service.ts: getConversionData: success: err, data:', err, data);
+  //       const conversionData = data;
+  //       // debouncedUpdate(index, conversionData);
+  //     },
+  //     (err, data) => {
+  //       // need to request again
+  //       console.log('queue.service.ts: getConversionData: err: err, data:', err, data);
+  //       // debouncedUpdate(index);
+  //     }
+  //   );
+  // }
+
+  // ----------------------------------------------------------------------
+  //
+  // TODO - deprecated - shitty api would return redirects intermittently
+  //
+  // ----------------------------------------------------------------------
+
+  getConversionData(index: number) {
+    if(!this.consolidatedData) {
+      // TODO - thow error
+      return;
+    }
+
+    // TODO - implement interruption if queue is paused...
+    // - interrupt subscription
+
+    const videoId: string = this.consolidatedData.items[this.queueIndex].videoId;
+    this.requestConversion(videoId).subscribe(
+      (response: IConversionItem) => {
+        const conversionData = response;
+        this.updateQueue(index, conversionData);
+      },
+      err => {
+        // need to request again
+        console.log('queue.service: getConversionData: err:', err);
+        this.updateQueue(index);
+      }
+    );
+  }
+
+  requestConversion(videoId: string): Observable<IConversionItem> {
     return this.http
       .get(CONVERSION_API_URL, {
         search: `format=JSON&video=${YOUTUBE_URL + videoId}`
       })
       .map((res: Response) => {
-        return res;
+        return res.json();
       })
       .catch((error: any) => {
         return Observable.throw(error || 'Server error');
@@ -142,13 +208,60 @@ export class QueueService {
 
   /**
    * kickoff/resume queue
+   * @description
+   * need this synchronous queue cuz rapid requests sometimes
+   * bounce back a refresh header with no content
    */
-  startQueue() {
-    if(this.queueActive) {
+  startQueue(index: number = 0) {
+    if(this.queueActive
+      && this.consolidatedData
+      && this.consolidatedData.items.length > 0
+      && this.queueIndex >= this.consolidatedData.items.length - 1
+     ) {
+      // dispatch queue completion event
+      EmitterService.get('QUEUE_CONVERSION_COMPLETE').emit('Queue conversion complete!');
+      this.resetQueue();
       return;
     }
 
-    // this.getConversion()
+    this.queueActive = true;
+    this.getConversionData(index);
+  }
+
+  /**
+   * update queue
+   */
+  updateQueue(index: number, conversionData: IConversionItem = undefined) {
+    if(!this.queueActive) {
+      return;
+    }
+
+    // retry if conversionData is undefined
+    if(conversionData) {
+      // emitter key is bound to queue-item instance/index
+      this.queueIndex++;
+      EmitterService.get(`${CONVERSION_KEY}_${index}`).emit(conversionData);
+    } else {
+      if(this.requestCounter < REQUEST_LIMIT) {
+        this.requestCounter++;
+        this.getConversionData(this.queueIndex);
+        return;
+      } else {
+        this.requestCounter = 0;
+        this.queueIndex++;
+
+        // emit error
+        EmitterService.get(`${CONVERSION_KEY}_${index}`).emit(new Error('This video fails to convert.'));
+      }
+    }
+
+    if(this.queueIndex >= this.consolidatedData.items.length) {
+      EmitterService.get(CONVERSION_QUEUE_COMPLETE).emit('All playlist items converted.');
+      this.resetQueue();
+      return;
+    }
+
+    this.getConversionData(this.queueIndex);
   }
 
   /**
@@ -158,6 +271,8 @@ export class QueueService {
     if(!this.queueActive) {
       return;
     }
+
+    this.queueActive = false;
   }
 
   /**
@@ -167,6 +282,9 @@ export class QueueService {
     if(!this.queueActive) {
       return;
     }
+
+    this.queueActive = false;
+    this.queueIndex = 0;
   }
 
 }
