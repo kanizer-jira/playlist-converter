@@ -5,7 +5,11 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": false,
-    "typeRoots": ["node_modules/@types/"],
+    "typeRoots": [
+      "node_modules/@types/node",
+      "node_modules/@types/jasmine",
+      "node_modules/@types/es6-shim"
+    ],
     "types": [
       "node",
       "jasmine",

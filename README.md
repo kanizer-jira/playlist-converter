@@ -28,9 +28,17 @@ npm run build
 #### General
 
 App dependencies:
+- FFmpeg
+  - `brew install ffmpeg`
+- npm i -g angular-cli
+  - Commands to generate boilerplate and scaffold components, tests, etc...
 - yo fountain-webapp
   - Angular 2, @angular/router, TypeScript, Webpack and SASS
+- Run tslint from cli (need global npm install):
+  - `tslint -c tslint.json 'src/index.ts'`
 
 ## TODO
 1. Deploy script
-2. Tests
+2. Setup deployment environmental vars for keys
+3. Use different Ng2 classes (Module, Component, Directive, Service and Pipe)
+4. use HTML iterators, conditionals, etc...

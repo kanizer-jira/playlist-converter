@@ -1,3 +1,6 @@
+/*
+  Not sure how I feel about this structure...prefer to compose sass rather than componentize
+*/
 html, body, #root {
   margin: 0;
   height: 100%;
@@ -8,6 +11,7 @@ body, h1, h2, h3 {
   font-weight: 300
 }
 
+/*
 a {
   color: white;
   text-decoration: none;
@@ -16,7 +20,7 @@ a {
     color: #5aadbb;
   }
 }
-
+*/
 .main-container {
   display: flex;
   flex-direction: column;

@@ -1,8 +1,12 @@
 <div class="main-container">
-  <fountain-header></fountain-header>
   <main class="main">
-    <fountain-title></fountain-title>
-    <fountain-techs></fountain-techs>
+    <!-- just messing around - routers not necessary for this project
+    <nav>
+      <a routerLink="/">Home</a>
+      <a routerLink="/test-route">Test Route</a>
+    </nav> -->
+    <!-- 'playlistKey': maybe a silly way to pass this emitter key around...just demonstrative -->
+    <cheap-thrills-input [playlistKey]="playlistKey"></cheap-thrills-input>
+    <cheap-thrills-queue [playlistKey]="playlistKey"></cheap-thrills-queue>
   </main>
-  <fountain-footer></fountain-footer>
 </div>

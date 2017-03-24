@@ -1,8 +1,8 @@
-import 'core-js/client/shim';
-import 'zone.js/dist/zone';
+import 'core-js/client/shim'; // es6 shim
+import 'zone.js/dist/zone'; // persistent async execution context...TODO - maybe read more later
 
 import '@angular/common';
-import 'rxjs';
+import 'rxjs'; // reactive tools - subscription approach to async patterns
 
 import './index.scss';
 

@@ -2,25 +2,25 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {routing, RootComponent} from './routes';
 
-import {TechsModule} from './techs';
+import {QueueModule} from './queue';
+import {InputModule} from './input';
 
 import {MainComponent} from './main';
-import {HeaderComponent} from './header';
-import {TitleComponent} from './title';
-import {FooterComponent} from './footer';
+import {TestRouteComponent} from './test-route';
 
+// AppModule / Root Module ref:
+// https://angular.io/docs/ts/latest/guide/appmodule.html
 @NgModule({
   imports: [
     BrowserModule,
     routing,
-    TechsModule
+    QueueModule, // modules are imported vs. declared
+    InputModule
   ],
   declarations: [
     RootComponent,
     MainComponent,
-    HeaderComponent,
-    TitleComponent,
-    FooterComponent
+    TestRouteComponent
   ],
   bootstrap: [RootComponent]
 })

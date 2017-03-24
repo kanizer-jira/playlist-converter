@@ -6,9 +6,9 @@
       ["_", "isDefined"]
     ],
     "class-name": true,
-    "comment-format": [true,
-      "check-space",
-      "check-lowercase"
+    "comment-format": [
+      true,
+      "check-space"
     ],
     "curly": true,
     "eofline": true,
@@ -19,9 +19,7 @@
     "label-position": true,
     "max-line-length": [false, 140],
     "member-ordering": [true,
-      "public-before-private",
-      "static-before-instance",
-      "variables-before-functions"
+      "static-before-instance"
     ],
     "no-arg": true,
     "no-bitwise": true,
@@ -69,7 +67,6 @@
     ],
     "variable-name": false,
     "whitespace": [true,
-      "check-branch",
       "check-decl",
       "check-operator",
       "check-separator",
