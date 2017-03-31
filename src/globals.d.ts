@@ -1,5 +1,4 @@
-// TODO - why can't i declare a global var?
 // TypeScript declarations required for some reserved words...
-declare var __DEV__: string;
-// (<any>window).__DEV__ = __DEV__;
-
+// TODO - declaring global vars here throws typescript errors...
+// - just defining them in index.ts for now
+// declare var process: any;

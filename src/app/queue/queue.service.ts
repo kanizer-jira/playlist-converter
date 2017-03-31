@@ -1,6 +1,7 @@
 import { Injectable }      from '@angular/core';
 import { Http, Response }  from '@angular/http';
 import { Observable }      from 'rxjs/Observable';
+import * as io from 'socket.io-client';
 import { EmitterService }  from '../shared/service/emitter.service';
 import {
   IPlaylistData,
@@ -9,22 +10,16 @@ import {
   IThumbnailItem
 } from '../shared/types';
 
-// TODO - declare globally and remove from here
-// TypeScript declarations required for some reserved words...
-declare var __DEV__: string;
-
-// TODO - why does this fuck up tests?
 // obscure API key
-// if(__DEV__) {
-  var devApiKey = require('../../_constants').YOUTUBE_API_KEY;  // tslint:disable-line:no-var-requires
-// }
-// const PLAYLIST_API_KEY = __DEV__ ? devApiKey : 'get from env';
-const PLAYLIST_API_KEY = devApiKey;
+const PLAYLIST_API_KEY = process.env.NODE_ENV === 'dev'
+? require('../../_constants').YOUTUBE_API_KEY
+: 'get from env';
 const PLAYLIST_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet'; // & playlistId, maxResults, key
 const CONVERSION_API_URL: string = 'http://www.youtubeinmp3.com/fetch/';
 const YOUTUBE_URL: string = 'http://www.youtube.com/watch?v=';
 const REQUEST_LIMIT: number = 1;
 const REQUEST_DELAY: number = 500; // ms
+const socket = io('http://localhost:3838'); // TODO - abstract this url
 
 // emitter key shared between service and subscribers
 export const CONVERSION_KEY: string = 'CONVERSION_KEY';
@@ -37,6 +32,25 @@ export class QueueService {
 
   constructor(public http: Http) {
     // TODO - unit tests
+    this.configureSocket();
+  }
+
+  configureSocket() {
+    socket.on('connect', () => {
+      console.log('queue.service.ts: connect');
+    });
+    socket.on('disconnect', () => {
+      console.log('queue.service.ts: disconnect');
+    });
+    socket.on('timer-event', (obj) => {
+      console.log('queue.service.ts: timer handler: obj:', obj);
+    });
+    // // dummy emit for testing
+    // setTimeout(() => {
+    //   socket.emit('client-event', {
+    //     data: 'fake shit'
+    //   });
+    // }, 2000);
   }
 
   // ----------------------------------------------------------------------
@@ -79,6 +93,7 @@ export class QueueService {
         return;
       }
 
+      console.log('queue.service.ts: this.consolidatedData.items:', this.consolidatedData.items);
       // emit 'model ready' type event
       EmitterService.get(playlistKey).emit(this.consolidatedData.items);
     },
@@ -153,6 +168,7 @@ export class QueueService {
   //     }
   //   );
   // }
+
 
   // ----------------------------------------------------------------------
   //
