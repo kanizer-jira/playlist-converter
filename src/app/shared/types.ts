@@ -1,6 +1,8 @@
 export interface IPlaylistData {
+  playlistId: string;
+  playlistTitle: string;
   items: any[];
-  nextPageToken: string;
+  nextPageToken?: string;
 
   // don't care about these:
   // etag: string;
@@ -23,7 +25,16 @@ export interface IThumbnailItem {
 }
 
 export interface IConversionItem {
+  videoId: string;
+  videoTitle: string;
   title: string;
+  artist: string;
   length: number;
-  link: string; // TODO - convert to URL type
+  file: string; // TODO - convert to URL type
+}
+
+// bound to endpoint data schema
+export interface IArchiveItem {
+  message: string;
+  downloadPath: string;
 }

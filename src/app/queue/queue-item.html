@@ -3,6 +3,9 @@
   <h3 class="queue-h3">
     {{ queueItem.title }}
   </h3>
-  <p>{{ conversionData.link }}</p>
+  <p *ngIf="conversionData">{{ conversionData.file }}</p>
+  <p>{{ progress }}</p>
+  <p [ngClass]="{'hide': !conversionComplete}">ready to download!</p>
+  <p *ngIf="errorMsg">{{ this.errorMsg }}</p>
   <p style="display: none">{{ queueItem.description }}</p>
 </div>

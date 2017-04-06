@@ -40,11 +40,11 @@ export class InputComponent {
     } );
 
     // make request to youtube api via QueueService
-    this.qs.getPlaylistData(this.playlistKey, playlistId);
+    this.qs.getPlaylistTitle(this.playlistKey, playlistId);
   }
 
   ngOnInit() {
-    this.onSubmit(new MouseEvent('mock submit'));
+    // this.onSubmit(new MouseEvent('mock submit'));
   }
 
 }

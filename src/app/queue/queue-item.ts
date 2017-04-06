@@ -1,7 +1,17 @@
-import { Component, Input }                               from '@angular/core';
-import { QueueService, CONVERSION_KEY }                   from './queue.service';
-import { EmitterService }                                 from '../shared/service/emitter.service';
-import { IPlaylistItem, IThumbnailItem, IConversionItem } from '../shared/types';
+import { Component, Input, NgZone, ChangeDetectorRef } from '@angular/core';
+import {
+  QueueService,
+  QUEUE_ITEM_ERROR,
+  QUEUE_ITEM_PROGRESS,
+  QUEUE_ITEM_COMPLETE,
+  QUEUE_COMPLETE
+}                           from './queue.service';
+import { EmitterService }   from '../shared/service/emitter.service';
+import {
+  IPlaylistItem,
+  IThumbnailItem,
+  IConversionItem
+}                           from '../shared/types';
 
 @Component({
   selector: 'cheap-thrills-queue-item',
@@ -9,12 +19,15 @@ import { IPlaylistItem, IThumbnailItem, IConversionItem } from '../shared/types'
 })
 export class QueueItemComponent {
   @Input()
-  public queueItem      : IPlaylistItem;
-  public thumbnail      : IThumbnailItem;
-  public conversionData : IConversionItem = { title: '', length: 0, link: 'temporary filler' };
-  private queueService  : QueueService;
+  public queueItem          : IPlaylistItem;
+  public thumbnail          : IThumbnailItem;
+  public conversionData     : IConversionItem;
+  public progress           : number;
+  public conversionComplete : boolean;
+  public errorMsg           : string = '';
+  private queueService      : QueueService;
 
-  constructor(queueService: QueueService) {
+  constructor(public zone: NgZone, public changeRef: ChangeDetectorRef, queueService: QueueService) {
     // TODO - monitor status of queue items
     this.queueService = queueService;
   }
@@ -34,19 +47,40 @@ export class QueueItemComponent {
   ngOnInit() {
     // setup thumbnail
     this.thumbnail = this.queueItem.thumbnails.default;
+    this.progress = 0;
 
     // listen for mp3 conversion
+    // hook up to progress and completion events
     EmitterService
-    .get('CONVERSION_KEY_' + this.queueItem.position)
-    .subscribe( (conversionData: IConversionItem) => {
-      this.conversionData = conversionData;
-      this.conversionData.link = decodeURIComponent(this.conversionData.link);
-    },
-    (err: any) => {
-      // TODO - display conversion error
-      console.log('queue-item.ts: ngOnInit: err:', err);
+    .get(QUEUE_ITEM_ERROR + '_' + this.queueItem.position)
+    .subscribe( (error: any) => {
+      console.log('queue-item.ts: conversion error: error:', error);
+      // display conversion error
+      this.errorMsg = error.message;
     });
 
+    EmitterService
+    .get(QUEUE_ITEM_PROGRESS + '_' + this.queueItem.position)
+    .subscribe( (progressData: any) => {
+      // display progress
+      // - guessing I have to do this due to how zones partition execution?
+      // this.zone.run(() => this.progress = Math.floor(progressData.percentage) );
+
+      this.progress = Math.floor(progressData.percentage);
+      this.changeRef.detectChanges();
+    });
+
+    EmitterService
+    .get(QUEUE_ITEM_COMPLETE + '_' + this.queueItem.position)
+    .subscribe( (conversionData: IConversionItem) => {
+      console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
+      this.errorMsg = '';
+      this.conversionData = conversionData;
+      this.conversionComplete = true;
+      // this.conversionData.link = decodeURIComponent(this.conversionData.link);
+
+      this.changeRef.detectChanges();
+    });
   }
 
   ngDoCheck() {

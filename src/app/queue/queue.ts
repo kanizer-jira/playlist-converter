@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { QueueService, CONVERSION_QUEUE_COMPLETE }     from './queue.service';
+import {
+  QueueService,
+  QUEUE_COMPLETE,
+  QUEUE_ERROR }     from './queue.service';
 import { EmitterService }   from '../shared/service/emitter.service';
-import { IPlaylistItem }    from '../shared/types';
+import { IPlaylistItem, IArchiveItem }    from '../shared/types';
 
 @Component({
   selector: 'cheap-thrills-queue',
@@ -14,8 +17,16 @@ export class QueueComponent {
   public queueItem   : IPlaylistItem;
   public showOverlay : boolean;
   public overlayMsg  : string;
+  public queueComplete : boolean;
+  public downloadPath: string;
 
   constructor(private qs: QueueService) {
+  }
+
+  onDownloadClicked(e: Event) {
+    // TODO - download playlist archive
+    console.log('queue.ts: onDownloadClicked: e:', e, this.downloadPath);
+
   }
 
   ngOnInit() {
@@ -35,10 +46,19 @@ export class QueueComponent {
       this.overlayMsg = 'Playlist request failed.';
     } );
 
-    EmitterService.get(CONVERSION_QUEUE_COMPLETE)
+    EmitterService.get(QUEUE_COMPLETE)
+    .subscribe( (res: IArchiveItem) => {
+      console.log('queue.ts: conversion queue complete: res:', res);
+      // activate download button
+      this.queueComplete = true;
+      this.downloadPath = res.downloadPath;
+      // TODO - need to force state change?
+    });
+
+    EmitterService.get(QUEUE_ERROR)
     .subscribe( (msg: string) => {
-      console.log('queue.ts: conversion queue complete: msg:', msg);
-      // TODO - activate download button
+      console.log('queue.ts: conversion queue error: msg:', msg);
+      // TODO - display error
     });
   }
 

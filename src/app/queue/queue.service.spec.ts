@@ -32,27 +32,27 @@ describe('queue service', () => {
     TestBed.compileComponents();
   }));
 
-  describe('QueueService methods', () => {
+  // describe('QueueService methods', () => {
 
-    // faking the request to youtube api
-    it('should get playlist data', inject([Http, MockBackend], (http: Http, mockBackend: MockBackend) => {
-      let conn: MockConnection;
-      const response = new Response(new ResponseOptions({body: PLAYLIST_DATA}));
-      mockBackend.connections.subscribe((connection: MockConnection) => {
-        conn = connection;
-      });
-      const qs = new QueueService(http);
+  //   // faking the request to youtube api
+  //   it('should get playlist data', inject([Http, MockBackend], (http: Http, mockBackend: MockBackend) => {
+  //     let conn: MockConnection;
+  //     const response = new Response(new ResponseOptions({body: PLAYLIST_DATA}));
+  //     mockBackend.connections.subscribe((connection: MockConnection) => {
+  //       conn = connection;
+  //     });
+  //     const qs = new QueueService(http);
 
-      let responseBody: any;
-      qs.requestPlaylist('playlistKey', 'playlistId')
-      .subscribe( mockResponseBody => {
-        responseBody = mockResponseBody;
-      });
+  //     let responseBody: any;
+  //     qs.requestPlaylist('playlistKey', 'playlistId')
+  //     .subscribe( mockResponseBody => {
+  //       responseBody = mockResponseBody;
+  //     });
 
-      conn.mockRespond(response);
-      expect(responseBody.items.length).toBe(3)  ;
-      mockBackend.verifyNoPendingRequests();
-    }));
+  //     conn.mockRespond(response);
+  //     expect(responseBody.items.length).toBe(3)  ;
+  //     mockBackend.verifyNoPendingRequests();
+  //   }));
 
 
     // TODO - refactor after converting to custom service
@@ -82,6 +82,6 @@ describe('queue service', () => {
     //   mockBackend.verifyNoPendingRequests();
     // }));
 
-  });
+  // });
 
 });

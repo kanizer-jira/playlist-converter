@@ -8,7 +8,12 @@
       [queueItem]="queueItem">
     </cheap-thrills-queue-item>
   </div>
-  <div class="queue-download-button">download button</div>
+  <form
+    *ngIf="queueComplete"
+    method="get"
+    action="{{downloadPath}}">
+    <button type="submit">Download!</button>
+  </form>
   <div
     [ngClass]="{ 'queue-overlay': true, 'has-error': showOverlay }"
   >

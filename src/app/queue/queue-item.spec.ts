@@ -40,8 +40,11 @@ describe('queue item component', () => {
         description: 'The streaming build system'
       };
       fixture.componentInstance.conversionData = {
-        link: 'http://fountainjs.io/assets/imgs/gulp.png',
+        file: 'http://fountainjs.io/assets/imgs/gulp.png',
+        videoId: 'test id',
+        videoTitle: 'test video title',
         title: 'test title',
+        artist: 'test artist',
         length: 3
       };
       fixture.detectChanges();
