@@ -8,7 +8,8 @@ import {
   IPlaylistItem,
   IConversionItem,
   IThumbnailItem,
-  IArchiveItem
+  IArchiveItem,
+  IConversionRequestParam
 }                         from '../shared/types';
 
 // obscure API key
@@ -59,6 +60,7 @@ export class QueueService {
         EmitterService.get(QUEUE_ITEM_PROGRESS + '_' + ind)
         .emit(obj);
       } else {
+        console.log('queue.service.ts: socket index error: obj, ind:', obj, ind);
         EmitterService.get(QUEUE_ITEM_ERROR)
         .emit({
           obj: obj,
@@ -82,17 +84,18 @@ export class QueueService {
 
   // just getting the human readable playlist name
   getPlaylistTitle(playlistKey: string, playlistId: string) {
-    this.http
-    .get(PLAYLIST_URL + 'playlists?part=snippet', {
+    const request = this.http.get(PLAYLIST_URL + 'playlists?part=snippet', {
       search: `id=${playlistId}&key=${PLAYLIST_API_KEY}`
     })
     .do((res: Response) => res)
     .catch((error: any, caught: Observable<Response>) => caught)
     .subscribe(res => {
       const playlistTitle = res.json().items[0].snippet.localized.title;
+      request.unsubscribe();
       this.getPlaylistData(playlistKey, playlistId, playlistTitle);
     },
     err => {
+      request.unsubscribe();
       EmitterService.get(playlistKey).emit(err);
     });
   }
@@ -102,8 +105,7 @@ export class QueueService {
   // - recurse for paginated response
   // - doesn't seem to compound listeners to re-assign this subscriber
   getPlaylistData(playlistKey: string, playlistId: string, playlistTitle: string, pageToken: string = undefined) {
-    // nested subscription - this seems wrong
-    this.requestPlaylistItems(playlistId, pageToken)
+    const request = this.requestPlaylistItems(playlistId, pageToken)
     .subscribe( (result: IPlaylistData) => {
       const simplifiedVideoObjects = result.items
       .map( (item: any) => ({
@@ -123,6 +125,9 @@ export class QueueService {
           : this.consolidatedData.items.concat(simplifiedVideoObjects)
       };
 
+      // unbind observable
+      request.unsubscribe();
+
       // recurse
       if(result.nextPageToken && this.pageToken !== result.nextPageToken) {
         this.pageToken = result.nextPageToken;
@@ -135,8 +140,8 @@ export class QueueService {
     },
     err => {
       console.log('queue.service.ts: error');
-      // emit 'error' type event
-      EmitterService.get(playlistKey).emit(false);
+      request.unsubscribe();
+      EmitterService.get(playlistKey).emit(false); // emit 'error'
     });
   }
 
@@ -164,6 +169,18 @@ export class QueueService {
       });
   }
 
+  updateOptions(optionsArray: any[]) {
+    if(!this.consolidatedData) {
+      return;
+    }
+
+    this.consolidatedData.items = this.consolidatedData.items
+    .map( (item: IPlaylistItem, index: number) => {
+      const options: any = optionsArray[index];
+      return Object.assign({}, item, options);
+    });
+  }
+
 
   // ----------------------------------------------------------------------
   //
@@ -174,68 +191,93 @@ export class QueueService {
   getConversionData(index: number) {
     if(!this.consolidatedData) {
       EmitterService.get(QUEUE_ERROR).emit('No available playlist data.');
-      this.cancelConversionSubscription();
+      if(this.conversionRequest) {
+        this.conversionRequest.unsubscribe();
+      }
       return;
     }
 
     const video: IPlaylistItem = this.consolidatedData.items[this.queueIndex];
     const videoId: string = video.videoId;
-    const videoTitle: string = video.title; // TODO - videoTitle should be optionally defined by form input
+    const videoTitle: string = video.title;
+
+    // optional title/artist from form input
+    const startTime: string = video.startTime;
+    const endTime: string = video.endTime;
+    const title: string = video.songTitle; // `title` is a default property
+    const artist: string = video.artist;
+
+    // validate time stamps
+    if(startTime) {
+      if(!this.validateTimestamp(startTime)) {
+        EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`)
+        .emit(new Error('Start time is invalid.'));
+        return;
+      }
+    }
+
+    if(endTime) {
+      if(!this.validateTimestamp(endTime)) {
+        EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`)
+        .emit(new Error('End time is invalid.'));
+        return;
+      }
+    }
+
 
     // map index to videoId
     this.videoKeys[index] = videoId;
-    this.conversionRequest = this.requestConversion(index, videoId, videoTitle).subscribe(
-      (response: IConversionItem) => {
-        const conversionData = response;
-        // this.updateQueue(index, conversionData);
+    this.conversionRequest = this.requestConversion({
+      index,
+      videoId,
+      videoTitle,
+      startTime,
+      endTime,
+      title,
+      artist
+    })
+    .subscribe( (response: IConversionItem) => {
+      const conversionData = response;
+      // this.updateQueue(index, conversionData);
 
 
 
-        // TRIGGER MOCK QUEUE COMPLETION
-        EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
-          conversionData || new Error('This video fails to convert.')
-        );
-        this.requestPlaylistArchive();
+      // TRIGGER MOCK QUEUE COMPLETION
+      EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
+        conversionData || new Error('This video fails to convert.')
+      );
+      this.requestPlaylistArchive();
 
 
 
 
 
-      },
-      err => {
-        console.log('queue.service: getConversionData: err:', err);
+    },
+    err => {
+      console.log('queue.service: getConversionData: err:', err);
 
-        // TODO - test validity of this index value
-        EmitterService.get(QUEUE_ITEM_ERROR + '_' + index)
-        .emit(err);
+      // TODO - test validity of this index value
+      EmitterService.get(QUEUE_ITEM_ERROR + '_' + index).emit(err);
 
-        // interrupt subscription if queue is paused
-        this.cancelConversionSubscription();
-        this.updateQueue(index);
-      }
-    );
-  }
-
-  requestConversion(index: number, videoId: string, videoTitle: string): Observable<IConversionItem> {
-    return this.http
-      .post(CONVERSION_API_URL + '/convert', {
-        sessionId: this.sessionId,
-        videoIndex: index,
-        videoId: videoId,
-        videoTitle: videoTitle
-      })
-      .map((res: Response) => {
-        return res.json();
-      })
-      .catch((error: any) => {
-        return Observable.throw(error || 'Server error');
-      });
-  }
-
-  cancelConversionSubscription() {
-    if(this.conversionRequest) {
+      // interrupt subscription if queue is paused
       this.conversionRequest.unsubscribe();
-    }
+      this.updateQueue(index);
+    });
+  }
+
+  requestConversion(conversionRequestParams: IConversionRequestParam): Observable<IConversionItem> {
+      return this.http
+        .post(CONVERSION_API_URL + '/convert', {
+          sessionId: this.sessionId,
+          options: conversionRequestParams
+        })
+        .map((res: Response) => {
+          return res.json();
+        })
+        .catch((error: any) => {
+          console.log('queue.service.ts: requestConversion: error:', error);
+          return Observable.throw(error || 'Server error');
+        });
   }
 
   requestPlaylistArchive() {
@@ -265,6 +307,15 @@ export class QueueService {
       request.unsubscribe();
     });
 
+  }
+
+  validateTimestamp(stamp): boolean {
+    // TODO - make the form enforce numbers only and split into hh mm ss
+
+    // validate timestamp for HH:MM:SS (no ms)
+    // https://goo.gl/ZGoWXS
+    const re = new RegExp(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)/);
+    return re.test(stamp);
   }
 
 

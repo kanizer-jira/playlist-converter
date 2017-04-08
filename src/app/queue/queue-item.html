@@ -8,4 +8,31 @@
   <p [ngClass]="{'hide': !conversionComplete}">ready to download!</p>
   <p *ngIf="errorMsg">{{ this.errorMsg }}</p>
   <p style="display: none">{{ queueItem.description }}</p>
+
+  <form name="{{ 'options-' + queueItem.videoId }}">
+    <label for="startTime">Start Time:</label>
+    <input
+      #startTime
+      (keyup)="updateOptions({ startTime: startTime.value })"
+      type="text" name="startTime" />
+
+    <label for="endTime">End Time:</label>
+    <input
+      #endTime
+      (keyup)="updateOptions({ endTime: endTime.value })"
+      type="text" name="endTime" />
+
+    <label for="title">Title:</label>
+    <input
+      #title
+      (keyup)="updateOptions({ title: title.value })"
+      type="text" name="title" />
+
+    <label for="artist">Artist:</label>
+    <input
+      #artist
+      (keyup)="updateOptions({ artist: artist.value })"
+      type="text" name="artist" />
+  </form>
+
 </div>

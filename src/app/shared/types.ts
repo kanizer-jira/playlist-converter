@@ -16,6 +16,10 @@ export interface IPlaylistItem {
   title: string;
   description: string;
   thumbnails: any; // TODO - convert to IThumbnail if you feel like it
+  startTime?: string;
+  endTime?: string;
+  songTitle?: string;
+  artist?: string;
 }
 
 export interface IThumbnailItem {
@@ -37,4 +41,15 @@ export interface IConversionItem {
 export interface IArchiveItem {
   message: string;
   downloadPath: string;
+}
+
+// bound to endpoint data schema
+export interface IConversionRequestParam {
+  index: number;
+  videoId: string;
+  videoTitle: string;
+  startTime?: string;
+  endTime?: string;
+  title?: string;
+  artist?: string;
 }

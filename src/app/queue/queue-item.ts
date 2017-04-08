@@ -25,13 +25,15 @@ export class QueueItemComponent {
   public progress           : number;
   public conversionComplete : boolean;
   public errorMsg           : string = '';
-  private queueService      : QueueService;
+  public options            : any = {};
 
-  constructor(public zone: NgZone, public changeRef: ChangeDetectorRef, queueService: QueueService) {
-    // TODO - monitor status of queue items
-    this.queueService = queueService;
+  constructor(public zone: NgZone, public changeRef: ChangeDetectorRef, private queueService: QueueService) {
   }
 
+  updateOptions(property: any) {
+    this.options = Object.assign({}, this.options, property);
+    // console.log('queue-item.ts: updateOptions: property:', property, this.options);
+  }
 
   // ----------------------------------------------------------------------
   //

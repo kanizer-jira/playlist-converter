@@ -27,8 +27,11 @@ export class InputComponent {
 
   // capture/handle input event
   onSubmit(event: Event) {
-    // const playlistId = this.captureIdForm.value.playlistId;
-    const playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho'; // TODO - remove when ready to test
+    let playlistId = this.captureIdForm.value.playlistId;
+    if(playlistId.includes('youtube')) {
+      playlistId = playlistId.split('playlist?list=')[1];
+    }
+    playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // TODO - remove when ready to test
 
     // update status message
     EmitterService.get(this.playlistKey)
@@ -44,7 +47,8 @@ export class InputComponent {
   }
 
   ngOnInit() {
-    // this.onSubmit(new MouseEvent('mock submit'));
+    // auto-init for testing
+    this.onSubmit(new MouseEvent('mock submit'));
   }
 
 }

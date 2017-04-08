@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChildren, QueryList } from '@angular/core';
 import {
   QueueService,
   QUEUE_COMPLETE,
   QUEUE_ERROR }     from './queue.service';
+import { QueueItemComponent } from './queue-item';
 import { EmitterService }   from '../shared/service/emitter.service';
 import { IPlaylistItem, IArchiveItem }    from '../shared/types';
 
@@ -20,13 +21,15 @@ export class QueueComponent {
   public queueComplete : boolean;
   public downloadPath: string;
 
+  @ViewChildren(QueueItemComponent) viewChildren: QueryList<QueueItemComponent>;
+
   constructor(private qs: QueueService) {
   }
 
-  onDownloadClicked(e: Event) {
-    // TODO - download playlist archive
-    console.log('queue.ts: onDownloadClicked: e:', e, this.downloadPath);
-
+  onConvertClicked(e: Event) {
+    const optionsArray = this.viewChildren.toArray().map( item => item.options );
+    this.qs.updateOptions(optionsArray); // update model with optional field data
+    this.qs.startQueue();
   }
 
   ngOnInit() {
@@ -36,7 +39,6 @@ export class QueueComponent {
     EmitterService.get(this.playlistKey)
     .subscribe( (playlistData: IPlaylistItem[]) => {
       this.queueArray = playlistData;
-      this.qs.startQueue(); // TODO - replace with user init
       this.showOverlay = false;
     },
     (err: any) => {
@@ -52,7 +54,6 @@ export class QueueComponent {
       // activate download button
       this.queueComplete = true;
       this.downloadPath = res.downloadPath;
-      // TODO - need to force state change?
     });
 
     EmitterService.get(QUEUE_ERROR)
@@ -61,5 +62,9 @@ export class QueueComponent {
       // TODO - display error
     });
   }
+
+  // ngAfterViewInit() {
+  //   console.log('queue.ts: ngAfterViewInit: this.viewChildren:', this.viewChildren.toArray());
+  // }
 
 }
