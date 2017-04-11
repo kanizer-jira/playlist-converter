@@ -32,6 +32,11 @@ export class QueueComponent {
     this.qs.startQueue();
   }
 
+  // ----------------------------------------------------------------------
+  //
+  // lifecycle events
+  //
+  // ----------------------------------------------------------------------
   ngOnInit() {
     // listen to input form component
     // - doesn't register if set in constructor

@@ -201,29 +201,29 @@ export class QueueService {
     const videoId: string = video.videoId;
     const videoTitle: string = video.title;
 
-    // optional title/artist from form input
+    // optional from form input
     const startTime: string = video.startTime;
     const endTime: string = video.endTime;
-    const title: string = video.songTitle; // `title` is a default property
+    const songTitle: string = video.songTitle; // `title` is a default property
     const artist: string = video.artist;
 
     // validate time stamps
-    if(startTime) {
-      if(!this.validateTimestamp(startTime)) {
+    let convertedStartTime: number = 0;
+    let duration: number;
+    if(startTime || endTime) {
+      const validated = this.validateTimestamp(startTime, endTime);
+      if(validated) {
+        convertedStartTime = startTime ? this.convertStampToSeconds(startTime) : convertedStartTime;
+        if(endTime) {
+          duration = validated;
+        }
+        console.log('queue.service.ts: getConversionData: duration:', duration);
+      } else {
+        // TODO - display this error
         EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`)
-        .emit(new Error('Start time is invalid.'));
-        return;
+        .emit(new Error('Trimming times are invalid and will be ignored.'));
       }
     }
-
-    if(endTime) {
-      if(!this.validateTimestamp(endTime)) {
-        EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`)
-        .emit(new Error('End time is invalid.'));
-        return;
-      }
-    }
-
 
     // map index to videoId
     this.videoKeys[index] = videoId;
@@ -231,9 +231,9 @@ export class QueueService {
       index,
       videoId,
       videoTitle,
-      startTime,
-      endTime,
-      title,
+      startTime: convertedStartTime,
+      duration,
+      songTitle,
       artist
     })
     .subscribe( (response: IConversionItem) => {
@@ -266,18 +266,18 @@ export class QueueService {
   }
 
   requestConversion(conversionRequestParams: IConversionRequestParam): Observable<IConversionItem> {
-      return this.http
-        .post(CONVERSION_API_URL + '/convert', {
-          sessionId: this.sessionId,
-          options: conversionRequestParams
-        })
-        .map((res: Response) => {
-          return res.json();
-        })
-        .catch((error: any) => {
-          console.log('queue.service.ts: requestConversion: error:', error);
-          return Observable.throw(error || 'Server error');
-        });
+    return this.http
+      .post(CONVERSION_API_URL + '/convert', {
+        sessionId: this.sessionId,
+        options: conversionRequestParams
+      })
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => {
+        console.log('queue.service.ts: requestConversion: error:', error);
+        return Observable.throw(error || 'Server error');
+      });
   }
 
   requestPlaylistArchive() {
@@ -309,13 +309,52 @@ export class QueueService {
 
   }
 
-  validateTimestamp(stamp): boolean {
+  // validate and convert end time to duration
+  validateTimestamp(start: string = '0', end: string): any {
     // TODO - make the form enforce numbers only and split into hh mm ss
+    start = start === '' ? '0' : start;
+    end = end === '' ? undefined : end;
 
     // validate timestamp for HH:MM:SS (no ms)
     // https://goo.gl/ZGoWXS
     const re = new RegExp(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)/);
-    return re.test(stamp);
+    const valid = end ? re.test(start) && re.test(end) : re.test(start);
+
+    if(!valid) {
+      return valid;
+    }
+
+    // calculate new duration based on trimming points
+    return end ? this.calculateDuration(start, end) : true;
+  }
+
+  calculateDuration(start: string, end: string): number {
+    const startSeconds: number = this.convertStampToSeconds(start);
+    const endSeconds: number = this.convertStampToSeconds(end);
+    return endSeconds - startSeconds;
+  }
+
+  convertStampToSeconds(stamp: string): number {
+    // assuming already validated
+    let hrs: number = 0;
+    let mins: number = 0;
+    let secs: number = 0;
+    const split = stamp.split(':');
+    split.forEach( (factor: string, ind: number) => {
+      const num = parseInt(factor, 10);
+      switch(split.length - ind) {
+        case 3:
+          hrs = num;
+          break;
+        case 2:
+          mins = num;
+          break;
+        default:
+          secs = num;
+      }
+    });
+
+    return hrs * 360 + mins * 60 + secs;
   }
 
 

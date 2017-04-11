@@ -1,3 +1,5 @@
+// TODO - cleanup all the redundancy in these types
+
 export interface IPlaylistData {
   playlistId: string;
   playlistTitle: string;
@@ -48,8 +50,8 @@ export interface IConversionRequestParam {
   index: number;
   videoId: string;
   videoTitle: string;
-  startTime?: string;
-  endTime?: string;
-  title?: string;
+  startTime?: number;
+  duration?: number;
+  songTitle?: string;
   artist?: string;
 }

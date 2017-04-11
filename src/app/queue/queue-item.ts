@@ -22,6 +22,8 @@ export class QueueItemComponent {
   public queueItem          : IPlaylistItem;
   public thumbnail          : IThumbnailItem;
   public conversionData     : IConversionItem;
+  public autoTitle: string;
+  public autoArtist: string;
   public progress           : number;
   public conversionComplete : boolean;
   public errorMsg           : string = '';
@@ -50,6 +52,17 @@ export class QueueItemComponent {
     // setup thumbnail
     this.thumbnail = this.queueItem.thumbnails.default;
     this.progress = 0;
+
+    if(this.queueItem.title.indexOf('-') > -1) {
+      const temp = this.queueItem.title.split('-');
+      if(temp.length >= 2) {
+        this.autoArtist = temp[0].trim();
+        this.autoTitle = temp[1].trim();
+      }
+    } else {
+      this.autoArtist = 'unknown';
+      this.autoTitle = this.queueItem.title;
+    }
 
     // listen for mp3 conversion
     // hook up to progress and completion events
