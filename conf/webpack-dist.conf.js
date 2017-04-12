@@ -17,23 +17,23 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader',
+        loader: 'tslint-loader',
         enforce: 'pre'
       },
       {
-        test: /\.(css|styl|stylus)$/,
+        test: /\.(css|scss)$/,
         loaders: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader?minimize!stylus-loader!postcss-loader'
+          use: 'css-loader?minimize!sass-loader!postcss-loader'
         })
       },
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         loaders: [
-          'babel-loader'
+          'ts-loader'
         ]
       },
       {
@@ -56,7 +56,7 @@ module.exports = {
       conf.paths.src
     ),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new webpack.optimize.UglifyJsPlugin({
       output: {comments: false},
@@ -66,13 +66,28 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}),
     new webpack.LoaderOptionsPlugin({
       options: {
-        postcss: () => [autoprefixer]
+        postcss: () => [autoprefixer],
+        resolve: {},
+        ts: {
+          configFileName: 'tsconfig.json'
+        },
+        tslint: {
+          configuration: require('../tslint.json')
+        }
       }
     })
   ],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
     filename: '[name]-[hash].js'
+  },
+  resolve: {
+    extensions: [
+      '.webpack.js',
+      '.web.js',
+      '.js',
+      '.ts'
+    ]
   },
   entry: `./${conf.path.src('index')}`
 };

@@ -1,0 +1,25 @@
+<div class="queue-container">
+  <h2 class="queue-h2">
+    Tracks to convert:
+  </h2>
+  <button
+    *ngIf="queueArray"
+    type="button" (click)="onConvertClicked($event)">Begin Conversion</button>
+  <form
+    *ngIf="queueComplete"
+    method="get"
+    action="{{downloadPath}}">
+    <button type="submit">Download!</button>
+  </form>
+  <div class="queue">
+    <cheap-thrills-queue-item
+      *ngFor="let queueItem of queueArray"
+      [queueItem]="queueItem">
+    </cheap-thrills-queue-item>
+  </div>
+  <div
+    [ngClass]="{ 'queue-overlay': true, 'has-error': showOverlay }"
+  >
+    {{ overlayMsg }}
+  </div>
+</div>

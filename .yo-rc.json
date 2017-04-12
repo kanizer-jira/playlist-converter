@@ -4,13 +4,13 @@
     "props": {
       "framework": "angular2",
       "modules": "webpack",
-      "js": "babel",
+      "js": "typescript",
       "ci": "",
-      "css": "styl",
+      "css": "scss",
       "resolved": "/Users/nelson.shin/.nvm/versions/node/v7.4.0/lib/node_modules/generator-fountain-webapp/node_modules/generator-fountain-angular2/generators/app/index.js",
       "namespace": "fountain-angular2:app",
       "_": [],
-      "sample": "hello",
+      "sample": "techs",
       "router": "router"
     }
   }
