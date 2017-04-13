@@ -49,6 +49,9 @@ export class QueueItemComponent {
   }
 
   ngOnInit() {
+
+    // TODO - animate in and reveal with sequential delay
+
     // setup thumbnail
     this.thumbnail = this.queueItem.thumbnails.default;
     this.progress = 0;

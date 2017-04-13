@@ -9,6 +9,21 @@ import { QueueModule } from './queue';
 export class MainComponent {
   // Event tracking props
   private playlistKey: string = 'REQUEST_PLAYLIST_KEY';
+  private outro: boolean;
+
+
+  // ----------------------------------------------------------------------
+  //
+  // event handler
+  //
+  // ----------------------------------------------------------------------
+
+  // handle playlist data completion event
+  onNotify(e: Event) {
+    console.log('main.ts: onNotify: e:', e);
+    this.outro = true;
+  }
+
 
   // ------------------------------------------------------------
   //

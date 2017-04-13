@@ -1,10 +1,11 @@
-<div class="queue-container">
-  <h2 class="queue-h2">
-    Tracks to convert:
-  </h2>
+<div *ngIf="queueArray" class="queue-container">
+  <!-- TODO - convert these buttons into a progress/stateful button component  -->
   <button
-    *ngIf="queueArray"
-    type="button" (click)="onConvertClicked($event)">Begin Conversion</button>
+    type="button"
+    (click)="onConvertClicked($event)"
+  >
+    Begin Conversion
+  </button>
   <form
     *ngIf="queueComplete"
     method="get"

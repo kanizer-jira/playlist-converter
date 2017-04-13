@@ -2,28 +2,43 @@
      - ReactiveFormsModule
      - Define playlistKey input
 -->
-<div class="input">
+<div class="input-component">
+  <p class="input-description">Enter a playlist url or ID. You'll be able to view and customize track options after successfully requesting/receiving track info.</p>
   <!-- ngSubmit replaces `action` attr
        - [] declares reference to component prop/instance
        - () binds handler to action
   -->
   <form [formGroup]="captureIdForm" (ngSubmit)="onSubmit($event)" action="">
-    <input
-      [ngClass]="{'has-error':!captureIdForm.controls['playlistId'].valid && captureIdForm.controls['playlistId'].touched}"
-      formControlName="playlistId"
-      name="playlistId"
-      type="text"
-      placeholder="Playlist ID or URL"
-    />
-    <button
-      class=""
-      name="playlistButton"
-      type="submit"
-      value="Get playlist"
-    >Get playlist</button>
+    <div class="form-group">
+
+      <!-- add some kind of status message/indication -->
+      <div [ngClass]="{
+        'form-status': true,
+        'hidden': !statusMessage,
+        'error':!status
+      }">
+        <p>{{ statusMessage }}</p>
+      </div>
+
+      <input
+        [ngClass]="{
+          'error':!captureIdForm.controls['playlistId'].valid &&
+            captureIdForm.controls['playlistId'].touched
+        }"
+        formControlName="playlistId"
+        name="playlistId"
+        type="text"
+        placeholder="Playlist ID or URL"
+      />
+
+      <button
+        class=""
+        name="playlistButton"
+        type="submit"
+        value="Get playlist"
+        [attr.disabled]="this.disabled ? 'true' : null"
+      >Get playlist</button>
+
+    </div>
   </form>
-  <div class="">
-    <!-- add some kind of status message/indication -->
-    {{ statusMessage }}
-  </div>
 </div>

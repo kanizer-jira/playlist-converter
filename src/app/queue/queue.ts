@@ -8,7 +8,7 @@ import { EmitterService }   from '../shared/service/emitter.service';
 import { IPlaylistItem, IArchiveItem }    from '../shared/types';
 
 @Component({
-  selector: 'cheap-thrills-queue',
+  selector: 'cheapthrills-queue',
   template: require('./queue.html')
 })
 export class QueueComponent {
@@ -38,17 +38,20 @@ export class QueueComponent {
   //
   // ----------------------------------------------------------------------
   ngOnInit() {
+
+    // TODO - overwrite existing every time to account for successive playlist requests
+
     // listen to input form component
     // - doesn't register if set in constructor
     // - returns data object or false if youtube api req fails
-    EmitterService.get(this.playlistKey)
+    EmitterService.get(this.playlistKey + '-ready')
     .subscribe( (playlistData: IPlaylistItem[]) => {
       this.queueArray = playlistData;
       this.showOverlay = false;
     },
     (err: any) => {
-      // TODO - display some greyed out error state
-      console.log('wtf', err);
+      // error state shown in input field
+      console.log('queue.ts: ngOnInit: playlist req failure: err:', err);
       this.showOverlay = true;
       this.overlayMsg = 'Playlist request failed.';
     } );
