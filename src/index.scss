@@ -98,7 +98,7 @@ cheapthrills-input {
   background: white;
 
   &.outro {
-    @include fade-visibility('out', 0.4, ease-out);
+    @include fade-visibility('out', 0.4, 0, ease-out);
   }
 
   .input-component {

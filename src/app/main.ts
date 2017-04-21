@@ -20,7 +20,6 @@ export class MainComponent {
 
   // handle playlist data completion event
   onNotify(e: Event) {
-    console.log('main.ts: onNotify: e:', e);
     this.outro = true;
   }
 

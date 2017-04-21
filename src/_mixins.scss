@@ -4,9 +4,10 @@
 //
 // ----------------------------------------------------------------------
 
-@mixin fade-visibility($direction: 'in', $dur: .6, $ease: ease-in-out) {
+@mixin fade-visibility($direction: 'in', $dur: .6, $del: 0, $ease: ease-in-out) {
   animation-name: if($direction == 'in', fadeIn, fadeOut);
   animation-duration: $dur * 1s;
+  animation-delay: $del * 1s;
   animation-timing-function: $ease;
   animation-fill-mode: forwards;
 }

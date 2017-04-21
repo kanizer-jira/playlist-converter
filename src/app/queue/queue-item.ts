@@ -1,17 +1,26 @@
-import { Component, Input, NgZone, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgZone,
+  ChangeDetectorRef,
+  ElementRef,
+  Renderer
+}                          from '@angular/core';
 import {
   QueueService,
   QUEUE_ITEM_ERROR,
   QUEUE_ITEM_PROGRESS,
   QUEUE_ITEM_COMPLETE,
   QUEUE_COMPLETE
-}                           from './queue.service';
-import { EmitterService }   from '../shared/service/emitter.service';
+}                          from './queue.service';
+import { EmitterService }  from '../shared/service/emitter.service';
 import {
   IPlaylistItem,
   IThumbnailItem,
   IConversionItem
-}                           from '../shared/types';
+}                          from '../shared/types';
+import { Subscription }    from 'rxjs';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
 
 @Component({
   selector: 'cheap-thrills-queue-item',
@@ -22,20 +31,42 @@ export class QueueItemComponent {
   public queueItem          : IPlaylistItem;
   public thumbnail          : IThumbnailItem;
   public conversionData     : IConversionItem;
-  public autoTitle: string;
-  public autoArtist: string;
+  public autoTitle          : string;
+  public autoArtist         : string;
   public progress           : number;
   public conversionComplete : boolean;
   public errorMsg           : string = '';
   public options            : any = {};
+  private timerSub      : Subscription;
+  private reveal            : boolean;
 
-  constructor(public zone: NgZone, public changeRef: ChangeDetectorRef, private queueService: QueueService) {
+  constructor(
+    public zone: NgZone,
+    public changeRef: ChangeDetectorRef,
+    private queueService: QueueService,
+    public el: ElementRef,
+    public renderer: Renderer
+  ) {
+    // // examples of element reference
+    // // el.nativeElement.style.backgroundColor = 'yellow';
+    // renderer.setElementStyle(el.nativeElement, 'backgroundColor', 'yellow');
   }
 
   updateOptions(property: any) {
     this.options = Object.assign({}, this.options, property);
     // console.log('queue-item.ts: updateOptions: property:', property, this.options);
   }
+
+  getTransitionDelay(): number {
+    const ind: number = this.queueItem.position;
+    return 200 * ind;
+  }
+
+  // just demonstrative for style assignment to template element
+  getTransitionDelayString(): string {
+    return this.getTransitionDelay() / 1000 + 's';
+  }
+
 
   // ----------------------------------------------------------------------
   //
@@ -49,9 +80,6 @@ export class QueueItemComponent {
   }
 
   ngOnInit() {
-
-    // TODO - animate in and reveal with sequential delay
-
     // setup thumbnail
     this.thumbnail = this.queueItem.thumbnails.default;
     this.progress = 0;
@@ -66,6 +94,14 @@ export class QueueItemComponent {
       this.autoArtist = 'unknown';
       this.autoTitle = this.queueItem.title;
     }
+
+    // animate in and reveal
+    const del: number = this.getTransitionDelay();
+    const timer = TimerObservable.create(del);
+    this.timerSub = timer.subscribe( (t: number) => {
+      this.reveal = true;
+      this.timerSub.unsubscribe();
+    });
 
     // listen for mp3 conversion
     // hook up to progress and completion events
@@ -123,6 +159,7 @@ export class QueueItemComponent {
 
   ngOnDestroy() {
     // Speak now or forever hold your peace
+    this.timerSub.unsubscribe();
   }
 
 }

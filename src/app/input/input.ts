@@ -85,7 +85,7 @@ export class InputComponent {
 
   ngOnInit() {
     // auto-init for testing
-    // this.onSubmit(new MouseEvent('mock submit'));
+    this.onSubmit(new MouseEvent('mock submit'));
   }
 
 }

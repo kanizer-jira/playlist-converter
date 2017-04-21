@@ -5,11 +5,9 @@ export interface IPlaylistData {
   playlistTitle: string;
   items: any[];
   nextPageToken?: string;
-
-  // don't care about these:
-  // etag: string;
-  // kind: string;
-  // pageInfo: any;
+  etag?: string;
+  kind?: string;
+  pageInfo?: any;
 }
 
 export interface IPlaylistItem {
@@ -17,7 +15,7 @@ export interface IPlaylistItem {
   position: number;
   title: string;
   description: string;
-  thumbnails: any; // TODO - convert to IThumbnail if you feel like it
+  thumbnails: any; // TODO - convert to IThumbnail
   startTime?: string;
   endTime?: string;
   songTitle?: string;

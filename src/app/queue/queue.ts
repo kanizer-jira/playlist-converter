@@ -1,11 +1,17 @@
-import { Component, Input, ViewChildren, QueryList } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChildren,
+  QueryList
+}                                      from '@angular/core';
 import {
   QueueService,
   QUEUE_COMPLETE,
-  QUEUE_ERROR }     from './queue.service';
-import { QueueItemComponent } from './queue-item';
-import { EmitterService }   from '../shared/service/emitter.service';
-import { IPlaylistItem, IArchiveItem }    from '../shared/types';
+  QUEUE_ERROR
+}                                      from './queue.service';
+import { QueueItemComponent }          from './queue-item';
+import { EmitterService }              from '../shared/service/emitter.service';
+import { IPlaylistItem, IArchiveItem } from '../shared/types';
 
 @Component({
   selector: 'cheapthrills-queue',
@@ -13,13 +19,13 @@ import { IPlaylistItem, IArchiveItem }    from '../shared/types';
 })
 export class QueueComponent {
   @Input()
-  public playlistKey : string;
-  public queueArray  : IPlaylistItem[];
-  public queueItem   : IPlaylistItem;
-  public showOverlay : boolean;
-  public overlayMsg  : string;
+  public playlistKey   : string;
+  public queueArray    : IPlaylistItem[];
+  public queueItem     : IPlaylistItem;
+  public showOverlay   : boolean;
+  public overlayMsg    : string;
   public queueComplete : boolean;
-  public downloadPath: string;
+  public downloadPath  : string;
 
   @ViewChildren(QueueItemComponent) viewChildren: QueryList<QueueItemComponent>;
 
