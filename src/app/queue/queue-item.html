@@ -14,8 +14,13 @@
     <p [ngClass]="{'hide': !conversionComplete}">ready to download!</p>
     <p style="display: none">{{ queueItem.description }}</p>
   -->
-    <div class="overlay-error">
+    <div [ngClass]="{
+        'overlay-error': true,
+        'has-error': errorMsg ? true : false
+      }"
+    >
       <p *ngIf="errorMsg">{{ this.errorMsg }}</p>
+      <p> testing error </p>
     </div>
   </div>
 

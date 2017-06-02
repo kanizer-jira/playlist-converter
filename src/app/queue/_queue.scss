@@ -46,11 +46,24 @@
   }
 
   .overlay-error {
+    // TODO - add error icon
     position: absolute;
-    background-color: red;
-    width: 100%;
-    height: 100%;
-    display: none;
+    background-color: #8e0404;
+    width: calc(100% - 30px);
+    height: calc(100% - 20px);
+    margin: 0 5px 5px;
+    padding: 5px 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+
+    &.has-error {
+      visibility: visible;
+      opacity: 0.9;
+    }
   }
 
   .drawer {
