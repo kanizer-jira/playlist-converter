@@ -41,14 +41,23 @@ export class InputComponent {
     this.disabled = true;
 
     let playlistId = this.normalizePlaylistId(this.captureIdForm.value.playlistId);
-    playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // TODO - remove when ready to test
+    // playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // to test for non-existent playlist
+    playlistId = 'PLV2v9WNyDEGDKwuRFiRzYqigU-egodZeX'; // TODO - remove when ready to test
 
     // update status message
     this.status = true;
     this.statusMessage = 'Requesting your playlist - please hold...';
 
     EmitterService.get(this.playlistKey)
-    .subscribe( (playlistData: IPlaylistItem[]) => {
+    .subscribe( (playlistData: IPlaylistItem[] | any) => {
+      // TODO - fix this hack for error handling
+      if(playlistData.name === 'Error') {
+        this.disabled = false;
+        this.status = false;
+        this.statusMessage = playlistData.message;
+        return;
+      }
+
       this.status = true;
       this.statusMessage = 'Cool, found your playlist.';
 
@@ -63,6 +72,7 @@ export class InputComponent {
       }, 500);
     },
     (err: any) => {
+      // TODO - figure out how to dispatch an error from queue.service that fires here
       this.disabled = false;
       this.status = false;
       this.statusMessage = 'Fake playlist alert - please try again.';
@@ -73,7 +83,7 @@ export class InputComponent {
   }
 
   normalizePlaylistId(s: string): string {
-    return (s.indexOf('/') || s.indexOf('youtube')) ? s.split('playlist?list=').pop() : s;
+    return (s.includes('/') || s.includes('youtube')) ? s.split('playlist?list=').pop() : s;
   }
 
 

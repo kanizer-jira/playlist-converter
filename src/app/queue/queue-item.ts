@@ -37,8 +37,9 @@ export class QueueItemComponent {
   public conversionComplete : boolean;
   public errorMsg           : string = '';
   public options            : any = {};
-  private timerSub      : Subscription;
+  private timerSub          : Subscription;
   private reveal            : boolean;
+  private expand            : boolean;
 
   constructor(
     public zone: NgZone,
@@ -64,7 +65,13 @@ export class QueueItemComponent {
 
   // just demonstrative for style assignment to template element
   getTransitionDelayString(): string {
-    return this.getTransitionDelay() / 1000 + 's';
+    // return this.getTransitionDelay() / 1000 + 's';
+    return '0s';
+  }
+
+  onClickExpandToggle(e: MouseEvent) {
+    // toggle property to expand/collapse with selector
+    this.expand = !this.expand;
   }
 
 

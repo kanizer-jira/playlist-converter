@@ -1,14 +1,13 @@
 <div [ngClass]="{
     'queue-item': true,
-    'reveal': reveal ? true : false
+    'reveal': reveal ? true : false,
+    'expand': expand ? true : false
   }"
   [style.transition-delay]="getTransitionDelayString()"
 >
-  <div class="queue-item-contents">
+  <div class="queue-item-contents" (click)="onClickExpandToggle($event)">
     <img class="thumbnail" src="{{ thumbnail.url }}" />
-    <h3 class="queue-item-title">
-      {{ queueItem.title }}
-    </h3>
+    <h2 class="queue-item-title">{{ queueItem.title }}</h2>
   <!--
     <p *ngIf="conversionData">{{ conversionData.file }}</p>
     <p>{{ progress }}</p>

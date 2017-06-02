@@ -1,0 +1,1027 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Event",
+				"EventEmitter\talias"
+			],
+			[
+				"fade",
+				"fade-visibility\t(_mixins.scss)"
+			],
+			[
+				"trimmed",
+				"trimmedPercentage"
+			],
+			[
+				"proces",
+				"processComplete"
+			],
+			[
+				"convert",
+				"convertedStartTime"
+			],
+			[
+				"conver",
+				"convertStampToSeconds\tmethod"
+			],
+			[
+				"consol",
+				"consolidatedData"
+			],
+			[
+				"conversionREq",
+				"conversionRequestParams"
+			],
+			[
+				"IConver",
+				"IConversionRequestParam\t(types.ts)"
+			],
+			[
+				"IPla",
+				"IPlaylistItem"
+			],
+			[
+				"ViewC",
+				"ViewChildren\talias"
+			],
+			[
+				"sleect",
+				"selectRootElement\tmethod"
+			],
+			[
+				"s",
+				"selectRootElement\tmethod"
+			],
+			[
+				"que",
+				"queueArray"
+			],
+			[
+				"end",
+				"endTime"
+			],
+			[
+				"con",
+				"conversionRequest\tproperty"
+			],
+			[
+				"Chang",
+				"ChangeDetectorRef\talias"
+			],
+			[
+				"ngAf",
+				"ngAfterContentChecked"
+			],
+			[
+				"update",
+				"updateQueue"
+			],
+			[
+				"QUEUE",
+				"QUEUE_ITEM_COMPLETE"
+			],
+			[
+				"conv",
+				"CONVERSION_PROGRESS\tconst"
+			],
+			[
+				"onConver",
+				"onConversionProgress"
+			],
+			[
+				"subs",
+				"subscription"
+			],
+			[
+				"fun",
+				"function\tkeyword"
+			],
+			[
+				"II",
+				"IPlaylistItem"
+			],
+			[
+				"CONVERSION_QUEUE_ITEM_",
+				"CONVERSION_QUEUE_ITEM_PROGRESS"
+			],
+			[
+				"CONVER",
+				"CONVERSION_QUEUE_ITEM_COMPLETE"
+			],
+			[
+				"outputP",
+				"outputPathFull"
+			],
+			[
+				"CONV",
+				"CONVERSION_API_URL"
+			],
+			[
+				"CON",
+				"CONVERSION_QUEUE_ERROR"
+			],
+			[
+				"configure",
+				"configureSocket"
+			],
+			[
+				"logge",
+				"logger-util\t(home.js)"
+			],
+			[
+				"down",
+				"downloadPath"
+			],
+			[
+				"KEY",
+				"KEY_CLOSE\t(archive-util.js)"
+			],
+			[
+				"output",
+				"outputPathFull"
+			],
+			[
+				"reset",
+				"resetQueue"
+			],
+			[
+				"RE",
+				"REQUEST_DELAY"
+			],
+			[
+				"REQUE",
+				"REQUEST_LIMIT"
+			],
+			[
+				"decode",
+				"decodeURIComponent\tfunction"
+			],
+			[
+				"conversion",
+				"conversionData"
+			],
+			[
+				"ng",
+				"ngDoCheck\t(queue-item.ts)"
+			],
+			[
+				"log",
+				"log\tLog to console"
+			],
+			[
+				"Queu",
+				"QueueComponent\t(queue.ts)"
+			],
+			[
+				"getPlaylist",
+				"getPlaylistData"
+			],
+			[
+				"Queue",
+				"QueueService"
+			],
+			[
+				"a",
+				"array"
+			],
+			[
+				"PL",
+				"PLAYLIST_API_KEY"
+			],
+			[
+				"YOUTUB",
+				"YOUTUBE_API_KEY"
+			],
+			[
+				"logo",
+				"logobj\tLog object"
+			],
+			[
+				"ge",
+				"getConversion"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/nelson.shin/Sites/node-crawler/index.js",
+			"settings":
+			{
+				"buffer_size": 2003,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "var Crawler = require(\"crawler\");"
+			}
+		},
+		{
+			"file": "/Users/nelson.shin/Sites/node-crawler/json-converter.js",
+			"settings":
+			{
+				"buffer_size": 2250,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/nelson.shin/Sites/node-crawler/moto-site.json",
+			"settings":
+			{
+				"buffer_size": 19785,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 342.0,
+		"last_filter": "lint",
+		"selected_items":
+		[
+			[
+				"lint",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"synjvas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"form",
+				"CodeFormatter: Format Code"
+			],
+			[
+				"ind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"list",
+				"TypeScript: Show Error List"
+			],
+			[
+				"erro",
+				"TypeScript: Show Error List"
+			],
+			[
+				"preflint",
+				"Preferences: SublimeLinter Settings – User"
+			],
+			[
+				"lin",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"re",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"mardk",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"tye",
+				"Set Syntax: TypeScript"
+			],
+			[
+				"list erro",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings"
+			],
+			[
+				"move",
+				"File: Move"
+			],
+			[
+				"reind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"list error",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"sublimelint",
+				"SublimeLinter: Toggle Linter"
+			],
+			[
+				"show er",
+				"TypeScript: Show Error List"
+			],
+			[
+				"typseerro",
+				"TypeScript: Show Error List"
+			],
+			[
+				"typ",
+				"TypeScript: Show Error List"
+			],
+			[
+				"snipp jsdo",
+				"Snippet: Create function boilerplate with jsdoc comment"
+			],
+			[
+				"inde",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"types",
+				"TypeScript: Show Error List"
+			],
+			[
+				"install them",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"listp",
+				"Package Control: List Packages"
+			],
+			[
+				"show",
+				"TypeScript: Show Error List"
+			],
+			[
+				"build",
+				"Build With: TypeScript"
+			],
+			[
+				"find",
+				"TypeScript: Find References"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"synjavas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"i",
+				"Package Control: Install Package"
+			],
+			[
+				"list pa",
+				"Package Control: List Packages"
+			]
+		],
+		"width": 561.0
+	},
+	"console":
+	{
+		"height": 548.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/nelson.shin/Sites/node-crawler"
+	],
+	"file_history":
+	[
+		"/Users/nelson.shin/Sites/node-crawler/.eslintrc",
+		"/Users/nelson.shin/Sites/node-crawler/crawler.js",
+		"/Users/nelson.shin/Sites/node-crawler/package.json",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/input/input.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/input/input.spec.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/main.spec.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/generator-sample.js",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/main.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/_mixins.scss",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue.html",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/index.scss",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/shared/types.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/main.html",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/input/input.html",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/routes.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/index.html",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/shared/service/emitter.service.ts",
+		"/Users/nelson.shin/Library/Application Support/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue.service.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue-item.ts",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/lib/YoutubeMp3Downloader.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/controllers/home.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/services/converter.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/utils/dir-util.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/package.json",
+		"/Users/nelson.shin/Sites/youtube-mp3-downloader/lib/YoutubeMp3Downloader.js",
+		"/Users/nelson.shin/Sites/youtube-mp3-downloader/README.md",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue-item.html",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/_queue.scss",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/services/emitter.js",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue-item.spec.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/shared/object-util.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue.spec.ts",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/utils/logger-util.js",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/queue.service.spec.ts",
+		"/Users/nelson.shin/Sites/playlist-converter-api/config/express.js",
+		"/Users/nelson.shin/Sites/playlist-converter/src/_constants.js",
+		"/Users/nelson.shin/Sites/playlist-converter/src/index.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/globals.d.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/conf/webpack-dist.conf.js",
+		"/Users/nelson.shin/Sites/playlist-converter/conf/webpack.conf.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/config/config.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/utils/archive-util.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/gulpfile.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/services/date-util.js",
+		"/Users/nelson.shin/Sites/playlist-converter/package.json",
+		"/Users/nelson.shin/Sites/playlist-converter/src/app/queue/converter.service.ts",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/models/article.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/views/index.jade",
+		"/Users/nelson.shin/Sites/playlist-converter-api/routes/index.js",
+		"/Users/nelson.shin/Sites/playlist-converter-api/README.md",
+		"/Users/nelson.shin/Sites/README.md",
+		"/Users/nelson.shin/Sites/playlist-converter-api/app/views/layout.jade",
+		"/Users/nelson.shin/Sites/playlist-converter-api/test/app/config/config.js",
+		"/Users/nelson.shin/Sites/playlist-converter/README.md",
+		"/Users/nelson.shin/Sites/playlist-converter/conf/karma-auto.conf.js",
+		"/Users/nelson.shin/Sites/playlist-converter/src/index.spec.js",
+		"/Users/nelson.shin/Sites/playlist-converter/tslint.json",
+		"/Users/nelson.shin/Sites/playlist-converter/.gitignore",
+		"/Users/nelson.shin/Sites/playlist-converter/src/_constants.ts",
+		"/Users/nelson.shin/Sites/playlist-converter/src/declarations.d.ts"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 94.0,
+		"where_history":
+		[
+			"/Users/nelson.shin/Sites/playlist-converter/src",
+			"/Users/nelson.shin/Sites/playlist-converter",
+			"/Users/nelson.shin/Sites/playlist-converter-api"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"res",
+			"content",
+			"defined",
+			"sections is not",
+			"url",
+			"title",
+			"items",
+			"section:",
+			"</U></FONT></a>",
+			"\"Auto-Lube\"",
+			"<H2>",
+			"{\n",
+			"url=",
+			"title=",
+			"\"\n",
+			"\n\"",
+			"\n",
+			"</U></FONT></A>",
+			"<FONT COLOR=\"#0000ff\"",
+			"<LI>",
+			"var",
+			" : ",
+			"\"",
+			"QUEUE_ITEM_COMPLETE",
+			"requestPlaylistArchive",
+			"contains",
+			"indexOf",
+			"youtub",
+			"cheap-thrills",
+			"TODO",
+			"visibility",
+			"this.getTransitionDelay",
+			"subscription",
+			"\"",
+			",",
+			"fade-visibility",
+			":",
+			"cheap-thrills",
+			"thrills",
+			"cheapthrills-root",
+			"cheapthrills",
+			"cheapthrills-root",
+			"cheapthrills",
+			"this.outro",
+			"string",
+			"'",
+			"display",
+			"prefix",
+			"value=",
+			"\"",
+			"string",
+			"ytdl",
+			"resultObj",
+			",",
+			"text",
+			"factor",
+			"=",
+			"endTime",
+			"title",
+			"startTime",
+			"||",
+			"startTime",
+			"conf",
+			")",
+			"body",
+			"req.body",
+			",",
+			"artis",
+			"startTime",
+			"options",
+			"type=\"text\"",
+			" ",
+			"(keyup)",
+			"endTime",
+			"startTime",
+			"e",
+			"param",
+			",",
+			";",
+			"var",
+			"</input>",
+			",",
+			"// artist",
+			"artist",
+			"videoArtist",
+			"startTime",
+			"artist",
+			"startTime",
+			"endTime",
+			"QUEUE_ITEM_ERROR",
+			",",
+			"./public/downloads",
+			"aggregateFiles",
+			"downloadPath",
+			"videoName",
+			", data",
+			"error",
+			"onError",
+			"playlistTitle",
+			"params",
+			",",
+			"=>",
+			"sessionId",
+			".mp3",
+			"msg",
+			"'All playlist items converted.'",
+			"progress",
+			"_si",
+			"contains",
+			"getKeys",
+			"progressData",
+			"QUEUE_ITEM_PROGRESS",
+			"conversionData",
+			";",
+			":",
+			"conversionData",
+			"updateQueue",
+			"QUEUE_ITEM_COMPLETE",
+			"conversionData",
+			"videoKeymap",
+			"obj",
+			"item",
+			"CONVERSION_QUEUE_ERROR",
+			"CONVERSION_QUEUE_COMPLETE",
+			"conversionData",
+			"comment",
+			"QUEUE_ITEM_PROGRESS",
+			"object"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Logger.trace"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/nelson.shin/Sites/node-crawler/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								730,
+								1367
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"auto_name": "var Crawler = require(\"crawler\");",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 238.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/nelson.shin/Sites/node-crawler/json-converter.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2250,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1273,
+								1273
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"open_with_edit": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 308.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/nelson.shin/Sites/node-crawler/moto-site.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19785,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								196
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 26.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.errorlist":
+	{
+		"height": 235.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "node-crawler.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"input",
+				"playlist-converter/src/app/input/input.ts"
+			],
+			[
+				"main.",
+				"playlist-converter/src/app/main.ts"
+			],
+			[
+				"inpu",
+				"playlist-converter/src/app/input/input.ts"
+			],
+			[
+				"types",
+				"playlist-converter/src/app/shared/types.ts"
+			],
+			[
+				"queueitem",
+				"playlist-converter/src/app/queue/queue-item.ts"
+			],
+			[
+				"_mixin",
+				"playlist-converter/src/_mixins.scss"
+			],
+			[
+				"emitter",
+				"playlist-converter/src/app/shared/service/emitter.service.ts"
+			],
+			[
+				"input.",
+				"playlist-converter/src/app/input/input.html"
+			],
+			[
+				"type",
+				"playlist-converter/src/app/shared/types.ts"
+			],
+			[
+				"queuitem",
+				"playlist-converter/src/app/queue/queue-item.ts"
+			],
+			[
+				"queu-it",
+				"playlist-converter/src/app/queue/queue-item.html"
+			],
+			[
+				"quque",
+				"playlist-converter/src/app/queue/queue.html"
+			],
+			[
+				"intpu",
+				"playlist-converter/src/app/input/input.ts"
+			],
+			[
+				"conver",
+				"playlist-converter-api/app/services/converter.js"
+			],
+			[
+				"archive",
+				"playlist-converter-api/app/utils/archive-util.js"
+			],
+			[
+				"home.j",
+				"playlist-converter-api/app/controllers/home.js"
+			],
+			[
+				"converter",
+				"playlist-converter-api/app/services/converter.js"
+			],
+			[
+				"home",
+				"playlist-converter-api/app/controllers/home.js"
+			],
+			[
+				"input.ht",
+				"playlist-converter/src/app/input/input.html"
+			],
+			[
+				"quee",
+				"playlist-converter/src/app/queue/queue.html"
+			],
+			[
+				"queue",
+				"playlist-converter/src/app/queue/queue.ts"
+			],
+			[
+				"item.spe",
+				"playlist-converter/src/app/queue/queue-item.spec.ts"
+			],
+			[
+				"obj",
+				"playlist-converter/src/app/shared/object-util.ts"
+			],
+			[
+				"queue-it",
+				"playlist-converter/src/app/queue/queue-item.ts"
+			],
+			[
+				"queu.sp",
+				"playlist-converter/src/app/queue/queue.spec.ts"
+			],
+			[
+				"logger",
+				"playlist-converter-api/app/utils/logger-util.js"
+			],
+			[
+				"service.sp",
+				"playlist-converter/src/app/queue/queue.service.spec.ts"
+			],
+			[
+				"queue.servic",
+				"playlist-converter/src/app/queue/queue.service.ts"
+			],
+			[
+				"_const",
+				"playlist-converter/src/_constants.js"
+			],
+			[
+				"archi",
+				"playlist-converter-api/app/utils/archive-util.js"
+			],
+			[
+				"queueitemspe",
+				"src/app/queue/queue-item.spec.ts"
+			],
+			[
+				"queu-item",
+				"src/app/queue/queue-item.ts"
+			],
+			[
+				"queue-item",
+				"src/app/queue/queue-item.ts"
+			],
+			[
+				"queu",
+				"src/app/queue/queue.html"
+			],
+			[
+				"webpack",
+				"conf/webpack.conf.js"
+			],
+			[
+				"input.sp",
+				"src/app/input/input.spec.ts"
+			],
+			[
+				"queue.sp",
+				"src/app/queue/queue.spec.ts"
+			],
+			[
+				"queue-itm",
+				"src/app/queue/queue-item.spec.ts"
+			],
+			[
+				"queue-",
+				"src/app/queue/queue-item.ts"
+			],
+			[
+				"queue.",
+				"src/app/queue/queue.spec.ts"
+			],
+			[
+				"queues",
+				"src/app/queue/queue.service.ts"
+			],
+			[
+				"global",
+				"src/globals.d.ts"
+			],
+			[
+				"index.sp",
+				"src/index.spec.js"
+			],
+			[
+				"queue.ser",
+				"src/app/queue/queue.service.spec.ts"
+			],
+			[
+				"input.spe",
+				"src/app/input/input.spec.ts"
+			],
+			[
+				"queue.spe",
+				"src/app/queue/queue.spec.ts"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Sites/playlist-converter.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 226.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

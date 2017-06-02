@@ -90,8 +90,14 @@ export class QueueService {
     .do((res: Response) => res)
     .catch((error: any, caught: Observable<Response>) => caught)
     .subscribe(res => {
-      const playlistTitle = res.json().items[0].snippet.localized.title;
       request.unsubscribe();
+      const results = res.json().pageInfo.totalResults;
+      if(results === 0) {
+        // TODO - how to emit an error correctly
+        EmitterService.get(playlistKey).emit(new Error('This playlist was not found: ' + playlistId));
+        return;
+      }
+      const playlistTitle = res.json().items[0].snippet.localized.title;
       this.getPlaylistData(playlistKey, playlistId, playlistTitle);
     },
     err => {
@@ -141,7 +147,7 @@ export class QueueService {
     err => {
       console.log('queue.service.ts: error');
       request.unsubscribe();
-      EmitterService.get(playlistKey).emit(false); // emit 'error'
+      EmitterService.get(playlistKey).emit(new Error(err));
     });
   }
 
@@ -238,15 +244,15 @@ export class QueueService {
     })
     .subscribe( (response: IConversionItem) => {
       const conversionData = response;
-      // this.updateQueue(index, conversionData);
+      this.updateQueue(index, conversionData);
 
+      // TODO - RE-ENABLE QUEUE
 
-
-      // TRIGGER MOCK QUEUE COMPLETION
-      EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
-        conversionData || new Error('This video fails to convert.')
-      );
-      this.requestPlaylistArchive();
+      // // TRIGGER MOCK QUEUE COMPLETION
+      // EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
+      //   conversionData || new Error('This video fails to convert.')
+      // );
+      // this.requestPlaylistArchive();
 
 
 

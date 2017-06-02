@@ -37,4 +37,22 @@ describe('InputComponent', () => {
     expect(inputElem.querySelector('form')).toBeDefined();
   });
 
+  it('should convert string to correct playlist id format', () => {
+    // TODO - could make this validation more robust...but what's the point
+    const fixture = TestBed.createComponent(InputComponent);
+    const strings: string[] = [
+      'http://www.youtube.com/playlist?list=123',
+      'www.youtube.com/playlist?list=123',
+      'youtube.com/playlist?list=123',
+      '123'
+    ];
+    const mismatches = strings.filter(s => {
+      const key = fixture.componentInstance.normalizePlaylistId(s);
+      if(key !== '123') {
+        return s;
+      }
+    });
+    expect(mismatches.length).toEqual(0);
+  });
+
 });

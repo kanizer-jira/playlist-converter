@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {TestBed, async} from '@angular/core/testing';
 import {MainComponent} from './main';
 
-@Component({selector: 'cheap-thrills-input', template: ''})
+@Component({selector: 'cheapthrills-input', template: ''})
 class MockInputComponent {
   @Input() public playlistKey: string;
 }
-@Component({selector: 'cheap-thrills-queue', template: ''})
+@Component({selector: 'cheapthrills-queue', template: ''})
 class MockQueueComponent {
   @Input() public playlistKey: string;
 }
@@ -28,7 +28,7 @@ describe('Main Component', () => {
     fixture.detectChanges();
     const main = fixture.nativeElement;
 
-    expect(main.querySelector('cheap-thrills-input')).toBeDefined();
-    expect(main.querySelector('cheap-thrills-queue')).toBeDefined();
+    expect(main.querySelector('cheapthrills-input')).toBeDefined();
+    expect(main.querySelector('cheapthrills-queue')).toBeDefined();
   });
 });

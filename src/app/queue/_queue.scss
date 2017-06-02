@@ -1,33 +1,48 @@
 .queue {
-
+  font-size: 0.8em;
 }
 
 .queue-item {
-  padding: 10px;
   height: 0;
+  overflow: hidden;
+  border-bottom: 1px dotted lightgrey;
   visibility: hidden;
+  cursor: pointer;
+  cursor: hand;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.3s ease-out,
-              transform .5s 2.8s ease-out; // TODO - disrespecting this delay prop!
+              transform .3s .1s ease-out,
+              height .3s ease-in-out;
 
   &.reveal {
-    height: auto;
+    height: $queue-item-title-height;
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
   }
 
+  &.expand {
+    // TODO - can't transition between static and relative
+    // height: calc(100%);
+    height: 120px;
+  }
+
   &-contents {
+    height: $queue-item-title-height;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   &-title {
-    display: inline-block;
+    font-size: 1em;
+    padding-left: $queue-item-title-padding;
   }
 
   .thumbnail {
-    max-width: 70px;
-    display: inline-block;
+    max-width: $queue-item-title-height - $queue-item-title-padding * 2;
+    padding: $queue-item-title-padding;
   }
 
   .overlay-error {
@@ -35,10 +50,17 @@
     background-color: red;
     width: 100%;
     height: 100%;
+    display: none;
   }
 
   .drawer {
-    display: none;
+    // both of these can probably inherit from a global style
+
+    label {
+    }
+
+    input {
+    }
   }
 
 }
