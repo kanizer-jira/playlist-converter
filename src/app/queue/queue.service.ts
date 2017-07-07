@@ -29,6 +29,7 @@ const CONVERSION_PROGRESS: string = 'CONVERSION_PROGRESS';
 
 // client side emitter keys - dispatched w/in client scope
 export const QUEUE_ITEM_ERROR: string = 'QUEUE_ITEM_ERROR';
+export const QUEUE_ITEM_INITIATE_CONVERSION: string = 'QUEUE_ITEM_INITIATE_CONVERSION';
 export const QUEUE_ITEM_PROGRESS: string = 'QUEUE_ITEM_PROGRESS';
 export const QUEUE_ITEM_COMPLETE: string = 'QUEUE_ITEM_COMPLETE';
 export const QUEUE_ERROR: string = 'QUEUE_ERROR';
@@ -53,12 +54,14 @@ export class QueueService {
       console.log('queue.service.ts: disconnect');
     });
     socket.on(CONVERSION_PROGRESS, obj => {
-      // console.log('queue.service.ts: progress: obj:', obj);
       // delegate progress socket event
       const ind = this.videoKeys.indexOf(obj.videoId);
       if(ind > -1) {
-        EmitterService.get(QUEUE_ITEM_PROGRESS + '_' + ind)
-        .emit(obj);
+        console.log('queue.service.ts: obj:', obj);
+        EmitterService.get(QUEUE_ITEM_PROGRESS)
+        .emit({
+          obj,
+          ind});
       } else {
         console.log('queue.service.ts: socket index error: obj, ind:', obj, ind);
         EmitterService.get(QUEUE_ITEM_ERROR)
@@ -223,7 +226,6 @@ export class QueueService {
         if(endTime) {
           duration = validated;
         }
-        console.log('queue.service.ts: getConversionData: duration:', duration);
       } else {
         // TODO - display this error
         EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`)
@@ -244,15 +246,15 @@ export class QueueService {
     })
     .subscribe( (response: IConversionItem) => {
       const conversionData = response;
-      this.updateQueue(index, conversionData);
 
       // TODO - RE-ENABLE QUEUE
+      // this.updateQueue(index, conversionData);
 
-      // // TRIGGER MOCK QUEUE COMPLETION
-      // EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
-      //   conversionData || new Error('This video fails to convert.')
-      // );
-      // this.requestPlaylistArchive();
+      // TRIGGER MOCK QUEUE COMPLETION
+      EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
+        conversionData || new Error('This video fails to convert.')
+      );
+      this.requestPlaylistArchive();
 
 
 
@@ -395,6 +397,9 @@ export class QueueService {
     }
     this.queueActive = true;
     this.getConversionData(index);
+
+    // emitter request for conversion to highlight display item
+    EmitterService.get(QUEUE_ITEM_INITIATE_CONVERSION).emit(index);
   }
 
   /**
@@ -436,10 +441,11 @@ export class QueueService {
    * stop and reset queue
    */
   resetQueue() {
-    if(!this.queueActive) {
-      return;
-    }
+    // if(!this.queueActive) {
+    //   return;
+    // }
 
+    this.consolidatedData = undefined;
     this.queueActive = false;
     this.queueIndex = 0;
     this.videoKeys = [];

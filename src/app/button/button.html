@@ -1,0 +1,20 @@
+<div [ngClass]="{
+    'queue-big-button': true
+  }"
+  (click)="onClicked($event)"
+>
+
+  <div class="big-button-disc big-button-start">
+    <span>start</span>
+  </div>
+
+  <div class="big-button-disc big-button-cancel">
+    <span>cancel</span>
+  </div>
+
+  <cheap-thrills-button-ring
+    *ngFor="let ringItem of ringArray"
+    [ringItem]="ringItem"
+  ></cheap-thrills-button-ring>
+
+</div>

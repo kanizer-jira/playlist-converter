@@ -19,8 +19,8 @@ export class MainComponent {
   // ----------------------------------------------------------------------
 
   // handle playlist data completion event
-  onNotify(e: Event) {
-    this.outro = true;
+  onNotifySearchOutro(state: boolean) {
+    this.outro = state;
   }
 
 

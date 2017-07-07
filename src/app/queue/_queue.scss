@@ -1,79 +1,156 @@
-.queue {
-  font-size: 0.8em;
-}
+cheapthrills-queue {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
 
-.queue-item {
-  height: 0;
-  overflow: hidden;
-  border-bottom: 1px dotted lightgrey;
-  visibility: hidden;
-  cursor: pointer;
-  cursor: hand;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease-out,
-              transform .3s .1s ease-out,
-              height .3s ease-in-out;
-
-  &.reveal {
-    height: $queue-item-title-height;
-    visibility: visible;
+  .queue-container {
+    width: 90%;
+    max-width: $break-medium;
+    margin: 0 auto;
+    transition: opacity $medium-duration ease-out;
     opacity: 1;
-    transform: translateY(0);
+    @include viewport(medium) {
+      max-width: $break-small;
+    }
+
+    &.destroyed {
+      opacity: 0;
+    }
   }
 
-  &.expand {
-    // TODO - can't transition between static and relative
-    // height: calc(100%);
-    height: 120px;
+  .queue {
+    font-size: 0.8em;
   }
 
-  &-contents {
-    height: $queue-item-title-height;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  &-title {
-    font-size: 1em;
-    padding-left: $queue-item-title-padding;
-  }
-
-  .thumbnail {
-    max-width: $queue-item-title-height - $queue-item-title-padding * 2;
-    padding: $queue-item-title-padding;
-  }
-
-  .overlay-error {
-    // TODO - add error icon
-    position: absolute;
-    background-color: #8e0404;
-    width: calc(100% - 30px);
-    height: calc(100% - 20px);
-    margin: 0 5px 5px;
-    padding: 5px 10px;
-    color: white;
-    display: flex;
-    align-items: center;
+  .queue-item {
+    height: 0;
+    overflow: hidden;
+    outline: 0;
+    border-bottom: 1px dotted lightgrey;
     visibility: hidden;
+    cursor: pointer;
+    cursor: hand;
     opacity: 0;
-    transition: opacity 0.2s ease-out;
+    color: #666;
+    transform: translateY(20px);
+    transition: opacity .6s ease-in,
+                transform .3s .3s ease-out,
+                height .3s ease-in-out,
+                border .3s ease-out,
+                color .3s ease-out;
 
-    &.has-error {
+    &.reveal {
+      height: $queue-item-title-height;
       visibility: visible;
-      opacity: 0.9;
-    }
-  }
-
-  .drawer {
-    // both of these can probably inherit from a global style
-
-    label {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    input {
+    &-contents {
+      height: $queue-item-title-height;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-right: 10px;
+      margin-top: -$queue-item-title-height;
     }
+
+    &-title {
+      font-size: 1em;
+      padding-left: $queue-item-title-padding;
+    }
+
+    &.active {
+      border: 1px solid #dbecdb;
+      color: #333;
+    }
+
+    .progress {
+      width: 0%;
+      height: $queue-item-title-height;
+      background-color: #d6efa9;
+      transition: width .3s ease-out,
+                  background-color .3s ease-out;
+
+      &.complete {
+        background-color: #e6e6e6;
+        // TODO - add complete icon
+      }
+    }
+
+    .thumbnail {
+      max-width: $queue-item-title-height - $queue-item-title-padding * 2;
+      padding: $queue-item-title-padding;
+    }
+
+    .overlay-error {
+      // TODO - add error icon
+      position: absolute;
+      background-color: #8e0404;
+      width: calc(100% - 30px);
+      height: calc(100% - 20px);
+      margin: 0 5px 5px;
+      padding: 5px 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+
+      &.has-error {
+        visibility: visible;
+        opacity: 0.9;
+      }
+    }
+
+    .drawer {
+      cursor: auto;
+      padding: 0 $queue-item-title-padding;
+
+      // these can probably inherit from a global style
+      form {
+        *,
+        *::after,
+        *::before {
+          box-sizing: border-box; // propagate dims to container
+        }
+
+        &::after {
+          clear: both;
+          content: '';
+          display: table;
+        }
+      }
+
+      .form-group {
+        margin-bottom: $queue-item-title-padding;
+      }
+
+      label {
+        display: inline-block;
+        text-align: right;
+        width: 30%;
+        @include viewport(large, medium) {
+          margin-right: 5%;
+          text-align: left;
+          width: 90%;
+        }
+      }
+
+      input {
+        display: inline-block;
+        width: 65%;
+        @include viewport(large, medium) {
+          display: block;
+          margin-right: 5%;
+          width: 90%;
+        }
+      }
+    }
+
   }
 
 }

@@ -1,5 +1,7 @@
 import {
   Component,
+  Output,
+  EventEmitter,
   Input,
   ViewChildren,
   QueryList
@@ -12,6 +14,11 @@ import {
 import { QueueItemComponent }          from './queue-item';
 import { EmitterService }              from '../shared/service/emitter.service';
 import { IPlaylistItem, IArchiveItem } from '../shared/types';
+import { Subscription }                from 'rxjs';
+import { TimerObservable }             from 'rxjs/observable/TimerObservable';
+
+import { BigButtonComponent } from '../button/button';
+
 
 @Component({
   selector: 'cheapthrills-queue',
@@ -26,10 +33,42 @@ export class QueueComponent {
   public overlayMsg    : string;
   public queueComplete : boolean;
   public downloadPath  : string;
+  private timerSub     : Subscription;
+  private destroyed    : boolean;
+
+  @Output()
+  private notifySearchOutro: EventEmitter<boolean> = new EventEmitter<boolean>(); // update parent component styles
 
   @ViewChildren(QueueItemComponent) viewChildren: QueryList<QueueItemComponent>;
 
   constructor(private qs: QueueService) {
+  }
+
+  buildQueue(data: IPlaylistItem[]) {
+    const timer = TimerObservable.create(100, 100).take(data.length); // weird signature - i guess the 2nd param is the subsequent duration
+    this.timerSub = timer.subscribe( (t: number) => {
+      this.queueArray = this.queueArray || [];
+      this.queueArray.push(data[t]);
+      if(t === data.length - 1) {
+        this.timerSub.unsubscribe();
+      }
+    });
+  }
+
+  destroyQueue() {
+    this.showOverlay = false;
+    this.queueComplete = false;
+    this.downloadPath = undefined;
+
+    // add fade class to element
+    this.destroyed = true;
+    const timer = TimerObservable.create(300); // duration of fade
+    this.timerSub = timer.subscribe( (t: number) => {
+      this.qs.resetQueue();
+      this.queueArray = undefined;
+      this.notifySearchOutro.emit(false); // dispatch state to parent
+      this.timerSub.unsubscribe();
+    });
   }
 
   onConvertClicked(e: Event) {
@@ -38,22 +77,26 @@ export class QueueComponent {
     this.qs.startQueue();
   }
 
+  onClickBackButton(e: Event) {
+    this.destroyQueue();
+  }
+
+
   // ----------------------------------------------------------------------
   //
   // lifecycle events
   //
   // ----------------------------------------------------------------------
   ngOnInit() {
-
-    // TODO - overwrite existing every time to account for successive playlist requests
-
     // listen to input form component
     // - doesn't register if set in constructor
     // - returns data object or false if youtube api req fails
     EmitterService.get(this.playlistKey + '-ready')
     .subscribe( (playlistData: IPlaylistItem[]) => {
-      this.queueArray = playlistData;
+      // sequentially add to queueArray to insert delay in queue item animation
+      this.destroyed = false;
       this.showOverlay = false;
+      this.buildQueue(playlistData);
     },
     (err: any) => {
       // error state shown in input field

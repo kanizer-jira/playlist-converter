@@ -2,8 +2,15 @@
      - ReactiveFormsModule
      - Define playlistKey input
 -->
-<div class="input-component">
-  <p class="input-description">Enter a playlist url or ID. You'll be able to view and customize track options after successfully requesting/receiving track info.</p>
+<div [ngClass]="{
+  'input-component': true
+}">
+  <p [ngClass]="{
+    'input-description': true,
+    'reveal': reveal
+  }">
+    Enter a playlist url or ID. You'll be able to view and customize track options after successfully requesting/receiving track info.
+  </p>
   <!-- ngSubmit replaces `action` attr
        - [] declares reference to component prop/instance
        - () binds handler to action
@@ -15,13 +22,14 @@
       <div [ngClass]="{
         'form-status': true,
         'hidden': !statusMessage,
-        'error':!status
+        'error': !status
       }">
         <p>{{ statusMessage }}</p>
       </div>
 
       <input
         [ngClass]="{
+          'reveal': reveal,
           'error':!captureIdForm.controls['playlistId'].valid &&
             captureIdForm.controls['playlistId'].touched
         }"
@@ -32,11 +40,11 @@
       />
 
       <button
-        class=""
+        [ngClass]="{ 'reveal': reveal }"
+        [attr.disabled]="this.disabled ? 'true' : null"
         name="playlistButton"
         type="submit"
         value="Get playlist"
-        [attr.disabled]="this.disabled ? 'true' : null"
       >Get playlist</button>
 
     </div>

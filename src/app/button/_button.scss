@@ -1,0 +1,51 @@
+.queue-big-button {
+  height: $queue-button-diameter;
+
+  .big-button {
+    &-disc {
+      position: absolute;
+      margin: $queue-button-stroke 0 0 $queue-button-stroke;
+      width: $queue-button-diameter - $queue-button-stroke * 2;
+      height: $queue-button-diameter - $queue-button-stroke * 2;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+
+      span {
+        color: white;
+        margin: 0 auto;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+    }
+
+    &-start {
+      background: #5db503;
+    }
+
+    &-cancel {
+      opacity: 0;
+      background: red;
+      transition: opacity 300 ease-out;
+
+      &.active {
+        opacity: 0;
+      }
+    }
+  }
+
+  cheap-thrills-button-ring,
+  .big-button-svg {
+    width: $queue-button-diameter;
+    height: $queue-button-diameter;
+  }
+
+  cheap-thrills-button-ring {
+    position: absolute;
+
+    circle {
+      transition: stroke-dashoffset .2s ease-in-out
+    }
+  }
+
+}

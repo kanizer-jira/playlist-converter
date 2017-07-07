@@ -1,9 +1,46 @@
 // ----------------------------------------------------------------------
 //
-// fades
+// mixins
 //
 // ----------------------------------------------------------------------
 
+// viewport media queries
+$size-map: (
+  xlarge: $break-xlarge,
+  large: $break-large,
+  medium: $break-medium,
+  mini: $break-mini,
+  small: $break-small
+);
+@mixin viewport($size: large, $floor: null) {
+  $query: 'only screen';
+  $selected-break: if( (type-of($size) == string), map-get($size-map, $size), $size );
+  // add util to check if size exists;
+  @if $selected-break == null {
+    @error "Invalid viewport size provided: " + $size;
+  }
+
+  @if $floor != null {
+    $selected-floor: if( (type-of($floor) == string), map-get($size-map, $floor), $floor );
+    // add util to check if size exists;
+    @if $selected-floor == null {
+      @error "Invalid viewport size provided: " + $floor;
+    }
+    @else {
+      $query: $query + ' and (min-width: ' + $selected-floor + ')';
+    }
+  }
+
+  // for large, extend without ceiling
+  $query: if( ($size == large), $query, $query + ' and (max-width: ' + $selected-break + ')' );
+
+  @media #{$query} {
+    @content;
+  }
+}
+
+
+// fade transitions
 @mixin fade-visibility($direction: 'in', $dur: .6, $del: 0, $ease: ease-in-out) {
   animation-name: if($direction == 'in', fadeIn, fadeOut);
   animation-duration: $dur * 1s;

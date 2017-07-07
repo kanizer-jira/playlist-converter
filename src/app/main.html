@@ -8,9 +8,12 @@
     <!-- 'playlistKey': maybe a silly way to pass this emitter key around...just demonstrative -->
     <cheapthrills-input
       [playlistKey]="playlistKey"
-      (notify)="onNotify($event)"
+      [outro]="outro"
+      (notifySearchOutro)="onNotifySearchOutro($event)"
       [ngClass]="{ 'outro': this.outro }"
     ></cheapthrills-input>
-    <cheapthrills-queue [playlistKey]="playlistKey"></cheapthrills-queue>
+    <cheapthrills-queue [playlistKey]="playlistKey"
+      (notifySearchOutro)="onNotifySearchOutro($event)"
+    ></cheapthrills-queue>
   </main>
 </div>

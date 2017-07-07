@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {routing, RootComponent} from './routes';
+import { NgModule }               from '@angular/core';
+import { BrowserModule }          from '@angular/platform-browser';
+import { routing , RootComponent} from './routes';
 
-import {QueueModule} from './queue';
-import {InputModule} from './input';
+import { QueueModule }            from './queue';
+import { InputModule }            from './input';
 
-import {MainComponent} from './main';
-import {TestRouteComponent} from './test-route';
+import { MainComponent }          from './main';
+import { TestRouteComponent }     from './test-route';
 
 // AppModule / Root Module ref:
 // https://angular.io/docs/ts/latest/guide/appmodule.html

@@ -1,0 +1,67 @@
+// ----------------------------------------------------------------------
+//
+// input component
+//
+// ----------------------------------------------------------------------
+
+cheapthrills-input {
+  position: absolute;
+  display: table;
+  width: 80%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0 10%;
+  background: white;
+  opacity: 1;
+  transition: opacity $medium-duration ease-out;
+
+  &.outro {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .input-component {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .input-description {
+    opacity: 0;
+    transition: opacity $long-duration ease-out;
+
+    &.reveal {
+      opacity: 1;
+    }
+  }
+
+  form {
+    width: 100%;
+  }
+
+  input,
+  button {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity $medium-duration ease-out,
+                transform $medium-duration ease-out;
+
+    &.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  input {
+    width: calc(100% - 0.4em);
+    margin: 0.6em 0;
+    border: none;
+    outline: 1px solid lightgrey;
+    transition-delay: $medium-duration * 0.4;
+  }
+
+  button {
+    transition-delay: $medium-duration * 0.8;
+  }
+
+}

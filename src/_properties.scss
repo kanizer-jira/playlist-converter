@@ -4,5 +4,23 @@
 //
 // ----------------------------------------------------------------------
 
+// grid
+$grid-width: 12;
+
+// breakpoints
+$break-xlarge: 1350px;
+$break-large: 1030px;
+$break-medium: 950px;
+$break-mini: 768px;
+$break-small: 480px;
+
+// queue
 $queue-item-title-height: 50px;
 $queue-item-title-padding: 5px;
+$queue-button-diameter: 50px;
+$queue-button-stroke: 4px;
+
+// animations
+$long-duration: 1.2s;
+$medium-duration: 0.6s;
+$short-duration: 0.3s;

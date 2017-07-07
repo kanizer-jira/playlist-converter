@@ -1,17 +1,16 @@
-<div *ngIf="queueArray" class="queue-container">
-  <!-- TODO - convert these buttons into a progress/stateful button component  -->
-  <button
-    type="button"
-    (click)="onConvertClicked($event)"
-  >
-    Begin Conversion
-  </button>
-  <form
-    *ngIf="queueComplete"
-    method="get"
-    action="{{downloadPath}}">
-    <button type="submit">Download!</button>
-  </form>
+<div *ngIf="queueArray" [ngClass]="{
+  'queue-container': true,
+  'destroyed': destroyed
+}">
+
+
+  <div class="back-button" (click)="onClickBackButton($event)">
+    <img />
+    <span>Back</span>
+  </div>
+
+  <cheap-thrills-button class="big-button-ring" (notifyConvert)="onConvertClicked($event)"></cheap-thrills-button>
+
   <div class="queue">
     <cheap-thrills-queue-item
       *ngFor="let queueItem of queueArray"

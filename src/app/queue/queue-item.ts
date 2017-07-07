@@ -6,21 +6,23 @@ import {
   ElementRef,
   Renderer
 }                          from '@angular/core';
+import { Subscription }    from 'rxjs';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import {
   QueueService,
   QUEUE_ITEM_ERROR,
+  QUEUE_ITEM_INITIATE_CONVERSION,
   QUEUE_ITEM_PROGRESS,
   QUEUE_ITEM_COMPLETE,
   QUEUE_COMPLETE
 }                          from './queue.service';
-import { EmitterService }  from '../shared/service/emitter.service';
 import {
   IPlaylistItem,
   IThumbnailItem,
   IConversionItem
 }                          from '../shared/types';
-import { Subscription }    from 'rxjs';
-import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { EmitterService }  from '../shared/service/emitter.service';
+import { ViewportUtil }    from '../shared/viewport-util';
 
 @Component({
   selector: 'cheap-thrills-queue-item',
@@ -40,6 +42,13 @@ export class QueueItemComponent {
   private timerSub          : Subscription;
   private reveal            : boolean;
   private expand            : boolean;
+  private active            : boolean;
+  private collapseHeight    : number;
+  private expandHeight      : number;
+  private displayHeight     : number;
+  private currentBreakpoint : string;
+  private drawerElem        : any; // TODO - type to correct DOM Element type
+  private viewportUtil      : ViewportUtil;
 
   constructor(
     public zone: NgZone,
@@ -51,6 +60,13 @@ export class QueueItemComponent {
     // // examples of element reference
     // // el.nativeElement.style.backgroundColor = 'yellow';
     // renderer.setElementStyle(el.nativeElement, 'backgroundColor', 'yellow');
+
+    // TODO - move into parent
+    this.viewportUtil = ViewportUtil.gi();
+    this.viewportUtil.subscribe( (type: any) => {
+      // console.log('queue-item.ts: viewport event: type:', type);
+      this.onBreakpointChange(type);
+    });
   }
 
   updateOptions(property: any) {
@@ -58,10 +74,10 @@ export class QueueItemComponent {
     // console.log('queue-item.ts: updateOptions: property:', property, this.options);
   }
 
-  getTransitionDelay(): number {
-    const ind: number = this.queueItem.position;
-    return 200 * ind;
-  }
+  // getTransitionDelay(): number {
+  //   const ind: number = this.queueItem.position;
+  //   return 200 * ind;
+  // }
 
   // just demonstrative for style assignment to template element
   getTransitionDelayString(): string {
@@ -69,9 +85,38 @@ export class QueueItemComponent {
     return '0s';
   }
 
+  getDrawerHeight() {
+    return this.drawerElem.offsetHeight;
+  }
+
   onClickExpandToggle(e: MouseEvent) {
     // toggle property to expand/collapse with selector
     this.expand = !this.expand;
+    this.displayHeight = this.expand
+    ? this.collapseHeight + this.expandHeight
+    : this.collapseHeight;
+  }
+
+  onThumbnailClick(e: MouseEvent) {
+    // TODO - toggle checkbox
+  }
+
+  // TODO - externalize/generalize
+  onBreakpointChange(e: any) {
+    this.currentBreakpoint = e.viewport || this.currentBreakpoint; // account for retina object
+
+    // store for later
+    const scrollPosition = window.pageYOffset || (document.documentElement || document.body).scrollTop;
+    const windowHeight = document.documentElement.clientHeight || window.innerHeight;
+
+    // collapse drawer
+    if(this.expand) {
+      this.expand = false;
+      this.displayHeight = this.collapseHeight;
+    }
+
+    // update expansion height
+    this.expandHeight = this.getDrawerHeight();
   }
 
 
@@ -103,7 +148,10 @@ export class QueueItemComponent {
     }
 
     // animate in and reveal
-    const del: number = this.getTransitionDelay();
+    // superceded by sequential construction of queue item array,
+    // but still using delay to allow for fade in
+    // const del: number = this.getTransitionDelay();
+    const del: number = 10;
     const timer = TimerObservable.create(del);
     this.timerSub = timer.subscribe( (t: number) => {
       this.reveal = true;
@@ -121,23 +169,32 @@ export class QueueItemComponent {
     });
 
     EmitterService
-    .get(QUEUE_ITEM_PROGRESS + '_' + this.queueItem.position)
+    .get(QUEUE_ITEM_INITIATE_CONVERSION)
+    .subscribe( (index: number) => {
+      this.active = this.queueItem.position === index;
+    });
+
+    EmitterService
+    .get(QUEUE_ITEM_PROGRESS)
     .subscribe( (progressData: any) => {
-      // display progress
-      // - guessing I have to do this due to how zones partition execution?
+      // hacks if not updating how zones partition execution?
       // this.zone.run(() => this.progress = Math.floor(progressData.percentage) );
 
-      this.progress = Math.floor(progressData.percentage);
-      this.changeRef.detectChanges();
+      // display progress as width style property
+      if(this.queueItem.position === progressData.ind) {
+        this.progress = Math.floor(progressData.obj.percentage * 100);
+        this.changeRef.detectChanges();
+      }
     });
 
     EmitterService
     .get(QUEUE_ITEM_COMPLETE + '_' + this.queueItem.position)
     .subscribe( (conversionData: IConversionItem) => {
-      console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
+      // console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
       this.errorMsg = '';
       this.conversionData = conversionData;
       this.conversionComplete = true;
+      this.active = false;
       // this.conversionData.link = decodeURIComponent(this.conversionData.link);
 
       this.changeRef.detectChanges();
@@ -158,6 +215,11 @@ export class QueueItemComponent {
 
   ngAfterViewInit() {
     // Component views are initialized
+    this.drawerElem = this.el.nativeElement.querySelector('.drawer');
+
+    // update expansion height
+    this.collapseHeight = this.el.nativeElement.querySelector('.queue-item-contents').offsetHeight;
+    this.expandHeight = this.getDrawerHeight();
   }
 
   ngAfterViewChecked() {

@@ -12,8 +12,11 @@ import { QueueService }                           from '../queue/queue.service';
 })
 export class InputComponent {
 
+  // passed in as template attributes
   @Input()
-  public playlistKey: string; // passed in as template attribute
+  public playlistKey: string;
+  @Input()
+  public outro: boolean;
 
   // instantiate and config via FormBuilder
   public captureIdForm = this.fb.group({
@@ -23,31 +26,16 @@ export class InputComponent {
   private status: boolean;
   private statusMessage: string;
   private disabled: boolean;
+  private reveal: boolean;
+  private inactive: boolean;
 
   @Output()
-  private notify: EventEmitter<boolean> = new EventEmitter<boolean>(); // update parent component styles
+  private notifySearchOutro: EventEmitter<boolean> = new EventEmitter<boolean>(); // update parent component styles
 
   constructor(public qs: QueueService, public fb: FormBuilder) {
   }
 
-  onShow() {
-    // TODO - implement reset in case returning from queue view
-    this.disabled = false;
-  }
-
-  // capture/handle input event
-  onSubmit(event: Event) {
-    // disable additional clicks
-    this.disabled = true;
-
-    let playlistId = this.normalizePlaylistId(this.captureIdForm.value.playlistId);
-    // playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // to test for non-existent playlist
-    playlistId = 'PLV2v9WNyDEGDKwuRFiRzYqigU-egodZeX'; // TODO - remove when ready to test
-
-    // update status message
-    this.status = true;
-    this.statusMessage = 'Requesting your playlist - please hold...';
-
+  setupObserver() {
     EmitterService.get(this.playlistKey)
     .subscribe( (playlistData: IPlaylistItem[] | any) => {
       // TODO - fix this hack for error handling
@@ -63,7 +51,8 @@ export class InputComponent {
 
       // outro animation after short delay to register status message
       let to = setTimeout(() => {
-        this.notify.emit(true);
+        this.inactive = true;
+        this.notifySearchOutro.emit(true); // dispatch state to parent
         clearTimeout(to);
 
         // dispatch animation completion event with playlistData to initiate queue rendering
@@ -77,6 +66,26 @@ export class InputComponent {
       this.status = false;
       this.statusMessage = 'Fake playlist alert - please try again.';
     } );
+  }
+
+  onShow() {
+    // TODO - implement reset in case returning from queue view
+    this.disabled = false;
+    this.inactive = false;
+  }
+
+  // capture/handle input event
+  onSubmit(event: Event) {
+    // disable additional clicks
+    this.disabled = true;
+
+    let playlistId = this.normalizePlaylistId(this.captureIdForm.value.playlistId);
+    // playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // to test for non-existent playlist
+    playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho'; // TODO - remove when ready to test
+
+    // update status message
+    this.status = true;
+    this.statusMessage = 'Requesting your playlist - please hold...';
 
     // make request to youtube api via QueueService
     this.qs.getPlaylistTitle(this.playlistKey, playlistId);
@@ -94,8 +103,29 @@ export class InputComponent {
   // ----------------------------------------------------------------------
 
   ngOnInit() {
+    this.setupObserver();
+
     // auto-init for testing
     this.onSubmit(new MouseEvent('mock submit'));
+  }
+
+  ngAfterViewInit() {
+    // need to delay css assignment for transition
+    let to = setTimeout( _ => {
+      this.reveal = true;
+      clearTimeout(to);
+    }, 5);
+  }
+
+  ngOnChanges(changes: any) {
+    if(changes.outro && !changes.outro.currentValue) {
+      this.disabled = false;
+      this.inactive = false;
+
+      // hide status message
+      this.status = false;
+      this.statusMessage = '';
+    }
   }
 
 }

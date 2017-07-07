@@ -37,6 +37,11 @@ export interface IConversionItem {
   file: string; // TODO - convert to URL type
 }
 
+export interface IRingProgressItem {
+  index: number;
+  title: string;
+}
+
 // bound to endpoint data schema
 export interface IArchiveItem {
   message: string;

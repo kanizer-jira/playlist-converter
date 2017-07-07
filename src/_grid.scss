@@ -1,0 +1,27 @@
+// ----------------------------------------------------------------------
+//
+// grid
+//
+// ----------------------------------------------------------------------
+
+.column {
+  float: left;
+}
+
+.row {
+  float: none;
+}
+
+// cycle through viewports for grid segmentation
+$viewport-list: (large, medium, small);
+@each $viewport in $viewport-list {
+  .#{$viewport} {
+    @include viewport($viewport) {
+      @for $unit from 1 through $grid-width {
+        &-#{$unit} {
+          width: $unit/$grid-width * 100%
+        }
+      }
+    }
+  }
+}
