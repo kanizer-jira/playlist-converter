@@ -2,6 +2,9 @@
   height: $queue-button-diameter;
 
   .big-button {
+    background: #5db503;
+    transition: opacity 300 ease-out;
+
     &-disc {
       position: absolute;
       margin: $queue-button-stroke 0 0 $queue-button-stroke;
@@ -19,19 +22,6 @@
       }
     }
 
-    &-start {
-      background: #5db503;
-    }
-
-    &-cancel {
-      opacity: 0;
-      background: red;
-      transition: opacity 300 ease-out;
-
-      &.active {
-        opacity: 0;
-      }
-    }
   }
 
   cheap-thrills-button-ring,

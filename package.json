@@ -1,4 +1,6 @@
 {
+  "name": "plode-playlist-converter",
+  "version": "1.0.0-0",
   "dependencies": {
     "@angular/common": "^2.4.8",
     "@angular/compiler": "^2.4.8",

@@ -28,7 +28,7 @@ export class BigButtonRingComponent {
   public segmentIndex: number;
   public segmentRotation: string;
   public segmentColor: string = 'blue';
-  public segmentWidth: number = 4;
+  public segmentWidth: string;
 
   @Input()
   private ringItem: IRingProgressItem;
@@ -88,7 +88,6 @@ export class BigButtonRingComponent {
     // this.segmentColor = "#" + ( ( 1 << 24 ) * Math.random() | 0 ).toString(16);
     // constrained to hue
     this.segmentColor = "rgba(255, " + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ", " + Math.max(Math.random(), 1) + ")";
-    this.segmentWidth = Math.max(1, Math.random() * 4);
 
     // Set up the starting positions
     this.ringEl.style.strokeDasharray = this.ringLen + ' ' + this.ringLen;
@@ -101,6 +100,7 @@ export class BigButtonRingComponent {
 
   updateRingProgress(percent: number) {
     // convert percent to offset
+    this.segmentWidth = Math.ceil(percent * 4) + '';
     this.ringEl.style.strokeDashoffset = this.ringLen - ( percent * this.segmentLen ) + '';
   }
 
