@@ -1,25 +1,32 @@
 .queue-big-button {
   height: $queue-button-diameter;
 
+  a .big-button-disc {
+    span {
+      margin: 0 auto;
+      color: white;
+      text-decoration: none;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+  }
+
   .big-button {
-    background: #5db503;
+    background: #bd5509; // rgba(190, 85, 10, 1)
     transition: opacity 300 ease-out;
 
+
     &-disc {
+      cursor: pointer;
+      cursor: hand;
       position: absolute;
       margin: $queue-button-stroke 0 0 $queue-button-stroke;
-      width: $queue-button-diameter - $queue-button-stroke * 2;
-      height: $queue-button-diameter - $queue-button-stroke * 2;
+      width: $queue-button-diameter - ($queue-button-stroke + $queue-button-inner-stroke) * 2;
+      height: $queue-button-diameter - ($queue-button-stroke + $queue-button-inner-stroke) * 2;
       border-radius: 100%;
+      border: $queue-button-inner-stroke solid white;
       display: flex;
       align-items: center;
-
-      span {
-        color: white;
-        margin: 0 auto;
-        font-size: 0.8em;
-        font-weight: bold;
-      }
     }
 
   }

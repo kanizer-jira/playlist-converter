@@ -14,24 +14,33 @@ import {
 
 // obscure API key
 const _DEV_ = process.env.NODE_ENV === 'dev';
+
+// TODO - define env vars for api key and prod endpoint
+
 const PLAYLIST_API_KEY = _DEV_
 ? require('../../_constants').YOUTUBE_API_KEY // tslint:disable-line:no-var-requires
 : 'get from env';
 const CONVERSION_API_URL: string = _DEV_
-? 'http://www.localhost:3800'
-: 'TODO - add prod endpoint';
-const socket = io(_DEV_ ? 'http://localhost:3838' : 'TODO - add prod endpoint');
+? 'http://www.localhost'
+: 'add prod endpoint';
+const PORT_API: number = 3800;
+const PORT_SOCKET: number = 3838;
 const PLAYLIST_URL = 'https://www.googleapis.com/youtube/v3/';
 const YOUTUBE_URL: string = 'http://www.youtube.com/watch?v=';
 
 // socket.io emitter keys - shared between conversion service and client subscribers
 const CONVERSION_PROGRESS: string = 'CONVERSION_PROGRESS';
 
+// socket.io instance
+const socketToken: string = Math.random().toString(36).substring(7); // 'unique' token
+const socket = io(`${CONVERSION_API_URL}:${PORT_SOCKET}?token=${socketToken}`);
+
 // client side emitter keys - dispatched w/in client scope
 export const QUEUE_ITEM_ERROR: string = 'QUEUE_ITEM_ERROR';
 export const QUEUE_ITEM_INITIATE_CONVERSION: string = 'QUEUE_ITEM_INITIATE_CONVERSION';
 export const QUEUE_ITEM_PROGRESS: string = 'QUEUE_ITEM_PROGRESS';
 export const QUEUE_ITEM_COMPLETE: string = 'QUEUE_ITEM_COMPLETE';
+export const QUEUE_ITEM_CANCEL: string = 'QUEUE_ITEM_CANCEL';
 export const QUEUE_ERROR: string = 'QUEUE_ERROR';
 export const QUEUE_COMPLETE: string = 'QUEUE_COMPLETE';
 
@@ -42,7 +51,6 @@ export class QueueService {
   public videoKeys: any[] = []; // bind videoId to queue index
 
   constructor(public http: Http) {
-    // TODO - unit tests
     this.configureSocket();
   }
 
@@ -81,8 +89,8 @@ export class QueueService {
   // ----------------------------------------------------------------------
 
   public consolidatedData: IPlaylistData;
-  private sessionId: string;
-  private pageToken: string;
+  private sessionId: string; // playlist id & title for indexing
+  private pageToken: string; // playlist api page token
   private conversionRequest; // rxjs Subscription - not exported from lib
 
   // just getting the human readable playlist name
@@ -197,6 +205,7 @@ export class QueueService {
   //
   // ----------------------------------------------------------------------
 
+  // iterated over from queue
   getConversionData(index: number) {
     if(!this.consolidatedData) {
       EmitterService.get(QUEUE_ERROR).emit('No available playlist data.');
@@ -248,13 +257,13 @@ export class QueueService {
       const conversionData = response;
 
       // TODO - RE-ENABLE QUEUE
-      // this.updateQueue(index, conversionData);
+      this.updateQueue(index, conversionData);
 
-      // TRIGGER MOCK QUEUE COMPLETION
-      EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
-        conversionData || new Error('This video fails to convert.')
-      );
-      this.requestPlaylistArchive();
+      // // TRIGGER MOCK QUEUE COMPLETION
+      // EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
+      //   conversionData || new Error('This video fails to convert.')
+      // );
+      // this.requestPlaylistArchive();
 
 
 
@@ -275,7 +284,8 @@ export class QueueService {
 
   requestConversion(conversionRequestParams: IConversionRequestParam): Observable<IConversionItem> {
     return this.http
-      .post(CONVERSION_API_URL + '/convert', {
+      .post(`${CONVERSION_API_URL}:${PORT_API}` + '/convert', {
+        socketToken,
         sessionId: this.sessionId,
         options: conversionRequestParams
       })
@@ -284,6 +294,19 @@ export class QueueService {
       })
       .catch((error: any) => {
         console.log('queue.service.ts: requestConversion: error:', error);
+        return Observable.throw(error || 'Server error');
+      });
+  }
+
+  requestCancellation(params?: any): Observable<any> {
+    const options: any = Object.assign({}, { socketToken }, params);
+    return this.http
+      .post(`${CONVERSION_API_URL}:${PORT_API}/cancel`, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => {
+        console.log('queue.service.ts: requestCancellation: error:', error);
         return Observable.throw(error || 'Server error');
       });
   }
@@ -409,7 +432,6 @@ export class QueueService {
     if(!this.queueActive) {
       return;
     }
-
     this.queueIndex++;
 
     // emitter key is bound to queue-item instance/index
@@ -424,6 +446,9 @@ export class QueueService {
     }
 
     this.getConversionData(this.queueIndex);
+
+    // emitter request for conversion to highlight display item
+    EmitterService.get(QUEUE_ITEM_INITIATE_CONVERSION).emit(this.queueIndex);
   }
 
   /**
@@ -435,15 +460,46 @@ export class QueueService {
     }
 
     this.queueActive = false;
+
+    // cancel in process conversion on the server
+    const cancelRequest = this.requestCancellation({
+      sessionId: this.sessionId,
+      videoId: this.consolidatedData.items[this.queueIndex].videoId
+    })
+    .subscribe( (response: any) => {
+      console.log('queue.service.ts: pauseQueue: response:', response);
+      // dispatch cancellation to update queue item state
+      EmitterService.get(`${QUEUE_ITEM_CANCEL}_${this.queueIndex}`).emit();
+    },
+    err => {
+      console.log('queue.service.ts: pauseQueue: err:', err);
+    });
+  }
+
+  /**
+   * resume queue
+   */
+  resumeQueue() {
+    if(this.queueActive) {
+      return;
+    }
+
+    this.queueActive = true;
+    this.startQueue(this.queueIndex);
   }
 
   /**
    * stop and reset queue
    */
   resetQueue() {
-    // if(!this.queueActive) {
-    //   return;
-    // }
+    // cancel in process conversions on the server
+    const cancelRequest = this.requestCancellation()
+    .subscribe( (response: any) => {
+      console.log('queue.service.ts: resetQueue: response:', response);
+    },
+    err => {
+      console.log('queue.service.ts: resetQueue: err:', err);
+    });
 
     this.consolidatedData = undefined;
     this.queueActive = false;

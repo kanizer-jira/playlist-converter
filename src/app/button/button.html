@@ -1,16 +1,20 @@
 <div [ngClass]="{
     'queue-big-button': true
   }"
-  (click)="onClicked($event)"
 >
-
-  <div class="big-button-disc big-button">
-    <span>start</span>
-  </div>
 
   <cheap-thrills-button-ring
     *ngFor="let ringItem of ringArray"
     [ringItem]="ringItem"
   ></cheap-thrills-button-ring>
+
+  <a [attr.href]="downloadPath">
+    <div class="big-button-disc big-button"
+      [style.backgroundColor]="progressColor"
+      (click)="onClicked($event)"
+    >
+      <span>{{label}}</span>
+    </div>
+  </a>
 
 </div>

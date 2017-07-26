@@ -14,6 +14,7 @@ import {
   QUEUE_ITEM_INITIATE_CONVERSION,
   QUEUE_ITEM_PROGRESS,
   QUEUE_ITEM_COMPLETE,
+  QUEUE_ITEM_CANCEL,
   QUEUE_COMPLETE
 }                          from './queue.service';
 import {
@@ -197,6 +198,16 @@ export class QueueItemComponent {
       this.active = false;
       // this.conversionData.link = decodeURIComponent(this.conversionData.link);
 
+      this.changeRef.detectChanges();
+    });
+
+    EmitterService
+    .get(QUEUE_ITEM_CANCEL + '_' + this.queueItem.position)
+    .subscribe( () => {
+      this.errorMsg = '';
+      this.progress = 0;
+      this.conversionComplete = false;
+      this.active = false;
       this.changeRef.detectChanges();
     });
   }
