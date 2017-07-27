@@ -26,7 +26,7 @@ import { EmitterService }  from '../shared/service/emitter.service';
 import { ViewportUtil }    from '../shared/viewport-util';
 
 @Component({
-  selector: 'cheap-thrills-queue-item',
+  selector: 'cheapthrills-queue-item',
   template: require('./queue-item.html')
 })
 export class QueueItemComponent {

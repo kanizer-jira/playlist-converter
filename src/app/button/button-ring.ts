@@ -18,7 +18,7 @@ import { EmitterService }  from '../shared/service/emitter.service';
 
 
 @Component({
-  selector: 'cheap-thrills-button-ring',
+  selector: 'cheapthrills-button-ring',
   template: require('./button-ring.html')
 })
 export class BigButtonRingComponent {

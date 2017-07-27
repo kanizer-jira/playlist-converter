@@ -29,7 +29,7 @@ import { EmitterService }         from '../shared/service/emitter.service';
 
 
 @Component({
-  selector: 'cheap-thrills-button',
+  selector: 'cheapthrills-button',
   template: require('./button.html')
 })
 export class BigButtonComponent {

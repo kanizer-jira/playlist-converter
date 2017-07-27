@@ -8,7 +8,7 @@ import { PLAYLIST_DATA } from '../shared/mock-data';
 import { IPlaylistItem } from '../shared/types';
 
 @Component({
-  selector: 'cheap-thrills-queue-item',
+  selector: 'cheapthrills-queue-item',
   template: ''
 })
 class MockQueueItemComponent {
@@ -66,7 +66,7 @@ describe('QueueComponent', () => {
 
   //     fixture.detectChanges();
   //     const queue = fixture.nativeElement;
-  //     expect(queue.querySelectorAll('cheap-thrills-queue-item').length).toBe(3);
+  //     expect(queue.querySelectorAll('cheapthrills-queue-item').length).toBe(3);
   //   });
   // });
 
