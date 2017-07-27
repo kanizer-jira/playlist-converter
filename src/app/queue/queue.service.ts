@@ -218,6 +218,7 @@ export class QueueService {
     const video: IPlaylistItem = this.consolidatedData.items[this.queueIndex];
     const videoId: string = video.videoId;
     const videoTitle: string = video.title;
+    const thumbnail: string = video.thumbnails.medium.url;
 
     // optional from form input
     const startTime: string = video.startTime;
@@ -248,6 +249,7 @@ export class QueueService {
       index,
       videoId,
       videoTitle,
+      thumbnail,
       startTime: convertedStartTime,
       duration,
       songTitle,

@@ -1,11 +1,7 @@
 import {
   Component,
-  // Input,
   Output,
-  // NgZone,
   ChangeDetectorRef,
-  // ElementRef,
-  // Renderer,
   EventEmitter
 }                          from '@angular/core';
 import {
@@ -16,23 +12,16 @@ import {
   transition
 }                          from '@angular/animations';
 
-
-// import { Subscription }    from 'rxjs';
-// import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { Subscription }    from 'rxjs';
 import { BigButtonRingComponent } from './button-ring';
 import {
   QueueService,
-  // QUEUE_ITEM_ERROR,
-  // QUEUE_ITEM_INITIATE_CONVERSION,
   QUEUE_ITEM_PROGRESS,
   QUEUE_ITEM_COMPLETE,
   QUEUE_COMPLETE,
   QUEUE_ERROR
 }                          from '../queue/queue.service';
 import {
-  // IPlaylistItem,
-  // IThumbnailItem,
-  // IConversionItem,
   IArchiveItem,
   IRingProgressItem
 }                          from '../shared/types';
@@ -52,6 +41,9 @@ export class BigButtonComponent {
   @Output()
   private notifyConvert: EventEmitter<null> = new EventEmitter<null>();
   private ringArray: IRingProgressItem[];
+  private subProgress: Subscription;
+  private subComplete: Subscription;
+  private subError: Subscription;
 
   constructor(
     public changeRef: ChangeDetectorRef,
@@ -59,10 +51,7 @@ export class BigButtonComponent {
   ) {}
 
   attachSubscribers() {
-
-    // transform button label and color
-
-    EmitterService
+    this.subProgress = EmitterService
     .get(QUEUE_ITEM_PROGRESS)
     .subscribe( (progressData: any) => {
 
@@ -78,7 +67,7 @@ export class BigButtonComponent {
       this.changeRef.detectChanges();
     });
 
-    EmitterService.get(QUEUE_COMPLETE)
+    this.subComplete = EmitterService.get(QUEUE_COMPLETE)
     .subscribe( (res: IArchiveItem) => {
       console.log('button.ts: conversion queue complete: res:', res);
       // activate download button
@@ -86,11 +75,17 @@ export class BigButtonComponent {
       this.downloadPath = res.downloadPath;
     });
 
-    EmitterService.get(QUEUE_ERROR)
+    this.subError = EmitterService.get(QUEUE_ERROR)
     .subscribe( (msg: string) => {
       console.log('button.ts: conversion queue error: msg:', msg);
       // TODO - display error
     });
+  }
+
+  detachSubscribers() {
+    this.subProgress.unsubscribe();
+    this.subComplete.unsubscribe();
+    this.subError.unsubscribe();
   }
 
   getUpdatedFillColor(progress: number) {
@@ -104,16 +99,15 @@ export class BigButtonComponent {
     }));
   }
 
-  initProgress() {
-    // update color
-    // update copy
-  }
-
   onClicked(e: MouseEvent) {
+
+    // TODO - resolve latency and state management here...
+    // - cancelling all conversions isn't working...
+
     switch(this.label) {
       case 'start':
+        console.log('button.ts: this.notifyConvert:', this.notifyConvert);
         this.notifyConvert.emit();
-        this.initProgress();
         break;
 
       case 'download':
@@ -142,8 +136,14 @@ export class BigButtonComponent {
   // ----------------------------------------------------------------------
 
   ngOnInit() {
+    console.log('button.ts: ngOnInit');
+
     this.attachSubscribers();
     this.setupProgressRings();
+  }
+
+  ngOnDestroy() {
+    this.detachSubscribers();
   }
 
 }

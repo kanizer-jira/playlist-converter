@@ -3,12 +3,14 @@ cheapthrills-queue {
   height: 100%;
   display: inline-flex;
   flex-direction: row;
-  align-items: center;
+  // * using margin-auto on the child takes care of the wierd clipping bug
+  // align-items: center;
+  // justify-content: center;
 
   .queue-container {
     width: 90%;
     max-width: $break-medium;
-    margin: 0 auto;
+    margin: auto;
     transition: opacity $medium-duration ease-out;
     opacity: 1;
     @include viewport(medium) {
@@ -24,14 +26,33 @@ cheapthrills-queue {
     font-size: 0.8em;
   }
 
+  .queue-header-container {
+    position: relative;
+
+    .back-button {
+      background: #d0d0d0;
+      color: #666;
+      border-radius: 500px;
+      padding: 2px 8px;
+      font-size: 0.8em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(calc(-100% - #{$queue-button-diameter}/2 - 2px), -50%);
+    }
+
+  }
+
+  &-item:first-child {
+    border-top: 1px dotted lightgrey;
+  }
+
   .queue-item {
     height: 0;
     overflow: hidden;
     outline: 0;
     border-bottom: 1px dotted lightgrey;
     visibility: hidden;
-    cursor: pointer;
-    cursor: hand;
     opacity: 0;
     color: #666;
     transform: translateY(20px);
@@ -59,6 +80,7 @@ cheapthrills-queue {
 
     &-title {
       font-size: 1em;
+      font-weight: lighter;
       padding-left: $queue-item-title-padding;
     }
 

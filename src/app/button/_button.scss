@@ -1,5 +1,7 @@
 .queue-big-button {
   height: $queue-button-diameter;
+  width: $queue-button-diameter;
+  margin: 20px auto;
 
   a .big-button-disc {
     span {
@@ -15,10 +17,7 @@
     background: #bd5509; // rgba(190, 85, 10, 1)
     transition: opacity 300 ease-out;
 
-
     &-disc {
-      cursor: pointer;
-      cursor: hand;
       position: absolute;
       margin: $queue-button-stroke 0 0 $queue-button-stroke;
       width: $queue-button-diameter - ($queue-button-stroke + $queue-button-inner-stroke) * 2;

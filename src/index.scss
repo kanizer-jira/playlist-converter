@@ -1,7 +1,10 @@
-@import 'properties';
-@import 'mixins';
-@import 'grid';
-@import 'forms';
+@import 'app/fonts';
+@import 'app/icons';
+@import 'app/properties';
+@import 'app/mixins';
+@import 'app/shared';
+@import 'app/grid';
+@import 'app/forms';
 @import 'app/button/button';
 @import 'app/input/input';
 @import 'app/queue/queue';

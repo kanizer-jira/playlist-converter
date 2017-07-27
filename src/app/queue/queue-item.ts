@@ -40,6 +40,11 @@ export class QueueItemComponent {
   public conversionComplete : boolean;
   public errorMsg           : string = '';
   public options            : any = {};
+  private subError          : Subscription;
+  private subInit           : Subscription;
+  private subProgress       : Subscription;
+  private subComplete       : Subscription;
+  private subCancel         : Subscription;
   private timerSub          : Subscription;
   private reveal            : boolean;
   private expand            : boolean;
@@ -68,6 +73,69 @@ export class QueueItemComponent {
       // console.log('queue-item.ts: viewport event: type:', type);
       this.onBreakpointChange(type);
     });
+  }
+
+  attachSubscribers() {
+    // listen for mp3 conversion
+    // hook up to progress and completion events
+    this.subError = EmitterService
+    .get(QUEUE_ITEM_ERROR + '_' + this.queueItem.position)
+    .subscribe( (error: any) => {
+      console.log('queue-item.ts: conversion error: error:', error);
+      // display conversion error
+      this.errorMsg = error.message;
+    });
+
+    this.subInit = EmitterService
+    .get(QUEUE_ITEM_INITIATE_CONVERSION)
+    .subscribe( (index: number) => {
+      this.active = this.queueItem.position === index;
+    });
+
+    this.subProgress = EmitterService
+    .get(QUEUE_ITEM_PROGRESS)
+    .subscribe( (progressData: any) => {
+      // hacks if not updating how zones partition execution?
+      // this.zone.run(() => this.progress = Math.floor(progressData.percentage) );
+
+      // display progress as width style property
+      if(this.queueItem.position === progressData.ind) {
+        this.progress = Math.floor(progressData.obj.percentage * 100);
+        this.changeRef.detectChanges();
+      }
+    });
+
+    this.subComplete = EmitterService
+    .get(QUEUE_ITEM_COMPLETE + '_' + this.queueItem.position)
+    .subscribe( (conversionData: IConversionItem) => {
+      // console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
+      this.errorMsg = '';
+      this.conversionData = conversionData;
+      this.conversionComplete = true;
+      this.active = false;
+      // this.conversionData.link = decodeURIComponent(this.conversionData.link);
+
+      this.changeRef.detectChanges();
+    });
+
+    this.subCancel = EmitterService
+    .get(QUEUE_ITEM_CANCEL + '_' + this.queueItem.position)
+    .subscribe( () => {
+      this.errorMsg = '';
+      this.progress = 0;
+      this.conversionComplete = false;
+      this.active = false;
+      this.changeRef.detectChanges();
+    });
+  }
+
+  detachSubscribers() {
+    this.timerSub.unsubscribe();
+    this.subProgress.unsubscribe();
+    this.subInit.unsubscribe();
+    this.subError.unsubscribe();
+    this.subComplete.unsubscribe();
+    this.subCancel.unsubscribe();
   }
 
   updateOptions(property: any) {
@@ -159,57 +227,7 @@ export class QueueItemComponent {
       this.timerSub.unsubscribe();
     });
 
-    // listen for mp3 conversion
-    // hook up to progress and completion events
-    EmitterService
-    .get(QUEUE_ITEM_ERROR + '_' + this.queueItem.position)
-    .subscribe( (error: any) => {
-      console.log('queue-item.ts: conversion error: error:', error);
-      // display conversion error
-      this.errorMsg = error.message;
-    });
-
-    EmitterService
-    .get(QUEUE_ITEM_INITIATE_CONVERSION)
-    .subscribe( (index: number) => {
-      this.active = this.queueItem.position === index;
-    });
-
-    EmitterService
-    .get(QUEUE_ITEM_PROGRESS)
-    .subscribe( (progressData: any) => {
-      // hacks if not updating how zones partition execution?
-      // this.zone.run(() => this.progress = Math.floor(progressData.percentage) );
-
-      // display progress as width style property
-      if(this.queueItem.position === progressData.ind) {
-        this.progress = Math.floor(progressData.obj.percentage * 100);
-        this.changeRef.detectChanges();
-      }
-    });
-
-    EmitterService
-    .get(QUEUE_ITEM_COMPLETE + '_' + this.queueItem.position)
-    .subscribe( (conversionData: IConversionItem) => {
-      // console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
-      this.errorMsg = '';
-      this.conversionData = conversionData;
-      this.conversionComplete = true;
-      this.active = false;
-      // this.conversionData.link = decodeURIComponent(this.conversionData.link);
-
-      this.changeRef.detectChanges();
-    });
-
-    EmitterService
-    .get(QUEUE_ITEM_CANCEL + '_' + this.queueItem.position)
-    .subscribe( () => {
-      this.errorMsg = '';
-      this.progress = 0;
-      this.conversionComplete = false;
-      this.active = false;
-      this.changeRef.detectChanges();
-    });
+    this.attachSubscribers();
   }
 
   ngDoCheck() {
@@ -239,7 +257,7 @@ export class QueueItemComponent {
 
   ngOnDestroy() {
     // Speak now or forever hold your peace
-    this.timerSub.unsubscribe();
+    this.detachSubscribers();
   }
 
 }

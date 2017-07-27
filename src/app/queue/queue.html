@@ -3,13 +3,16 @@
   'destroyed': destroyed
 }">
 
+  <div class="queue-header-container">
 
-  <div class="back-button" (click)="onClickBackButton($event)">
-    <img />
-    <span>Back</span>
+    <div class="back-button pointer" (click)="onClickBackButton($event)">
+      <span class="icon-back"></span>
+      <span>back</span>
+    </div>
+
+    <cheap-thrills-button class="big-button-ring" (notifyConvert)="onConvertClicked($event)"></cheap-thrills-button>
+
   </div>
-
-  <cheap-thrills-button class="big-button-ring" (notifyConvert)="onConvertClicked($event)"></cheap-thrills-button>
 
   <div class="queue">
     <cheap-thrills-queue-item

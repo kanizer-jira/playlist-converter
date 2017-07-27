@@ -1,0 +1,25 @@
+// ----------------------------------------------------------------------
+//
+// setup icon classes in entypo font
+//
+// ----------------------------------------------------------------------
+
+$icon-map: (
+  attention: '\26a0',
+  back: '\2b05',
+  cancel: '\2715',
+  clock: '\1f554',
+  down-arrow: '\e760',
+  download: '\1f4e5',
+  refresh: '\27f2',
+);
+
+[class*="icon-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+@each $icon, $string in $icon-map {
+  .icon-#{$icon}:before {
+    content: $string;
+  }
+}

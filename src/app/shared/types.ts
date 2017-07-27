@@ -53,6 +53,7 @@ export interface IConversionRequestParam {
   index: number;
   videoId: string;
   videoTitle: string;
+  thumbnail: string;
   startTime?: number;
   duration?: number;
   songTitle?: string;

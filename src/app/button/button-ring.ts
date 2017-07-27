@@ -38,6 +38,7 @@ export class BigButtonRingComponent {
 
   @Input()
   private ringItem: IRingProgressItem;
+  private subProgress: Subscription;
 
   constructor(
     public el: ElementRef,
@@ -45,7 +46,7 @@ export class BigButtonRingComponent {
   ) {}
 
   attachSubscribers() {
-    EmitterService
+    this.subProgress = EmitterService
     .get(QUEUE_ITEM_PROGRESS)
     .subscribe( (progressData: any) => {
 
@@ -70,6 +71,10 @@ export class BigButtonRingComponent {
     //   console.log('queue.ts: conversion queue error: msg:', msg);
     //   // TODO - display error
     // });
+  }
+
+  detachSubscribers() {
+    this.subProgress.unsubscribe();
   }
 
   initRingStyles() {
@@ -121,6 +126,10 @@ export class BigButtonRingComponent {
 
   ngAfterViewInit() {
     this.initRingStyles();
+  }
+
+  ngOnDestroy() {
+    this.detachSubscribers();
   }
 
 }
