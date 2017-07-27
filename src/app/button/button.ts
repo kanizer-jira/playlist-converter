@@ -3,16 +3,16 @@ import {
   Output,
   ChangeDetectorRef,
   EventEmitter
-}                          from '@angular/core';
+}                                 from '@angular/core';
 import {
   trigger,
   state,
   style,
   animate,
   transition
-}                          from '@angular/animations';
-
-import { Subscription }    from 'rxjs';
+}                                 from '@angular/animations';
+import { Observable, Subscription }           from 'rxjs';
+import { TimerObservable }        from 'rxjs/observable/TimerObservable';
 import { BigButtonRingComponent } from './button-ring';
 import {
   QueueService,
@@ -20,12 +20,12 @@ import {
   QUEUE_ITEM_COMPLETE,
   QUEUE_COMPLETE,
   QUEUE_ERROR
-}                          from '../queue/queue.service';
+}                                 from '../queue/queue.service';
 import {
   IArchiveItem,
   IRingProgressItem
-}                          from '../shared/types';
-import { EmitterService }  from '../shared/service/emitter.service';
+}                                 from '../shared/types';
+import { EmitterService }         from '../shared/service/emitter.service';
 
 
 @Component({
@@ -44,6 +44,9 @@ export class BigButtonComponent {
   private subProgress: Subscription;
   private subComplete: Subscription;
   private subError: Subscription;
+  private currentProgress: number = 0;
+  private timer: Observable<number>;
+  private timerSub: Subscription;
 
   constructor(
     public changeRef: ChangeDetectorRef,
@@ -61,7 +64,8 @@ export class BigButtonComponent {
       const currProgress: number = progressData.obj.percentage / len;
       const totalProgress: number = prevProgress + currProgress;
 
-      this.label = Math.floor(totalProgress * 100) + '%';
+      this.currentProgress = Math.floor(totalProgress * 100);
+      this.label = this.currentProgress + '%';
       this.progressColor = this.getUpdatedFillColor(totalProgress);
 
       this.changeRef.detectChanges();
@@ -100,32 +104,40 @@ export class BigButtonComponent {
   }
 
   onClicked(e: MouseEvent) {
+    // ghetto debounce
+    if(!this.timerSub || this.timerSub.closed) {
+      this.timerSub = this.timer.subscribe( (t: number) => {
+        this.timerSub.unsubscribe();
+      });
 
-    // TODO - resolve latency and state management here...
-    // - cancelling all conversions isn't working...
+      switch(this.label) {
+        case 'start':
+          console.log('button.ts: start clicked');
+          this.label = this.currentProgress + '%';
+          this.notifyConvert.emit();
+          break;
 
-    switch(this.label) {
-      case 'start':
-        console.log('button.ts: this.notifyConvert:', this.notifyConvert);
-        this.notifyConvert.emit();
-        break;
+        case 'download':
+          console.log('button.ts: download clicked');
+          // src attribute is populated - no action required here
+          break;
 
-      case 'download':
-        console.log('button.ts: download clicked: e:', e);
-        // TODO - implement
-        break;
+        case 'resume':
+          console.log('button.ts: resume clicked');
+          this.label = this.currentProgress + '%';
+          this.queueService.resumeQueue();
+          break;
 
-      case 'resume':
-        console.log('button.ts: resume clicked: e:', e);
-        this.queueService.resumeQueue();
-        break;
+        default:
+          console.log('button.ts: cancel clicked');
+          // pause conversion...
+          this.queueService.pauseQueue();
+          this.label = 'resume';
+      }
 
-      default:
-        console.log('button.ts: cancel clicked: e:', e);
-        // pause conversion...
-        this.queueService.pauseQueue();
-        this.label = 'resume';
+      return;
     }
+
   }
 
 
@@ -136,10 +148,11 @@ export class BigButtonComponent {
   // ----------------------------------------------------------------------
 
   ngOnInit() {
-    console.log('button.ts: ngOnInit');
-
     this.attachSubscribers();
     this.setupProgressRings();
+
+    // debouncer
+    this.timer = TimerObservable.create(1000);
   }
 
   ngOnDestroy() {

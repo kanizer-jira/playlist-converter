@@ -7,6 +7,13 @@ import {
   QueryList
 }                                      from '@angular/core';
 import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
+import {
   QueueService,
   QUEUE_COMPLETE,
   QUEUE_ERROR
@@ -22,7 +29,21 @@ import { BigButtonComponent } from '../button/button';
 
 @Component({
   selector: 'cheapthrills-queue',
-  template: require('./queue.html')
+  template: require('./queue.html'),
+  animations: [
+    trigger('revealState', [
+      state('inactive', style({
+        transform: 'translateX(-100%)',
+        opacity: 0
+      })),
+      state('active', style({
+        transform: '*',
+        opacity: 1
+      })),
+      transition('inactive => active', animate('300ms 100ms ease-in-out')),
+      transition('active => inactive', animate('300ms ease-in'))
+    ])
+  ]
 })
 export class QueueComponent {
   @Input()
@@ -35,6 +56,7 @@ export class QueueComponent {
   public downloadPath  : string;
   private timerSub     : Subscription;
   private destroyed    : boolean;
+  private revealState: string = 'inactive';
 
   @Output()
   private notifySearchOutro: EventEmitter<boolean> = new EventEmitter<boolean>(); // update parent component styles
@@ -51,6 +73,8 @@ export class QueueComponent {
       this.queueArray.push(data[t]);
       if(t === data.length - 1) {
         this.timerSub.unsubscribe();
+        // show back button
+        this.revealState = 'active';
       }
     });
   }
@@ -120,8 +144,11 @@ export class QueueComponent {
     });
   }
 
-  // ngAfterViewInit() {
-  //   console.log('queue.ts: ngAfterViewInit: this.viewChildren:', this.viewChildren.toArray());
-  // }
+  ngAfterViewInit() {
+  }
+
+  ngOnDestroy() {
+    this.revealState = 'inactive';
+  }
 
 }

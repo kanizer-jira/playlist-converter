@@ -5,7 +5,9 @@
 
   <div class="queue-header-container">
 
-    <div class="back-button pointer" (click)="onClickBackButton($event)">
+    <div class="back-button pointer"
+        (click)="onClickBackButton($event)"
+        [@revealState]=revealState>
       <span class="icon-back"></span>
       <span>back</span>
     </div>

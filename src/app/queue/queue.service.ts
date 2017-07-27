@@ -65,7 +65,7 @@ export class QueueService {
       // delegate progress socket event
       const ind = this.videoKeys.indexOf(obj.videoId);
       if(ind > -1) {
-        console.log('queue.service.ts: obj:', obj);
+        // console.log('queue.service.ts: obj:', obj);
         EmitterService.get(QUEUE_ITEM_PROGRESS)
         .emit({
           obj,
@@ -431,6 +431,7 @@ export class QueueService {
    * update queue
    */
   updateQueue(index: number, conversionData: IConversionItem = undefined) {
+    console.log('queue.service.ts: updateQueue');
     if(!this.queueActive) {
       return;
     }
@@ -461,6 +462,11 @@ export class QueueService {
       return;
     }
 
+    // stop listening for server response
+    if(this.conversionRequest) {
+      this.conversionRequest.unsubscribe();
+    }
+
     this.queueActive = false;
 
     // cancel in process conversion on the server
@@ -469,7 +475,6 @@ export class QueueService {
       videoId: this.consolidatedData.items[this.queueIndex].videoId
     })
     .subscribe( (response: any) => {
-      console.log('queue.service.ts: pauseQueue: response:', response);
       // dispatch cancellation to update queue item state
       EmitterService.get(`${QUEUE_ITEM_CANCEL}_${this.queueIndex}`).emit();
     },
