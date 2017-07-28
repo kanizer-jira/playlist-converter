@@ -6,6 +6,14 @@ import {
   ElementRef,
   Renderer
 }                          from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
+
 import { Subscription }    from 'rxjs';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import {
@@ -27,7 +35,19 @@ import { ViewportUtil }    from '../shared/viewport-util';
 
 @Component({
   selector: 'cheapthrills-queue-item',
-  template: require('./queue-item.html')
+  template: require('./queue-item.html'),
+  // TODO - standardize these
+  animations: [
+    trigger('drawerState', [
+      state('collapsed', style({
+        transform: 'rotate(90deg)'
+      })),
+      state('expanded', style({
+        transform: 'rotate(0)'
+      })),
+      transition('collapsed <=> expanded', animate('100ms ease-out'))
+    ])
+  ]
 })
 export class QueueItemComponent {
   @Input()
@@ -54,6 +74,7 @@ export class QueueItemComponent {
   private displayHeight     : number;
   private currentBreakpoint : string;
   private drawerElem        : any; // TODO - type to correct DOM Element type
+  private drawerState: string = 'collapsed';
   private viewportUtil      : ViewportUtil;
 
   constructor(
@@ -164,6 +185,8 @@ export class QueueItemComponent {
     this.displayHeight = this.expand
     ? this.collapseHeight + this.expandHeight
     : this.collapseHeight;
+
+    this.drawerState = this.expand ? 'expanded' : 'collapsed';
   }
 
   onThumbnailClick(e: MouseEvent) {
@@ -186,6 +209,9 @@ export class QueueItemComponent {
 
     // update expansion height
     this.expandHeight = this.getDrawerHeight();
+
+    // update arrow icons
+    this.drawerState = 'collapsed';
   }
 
 
@@ -220,7 +246,7 @@ export class QueueItemComponent {
     // superceded by sequential construction of queue item array,
     // but still using delay to allow for fade in
     // const del: number = this.getTransitionDelay();
-    const del: number = 10;
+    const del: number = 4;
     const timer = TimerObservable.create(del);
     this.timerSub = timer.subscribe( (t: number) => {
       this.reveal = true;

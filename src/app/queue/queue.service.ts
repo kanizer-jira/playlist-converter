@@ -14,6 +14,7 @@ import {
 
 // obscure API key
 const _DEV_ = process.env.NODE_ENV === 'dev';
+const SPOOF_COMPLETION: boolean = false;
 
 // TODO - define env vars for api key and prod endpoint
 
@@ -258,19 +259,16 @@ export class QueueService {
     .subscribe( (response: IConversionItem) => {
       const conversionData = response;
 
-      // TODO - RE-ENABLE QUEUE
+      // for testing - don't loop through all items
+      if(SPOOF_COMPLETION && index === 1) {
+        EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
+          conversionData || new Error('This video fails to convert.')
+        );
+        this.requestPlaylistArchive();
+        return;
+      }
+
       this.updateQueue(index, conversionData);
-
-      // // TRIGGER MOCK QUEUE COMPLETION
-      // EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
-      //   conversionData || new Error('This video fails to convert.')
-      // );
-      // this.requestPlaylistArchive();
-
-
-
-
-
     },
     err => {
       console.log('queue.service: getConversionData: err:', err);
@@ -315,7 +313,7 @@ export class QueueService {
 
   requestPlaylistArchive() {
     const request = this.http
-    .post(CONVERSION_API_URL + '/archive', {
+    .post(`${CONVERSION_API_URL}:${PORT_API}/archive`, {
       sessionId: this.sessionId
     })
     .map((res: Response) => {
@@ -328,13 +326,14 @@ export class QueueService {
       console.log('queue.service.ts: request archive: response:', response);
 
       // prepend endpoint url to download path
-      response.downloadPath = CONVERSION_API_URL + '/' + response.downloadPath;
+      response.downloadPath = `${CONVERSION_API_URL}:${PORT_API}/${response.downloadPath}`;
 
       // dispatch queue completion event
       EmitterService.get(QUEUE_COMPLETE).emit(response);
       request.unsubscribe();
     },
     err => {
+      console.log('queue.service.ts: err:', err);
       // dispatch queue completion err
       EmitterService.get(QUEUE_COMPLETE).emit(err);
       request.unsubscribe();
@@ -431,7 +430,6 @@ export class QueueService {
    * update queue
    */
   updateQueue(index: number, conversionData: IConversionItem = undefined) {
-    console.log('queue.service.ts: updateQueue');
     if(!this.queueActive) {
       return;
     }

@@ -33,7 +33,7 @@ import { BigButtonComponent } from '../button/button';
   animations: [
     trigger('revealState', [
       state('inactive', style({
-        transform: 'translateX(-100%)',
+        transform: 'translate(-100%, -50%)',
         opacity: 0
       })),
       state('active', style({
@@ -67,7 +67,7 @@ export class QueueComponent {
   }
 
   buildQueue(data: IPlaylistItem[]) {
-    const timer = TimerObservable.create(100, 100).take(data.length); // weird signature - i guess the 2nd param is the subsequent duration
+    const timer = TimerObservable.create(60, 60).take(data.length); // weird signature - i guess the 2nd param is the subsequent duration
     this.timerSub = timer.subscribe( (t: number) => {
       this.queueArray = this.queueArray || [];
       this.queueArray.push(data[t]);
@@ -142,9 +142,6 @@ export class QueueComponent {
       console.log('queue.ts: conversion queue error: msg:', msg);
       // TODO - display error
     });
-  }
-
-  ngAfterViewInit() {
   }
 
   ngOnDestroy() {

@@ -24,14 +24,19 @@
         'hidden': !statusMessage,
         'error': !status
       }">
-        <p>{{ statusMessage }}</p>
+        <p>
+          <span [ngClass]="{
+            'alert-icon': true,
+            'icon-attention': !status,
+            'icon-ok': status
+          }"></span>
+          {{ statusMessage }}
+        </p>
       </div>
 
       <input
         [ngClass]="{
-          'reveal': reveal,
-          'error':!captureIdForm.controls['playlistId'].valid &&
-            captureIdForm.controls['playlistId'].touched
+          'reveal': reveal
         }"
         formControlName="playlistId"
         name="playlistId"
@@ -40,8 +45,12 @@
       />
 
       <button
-        [ngClass]="{ 'reveal': reveal }"
-        [attr.disabled]="this.disabled ? 'true' : null"
+        [ngClass]="{
+          'pill': true,
+          'input-cta': true,
+          'reveal': reveal
+        }"
+        [attr.disabled]="captureIdForm.controls['playlistId'].valid ? null : true"
         name="playlistButton"
         type="submit"
         value="Get playlist"

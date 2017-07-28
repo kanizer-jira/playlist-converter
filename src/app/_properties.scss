@@ -15,8 +15,8 @@ $break-mini: 768px;
 $break-small: 480px;
 
 // queue
-$queue-item-title-height: 50px;
-$queue-item-title-padding: 5px;
+$queue-item-title-height: 80px;
+$queue-item-title-padding: 15px;
 $queue-button-diameter: 90px;
 $queue-button-stroke: 4px;
 $queue-button-inner-stroke: 1px;
@@ -25,3 +25,21 @@ $queue-button-inner-stroke: 1px;
 $long-duration: 1.2s;
 $medium-duration: 0.6s;
 $short-duration: 0.3s;
+
+// colors
+$green-cta: #a1d455;
+$grey-cta: #d0d0d0;
+$blue-cta: #2f8cff;
+$blue-input-outline: #6ac8ff;
+$grey-input: lightgrey;
+$slate-typography: slategrey;
+$white-typography: white;
+$lightgreen-alert: honeydew;
+$green-alert: darkseagreen;
+$darkgreen-alert: darkgreen;
+$pink-alert: #fff3f0;
+$red-alert: #bd5a3a;
+$orange-button: #e87b00;
+
+// spacing
+$padding-input: 0.4em;

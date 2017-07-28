@@ -35,11 +35,20 @@ cheapthrills-input {
     }
   }
 
+  .input-cta {
+    background: $green-cta;
+    color: $white-typography;
+
+    &:disabled {
+      background: $grey-input;
+    }
+  }
+
   form {
     width: 100%;
   }
 
-  input,
+  input[type=text],
   button {
     opacity: 0;
     transform: translateY(30px);
@@ -52,12 +61,14 @@ cheapthrills-input {
     }
   }
 
-  input {
-    width: calc(100% - 0.4em);
+  input[type=text] {
+    width: calc(100% - #{$padding-input} * 2);
     margin: 0.6em 0;
-    border: none;
-    outline: 1px solid lightgrey;
     transition-delay: $medium-duration * 0.4;
+
+    &:focused {
+      outline: auto;
+    }
   }
 
   button {

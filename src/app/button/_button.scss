@@ -14,8 +14,10 @@
   }
 
   .big-button {
-    background: #bd5509; // rgba(190, 85, 10, 1)
-    transition: opacity 300 ease-out;
+    background-color: $green-cta;
+    transition: opacity 0.3s ease-out,
+                background-color 0.3s ease-out;
+    @include pointer();
 
     &-disc {
       position: absolute;

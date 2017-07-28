@@ -31,14 +31,14 @@ cheapthrills-queue {
 
     .back-button {
       background: #d0d0d0;
-      color: #666;
+      color: slategray;
       border-radius: 500px;
       padding: 2px 8px;
       font-size: 0.8em;
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(calc(-100% - #{$queue-button-diameter}/2 - 2px), -50%);
+      transform: translate(calc(-100% - #{$queue-button-diameter}/2 - 6px), -50%);
     }
 
   }
@@ -48,13 +48,14 @@ cheapthrills-queue {
   }
 
   .queue-item {
+    font-size: 0.9em;
     height: 0;
     overflow: hidden;
     outline: 0;
     border-bottom: 1px dotted lightgrey;
     visibility: hidden;
     opacity: 0;
-    color: #666;
+    color: $slate-typography;
     transform: translateY(20px);
     transition: opacity .6s ease-in,
                 transform .3s .3s ease-out,
@@ -70,35 +71,44 @@ cheapthrills-queue {
     }
 
     &-contents {
-      height: $queue-item-title-height;
+      position: relative;
       display: flex;
       flex-direction: row;
       align-items: center;
+      height: $queue-item-title-height;
       padding-right: 10px;
-      margin-top: -$queue-item-title-height;
     }
 
     &-title {
       font-size: 1em;
-      font-weight: lighter;
-      padding-left: $queue-item-title-padding;
+      width: 100%;
+    }
+
+    &-arrow {
+      font-size: 2em;
     }
 
     &.active {
-      border: 1px solid #dbecdb;
+      border-top: 2px solid #ffd8bd;
       color: #333;
     }
 
     .progress {
+      position: absolute;
       width: 0%;
-      height: $queue-item-title-height;
-      background-color: #d6efa9;
+      height: 100%;
+      // height: $queue-item-title-height;
+      background-color: #ffe942;
       transition: width .3s ease-out,
                   background-color .3s ease-out;
 
       &.complete {
-        background-color: #e6e6e6;
-        // TODO - add complete icon
+        background-color: #f5f5f5;
+
+        + .queue-item-contents {
+          font-weight: lighter;
+          color: darkgrey;
+        }
       }
     }
 
@@ -107,8 +117,8 @@ cheapthrills-queue {
       padding: $queue-item-title-padding;
     }
 
+    // TODO - not being used!
     .overlay-error {
-      // TODO - add error icon
       position: absolute;
       background-color: #8e0404;
       width: calc(100% - 30px);
@@ -129,8 +139,9 @@ cheapthrills-queue {
     }
 
     .drawer {
+      position: relative;
       cursor: auto;
-      padding: 0 $queue-item-title-padding;
+      padding: 0 $queue-item-title-padding $queue-item-title-padding;
 
       // these can probably inherit from a global style
       form {
@@ -148,7 +159,7 @@ cheapthrills-queue {
       }
 
       .form-group {
-        margin-bottom: $queue-item-title-padding;
+        margin-bottom: 5px;
       }
 
       label {
@@ -162,9 +173,10 @@ cheapthrills-queue {
         }
       }
 
-      input {
+      input[type=text] {
         display: inline-block;
         width: 65%;
+        margin-left: 4px;
         @include viewport(large, medium) {
           display: block;
           margin-right: 5%;

@@ -3,29 +3,29 @@ import {
   Output,
   ChangeDetectorRef,
   EventEmitter
-}                                 from '@angular/core';
+}                                   from '@angular/core';
 import {
   trigger,
   state,
   style,
   animate,
   transition
-}                                 from '@angular/animations';
-import { Observable, Subscription }           from 'rxjs';
-import { TimerObservable }        from 'rxjs/observable/TimerObservable';
-import { BigButtonRingComponent } from './button-ring';
+}                                   from '@angular/animations';
+import { Observable, Subscription } from 'rxjs';
+import { TimerObservable }          from 'rxjs/observable/TimerObservable';
+import { BigButtonRingComponent }   from './button-ring';
 import {
   QueueService,
   QUEUE_ITEM_PROGRESS,
   QUEUE_ITEM_COMPLETE,
   QUEUE_COMPLETE,
   QUEUE_ERROR
-}                                 from '../queue/queue.service';
+}                                   from '../queue/queue.service';
 import {
   IArchiveItem,
   IRingProgressItem
-}                                 from '../shared/types';
-import { EmitterService }         from '../shared/service/emitter.service';
+}                                   from '../shared/types';
+import { EmitterService }           from '../shared/service/emitter.service';
 
 
 @Component({
@@ -35,8 +35,7 @@ import { EmitterService }         from '../shared/service/emitter.service';
 export class BigButtonComponent {
   public label: string = 'start';
   public downloadPath: string;
-  public progressColor: string = 'rgba(190, 85, 10, 1)';
-  // public targetColor: string = 'rgba(255, 96, 0, 1)';
+  public progressColor: string; // 'rgba(161, 212, 85, 1)';
 
   @Output()
   private notifyConvert: EventEmitter<null> = new EventEmitter<null>();
@@ -76,6 +75,7 @@ export class BigButtonComponent {
       console.log('button.ts: conversion queue complete: res:', res);
       // activate download button
       this.label = 'download';
+      this.progressColor = 'rgba(232, 123, 0, 1)';
       this.downloadPath = res.downloadPath;
     });
 
@@ -93,7 +93,9 @@ export class BigButtonComponent {
   }
 
   getUpdatedFillColor(progress: number) {
-    return `rgba(${190 + Math.ceil(progress * 65)}, ${85 + Math.ceil(progress * 10)}, ${10 - Math.ceil(progress * 10)}, 1)`;
+    // 161, 212, 85
+    // 47, 140, 255
+    return `rgba(${161 - Math.ceil(progress * 114)}, ${212 - Math.ceil(progress * 72)}, ${85 + Math.ceil(progress * 170)}, 1)`;
   }
 
   setupProgressRings() {

@@ -4,9 +4,23 @@
 //
 // ----------------------------------------------------------------------
 
-input {
+input[type=text] {
   font-size: 1em;
-  padding: 0.2em;
+  font-weight: lighter;
+  padding: $padding-input;
+  outline: none;
+  border: 1px solid $grey-input;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  transition: box-shadow $medium-duration ease-out;
+
+  &:focus {
+    box-shadow: 0 0 3px $blue-input-outline;
+  }
+
+  &::placeholder {
+    color: lightgrey;
+  }
 
   &.error {
 
@@ -15,28 +29,45 @@ input {
 
 button {
   font-size: 0.8em;
-  padding: 0.4em;
+  @include pointer();
+
+  &:disabled {
+    background: $grey-input;
+    pointer-events: none;
+  }
+
+  &.pill {
+    padding: 6px 10px;
+    border: none;
+    @include pill();
+  }
 }
 
 .form-group {
   .form-status {
     transition: opacity 0.6s;
     padding: 0 1em;
-    border-radius: 10px;
-    border: solid 1px darkseagreen;
-    background: honeydew;
-    color: darkgreen;
+    background: $lightgreen-alert;
+    color: $darkgreen-alert;
     font-weight: 500;
     font-size: .8em;
+    border-radius: 5px;
+    border: solid 1px transparent;
+    border-left-width: 5px;
+    border-left-color: $green-alert;
 
     &.error {
-      background: lavenderblush;
-      border-color: darksalmon;
-      color: indianred;
+      background: $pink-alert;//lavenderblush;
+      color: $red-alert;
+      border-left-color: $red-alert;
+    }
+
+    .alert-icon {
+      padding-right: 5px;
     }
   }
 
-  input {
+  input[type=text] {
     &.error {
       border-color: darksalmon;
     }

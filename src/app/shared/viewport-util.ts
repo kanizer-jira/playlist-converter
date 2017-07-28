@@ -54,7 +54,8 @@ export class ViewportUtil extends EventEmitter<any> {
 
   getViewport() {
     let viewport: string;
-    const viewportWidth: number = document.documentElement.clientWidth || window.innerWidth;
+    // const viewportWidth: number = document.documentElement.clientWidth || window.innerWidth;
+    const viewportWidth: number = window.innerWidth;
     for(let key in VIEWPORTS) {
       if( viewportWidth <= VIEWPORTS[key]) {
         viewport = key;

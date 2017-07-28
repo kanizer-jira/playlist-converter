@@ -12,7 +12,8 @@ import {
   QUEUE_ERROR
 }                          from '../queue/queue.service';
 import {
-  IRingProgressItem
+  IRingProgressItem,
+  IArchiveItem
 }                          from '../shared/types';
 import { EmitterService }  from '../shared/service/emitter.service';
 
@@ -39,6 +40,8 @@ export class BigButtonRingComponent {
   @Input()
   private ringItem: IRingProgressItem;
   private subProgress: Subscription;
+  private subComplete: Subscription;
+  private active: boolean;
 
   constructor(
     public el: ElementRef,
@@ -58,13 +61,10 @@ export class BigButtonRingComponent {
       }
     });
 
-    // EmitterService.get(QUEUE_COMPLETE)
-    // .subscribe( (res: IArchiveItem) => {
-    //   console.log('queue.ts: conversion queue complete: res:', res);
-    //   // activate download button
-    //   this.queueComplete = true;
-    //   this.downloadPath = res.downloadPath;
-    // });
+    this.subComplete = EmitterService.get(QUEUE_COMPLETE)
+      .subscribe( (res: IArchiveItem) => {
+        this.segmentWidth = '2';
+      });
 
     // EmitterService.get(QUEUE_ERROR)
     // .subscribe( (msg: string) => {
@@ -74,7 +74,9 @@ export class BigButtonRingComponent {
   }
 
   detachSubscribers() {
+    this.active = false;
     this.subProgress.unsubscribe();
+    this.subComplete.unsubscribe();
   }
 
   initRingStyles() {
@@ -93,9 +95,7 @@ export class BigButtonRingComponent {
     // alternate color
     // this.segmentColor = "#" + ( ( 1 << 24 ) * Math.random() | 0 ).toString(16);
 
-    // constrained to hue
-    const shadeIncrement: number = 200 - 10 * this.segmentIndex;
-    this.segmentColor = `rgba(255, ${30 + shadeIncrement}, 0, 1)`;
+    this.segmentColor = 'transparent';
 
     // Set up the starting positions
     this.ringEl.style.strokeDasharray = this.ringLen + ' ' + this.ringLen;
@@ -107,6 +107,14 @@ export class BigButtonRingComponent {
   }
 
   updateRingProgress(percent: number) {
+    if(!this.active) {
+      this.active = true;
+
+      // constrained to hue
+      const shadeIncrement: number = 200 - 10 * this.segmentIndex;
+      this.segmentColor = `rgba(255, ${30 + shadeIncrement}, 0, 1)`;
+    }
+
     // convert percent to offset
     this.segmentWidth = Math.max(2, Math.ceil(percent * 4)) + '';
     this.ringEl.style.strokeDashoffset = this.ringLen - ( percent * this.segmentLen ) + '';

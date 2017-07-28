@@ -6,6 +6,8 @@ import { EmitterService }                         from '../shared/service/emitte
 import { IPlaylistItem }                          from '../shared/types';
 import { QueueService }                           from '../queue/queue.service';
 
+const SPOOF_SUBMISSION: boolean = false;
+
 @Component({
   selector: 'cheapthrills-input',
   template: require('./input.html')
@@ -68,20 +70,17 @@ export class InputComponent {
     } );
   }
 
-  onShow() {
-    // TODO - implement reset in case returning from queue view
-    this.disabled = false;
-    this.inactive = false;
-  }
-
   // capture/handle input event
   onSubmit(event: Event) {
     // disable additional clicks
     this.disabled = true;
 
     let playlistId = this.normalizePlaylistId(this.captureIdForm.value.playlistId);
-    // playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // to test for non-existent playlist
-    playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho'; // TODO - remove when ready to test
+
+    if(SPOOF_SUBMISSION) {
+      // playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // to test for non-existent playlist
+      playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho'; // TODO - remove when ready to test
+    }
 
     // update status message
     this.status = true;
@@ -106,7 +105,9 @@ export class InputComponent {
     this.setupObserver();
 
     // auto-init for testing
-    this.onSubmit(new MouseEvent('mock submit'));
+    if(SPOOF_SUBMISSION) {
+      this.onSubmit(new MouseEvent('mock submit'));
+    }
   }
 
   ngAfterViewInit() {

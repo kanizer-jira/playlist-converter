@@ -6,10 +6,14 @@
   <cheapthrills-button-ring
     *ngFor="let ringItem of ringArray"
     [ringItem]="ringItem"
+    [ngClass]="{ 'inactive': !ringItem.active }"
   ></cheapthrills-button-ring>
 
   <a [attr.href]="downloadPath">
-    <div class="big-button-disc big-button pointer"
+    <div [ngClass]="{
+        'big-button-disc': true,
+        'big-button': true
+      }"
       [style.backgroundColor]="progressColor"
       (click)="onClicked($event)"
     >
