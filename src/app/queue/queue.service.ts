@@ -1,8 +1,10 @@
-import * as io            from 'socket.io-client';
-import { Injectable }     from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
-import { EmitterService } from '../shared/service/emitter.service';
+import * as io               from 'socket.io-client';
+import { Injectable }        from '@angular/core';
+import { Http, Response }    from '@angular/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable }        from 'rxjs/Observable';
+import { EmitterService }    from '../shared/service/emitter.service';
+import { SubjectService }    from '../shared/service/subject.service';
 import {
   IPlaylistData,
   IPlaylistItem,
@@ -10,7 +12,7 @@ import {
   IThumbnailItem,
   IArchiveItem,
   IConversionRequestParam
-}                         from '../shared/types';
+}                            from '../shared/types';
 
 // obscure API key
 const _DEV_ = process.env.NODE_ENV === 'dev';
@@ -96,26 +98,31 @@ export class QueueService {
 
   // just getting the human readable playlist name
   getPlaylistTitle(playlistKey: string, playlistId: string) {
+    // const request = this.http.get(`${CONVERSION_API_URL}:${PORT_API}/testing`)
     const request = this.http.get(PLAYLIST_URL + 'playlists?part=snippet', {
       search: `id=${playlistId}&key=${PLAYLIST_API_KEY}`
     })
-    .do((res: Response) => res)
-    .catch((error: any, caught: Observable<Response>) => caught)
-    .subscribe(res => {
-      request.unsubscribe();
-      const results = res.json().pageInfo.totalResults;
-      if(results === 0) {
-        // TODO - how to emit an error correctly
-        EmitterService.get(playlistKey).emit(new Error('This playlist was not found: ' + playlistId));
-        return;
-      }
-      const playlistTitle = res.json().items[0].snippet.localized.title;
-      this.getPlaylistData(playlistKey, playlistId, playlistTitle);
-    },
-    err => {
-      request.unsubscribe();
-      EmitterService.get(playlistKey).emit(err);
-    });
+      .subscribe(res => {
+        request.unsubscribe();
+        const results = res.json().pageInfo.totalResults;
+        if(results === 0) {
+          // EventEmitter !== Objservable
+          // Using rxJs ReplaySubject for proper Observable behavior
+          return SubjectService
+            .get(playlistKey)
+            .error(new Error('This playlist was not found: ' + playlistId));
+        }
+        const playlistTitle = res.json().items[0].snippet.localized.title;
+        this.getPlaylistData(playlistKey, playlistId, playlistTitle);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(`queue.service: Backend returned code ${err.status}, status was: ${err.statusText}`);
+        // console.log(`body was: ${(<any> err)._body}`);
+
+        request.unsubscribe();
+        SubjectService.get(playlistKey)
+          .error(new Error(`Playlist request for ${playlistId} error.`));
+      });
   }
 
   // handle request to Youtube Playlist API
@@ -154,12 +161,12 @@ export class QueueService {
       }
 
       // emit 'model ready' type event
-      EmitterService.get(playlistKey).emit(this.consolidatedData.items);
+      SubjectService.get(playlistKey).next(this.consolidatedData.items);
     },
     err => {
       console.log('queue.service.ts: error');
       request.unsubscribe();
-      EmitterService.get(playlistKey).emit(new Error(err));
+      SubjectService.get(playlistKey).error(err);
     });
   }
 

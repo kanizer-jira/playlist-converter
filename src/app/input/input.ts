@@ -1,12 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Response }                               from '@angular/http';
 import { FormBuilder, Validators }                from '@angular/forms';
-import { Observable }                             from 'rxjs/Observable';
+// import { Subscription }                           from 'rxjs';
+// import { Observable }                             from 'rxjs/Observable';
 import { EmitterService }                         from '../shared/service/emitter.service';
+import { SubjectService }                         from '../shared/service/subject.service';
 import { IPlaylistItem }                          from '../shared/types';
 import { QueueService }                           from '../queue/queue.service';
 
-const SPOOF_SUBMISSION: boolean = false;
+const SPOOF_SUBMISSION: boolean = true;
 
 @Component({
   selector: 'cheapthrills-input',
@@ -33,41 +35,39 @@ export class InputComponent {
 
   @Output()
   private notifySearchOutro: EventEmitter<boolean> = new EventEmitter<boolean>(); // update parent component styles
+  // private _subPlaylistRequest : Subscription;
 
   constructor(public qs: QueueService, public fb: FormBuilder) {
   }
 
   setupObserver() {
-    EmitterService.get(this.playlistKey)
-    .subscribe( (playlistData: IPlaylistItem[] | any) => {
-      // TODO - fix this hack for error handling
-      if(playlistData.name === 'Error') {
+    // EmitterService.get(this.playlistKey)
+    SubjectService.get(this.playlistKey)
+      .subscribe( (playlistData: IPlaylistItem[] | any) => {
+        this.status = true;
+        this.statusMessage = 'Cool, found your playlist.';
+
+        // outro animation after short delay to register status message
+        let to = setTimeout(() => {
+          this.inactive = true;
+          this.notifySearchOutro.emit(true); // dispatch state to parent
+          clearTimeout(to);
+
+          // dispatch animation completion event with playlistData to initiate queue rendering
+          EmitterService.get(this.playlistKey + '-ready')
+          .emit(playlistData);
+
+          // close this subject
+          SubjectService.get(this.playlistKey).complete();
+        }, 500);
+      },
+      (err: Error) => {
         this.disabled = false;
         this.status = false;
-        this.statusMessage = playlistData.message;
+        this.statusMessage = err.message;
         return;
-      }
-
-      this.status = true;
-      this.statusMessage = 'Cool, found your playlist.';
-
-      // outro animation after short delay to register status message
-      let to = setTimeout(() => {
-        this.inactive = true;
-        this.notifySearchOutro.emit(true); // dispatch state to parent
-        clearTimeout(to);
-
-        // dispatch animation completion event with playlistData to initiate queue rendering
-        EmitterService.get(this.playlistKey + '-ready')
-        .emit(playlistData);
-      }, 500);
-    },
-    (err: any) => {
-      // TODO - figure out how to dispatch an error from queue.service that fires here
-      this.disabled = false;
-      this.status = false;
-      this.statusMessage = 'Fake playlist alert - please try again.';
-    } );
+      },
+      () => { console.log('input.ts: SubjectService completed'); });
   }
 
   // capture/handle input event
@@ -78,8 +78,7 @@ export class InputComponent {
     let playlistId = this.normalizePlaylistId(this.captureIdForm.value.playlistId);
 
     if(SPOOF_SUBMISSION) {
-      // playlistId = 'PLV2v9WNyDEGDjuCwyZwlI8NzyvYZuc3y7'; // to test for non-existent playlist
-      playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho'; // TODO - remove when ready to test
+      playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho';
     }
 
     // update status message

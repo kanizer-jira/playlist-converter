@@ -140,7 +140,7 @@ export class QueueComponent {
     EmitterService.get(QUEUE_ERROR)
     .subscribe( (msg: string) => {
       console.log('queue.ts: conversion queue error: msg:', msg);
-      // TODO - display error
+      // TODO - display error as a giant overlay
     });
   }
 

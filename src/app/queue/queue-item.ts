@@ -36,7 +36,6 @@ import { ViewportUtil }    from '../shared/viewport-util';
 @Component({
   selector: 'cheapthrills-queue-item',
   template: require('./queue-item.html'),
-  // TODO - standardize these
   animations: [
     trigger('drawerState', [
       state('collapsed', style({

@@ -77,7 +77,8 @@ module.exports = {
       template: conf.path.src('index.html')
     }),
     new webpack.ContextReplacementPlugin(
-      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+      // /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+      /angular(\\|\/)core(\\|\/)@angular/,
       conf.paths.src
     ),
     new webpack.DefinePlugin({

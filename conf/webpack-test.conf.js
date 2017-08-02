@@ -31,9 +31,18 @@ module.exports = {
     ]
   },
   plugins: [
+    // new webpack.ContextReplacementPlugin(
+    //   /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+    //   conf.paths.src
+    // ),
+
+    // fix them transpile errors
     new webpack.ContextReplacementPlugin(
-      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-      conf.paths.src
+      /angular(\\|\/)core(\\|\/)@angular/,
+      conf.paths.src,
+      {
+        // your Angular Async Route paths relative to this root directory
+      }
     ),
     new webpack.LoaderOptionsPlugin({
       options: {

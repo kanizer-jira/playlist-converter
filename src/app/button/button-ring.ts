@@ -23,7 +23,7 @@ import { EmitterService }  from '../shared/service/emitter.service';
   template: require('./button-ring.html')
 })
 export class BigButtonRingComponent {
-  public ringEl: any; // elem
+  public ringEl: any;
   public ringLen: number;
 
   // sync with styles
@@ -50,27 +50,22 @@ export class BigButtonRingComponent {
 
   attachSubscribers() {
     this.subProgress = EmitterService
-    .get(QUEUE_ITEM_PROGRESS)
-    .subscribe( (progressData: any) => {
+      .get(QUEUE_ITEM_PROGRESS)
+      .subscribe( (progressData: any) => {
 
-      // calculate relative lengths of songs / total percentage
-      var len: number = this.queueService.consolidatedData.items.length;
+        // calculate relative lengths of songs / total percentage
+        var len: number = this.queueService.consolidatedData.items.length;
 
-      if(progressData.ind === this.segmentIndex) {
-        this.updateRingProgress( progressData.obj.percentage );
-      }
-    });
+        if(progressData.ind === this.segmentIndex) {
+          this.updateRingProgress( progressData.obj.percentage );
+        }
+      });
 
     this.subComplete = EmitterService.get(QUEUE_COMPLETE)
       .subscribe( (res: IArchiveItem) => {
-        this.segmentWidth = '2';
-      });
+        this.segmentWidth = '1';
 
-    // EmitterService.get(QUEUE_ERROR)
-    // .subscribe( (msg: string) => {
-    //   console.log('queue.ts: conversion queue error: msg:', msg);
-    //   // TODO - display error
-    // });
+      });
   }
 
   detachSubscribers() {
@@ -94,7 +89,6 @@ export class BigButtonRingComponent {
 
     // alternate color
     // this.segmentColor = "#" + ( ( 1 << 24 ) * Math.random() | 0 ).toString(16);
-
     this.segmentColor = 'transparent';
 
     // Set up the starting positions
@@ -129,7 +123,7 @@ export class BigButtonRingComponent {
 
   ngOnInit() {
     this.attachSubscribers();
-    this.initRingStyles(); // need to establish init state?
+    this.initRingStyles(); // establish init state
   }
 
   ngAfterViewInit() {

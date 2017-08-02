@@ -82,7 +82,8 @@ export class BigButtonComponent {
     this.subError = EmitterService.get(QUEUE_ERROR)
     .subscribe( (msg: string) => {
       console.log('button.ts: conversion queue error: msg:', msg);
-      // TODO - display error
+      this.label = 'error';
+      this.progressColor = 'red';
     });
   }
 

@@ -26,4 +26,5 @@ export class EmitterService {
     }
     return this._emitters[ID];
   }
+
 }
