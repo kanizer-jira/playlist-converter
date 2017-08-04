@@ -14,22 +14,17 @@ import {
   IConversionRequestParam
 }                            from '../shared/types';
 
-// obscure API key
-const _DEV_ = process.env.NODE_ENV === 'dev';
 const SPOOF_COMPLETION: boolean = false;
-
 const CONVERSION_API_URL: string = 'http://www.localhost';
 const PORT_API: number = 3800;
 const PORT_SOCKET: number = 3838;
-const PLAYLIST_URL = 'https://www.googleapis.com/youtube/v3/';
-const YOUTUBE_URL: string = 'http://www.youtube.com/watch?v=';
 
 // socket.io emitter keys - shared between conversion service and client subscribers
 const CONVERSION_PROGRESS: string = 'CONVERSION_PROGRESS';
 
 // socket.io instance
 const socketToken: string = Math.random().toString(36).substring(7); // 'unique' token
-const socket = io(`${CONVERSION_API_URL}:${PORT_SOCKET}?token=${socketToken}`);
+const socket = io(`${CONVERSION_API_URL}:${PORT_SOCKET}?playlist=${socketToken}`);
 
 // client side emitter keys - dispatched w/in client scope
 export const QUEUE_ITEM_ERROR: string = 'QUEUE_ITEM_ERROR';
@@ -39,11 +34,6 @@ export const QUEUE_ITEM_COMPLETE: string = 'QUEUE_ITEM_COMPLETE';
 export const QUEUE_ITEM_CANCEL: string = 'QUEUE_ITEM_CANCEL';
 export const QUEUE_ERROR: string = 'QUEUE_ERROR';
 export const QUEUE_COMPLETE: string = 'QUEUE_COMPLETE';
-
-// TODO - move playlist api requests to service request
-let PLAYLIST_API_KEY : string = _DEV_
-? require('../../_constants').YOUTUBE_API_KEY // tslint:disable-line:no-var-requires
-: 'get from env';
 
 
 @Injectable()
@@ -96,9 +86,8 @@ export class QueueService {
 
   // just getting the human readable playlist name
   getPlaylistTitle(playlistKey: string, playlistId: string) {
-    // const request = this.http.get(`${CONVERSION_API_URL}:${PORT_API}/testing`)
-    const request = this.http.get(PLAYLIST_URL + 'playlists?part=snippet', {
-      search: `id=${playlistId}&key=${PLAYLIST_API_KEY}`
+    const request = this.http.post(`${CONVERSION_API_URL}:${PORT_API}/playlist`, {
+      search: `playlistId=${playlistId}`
     })
       .subscribe(res => {
         request.unsubscribe();
@@ -176,9 +165,9 @@ export class QueueService {
     const pagination = pageToken ? `&pageToken=${pageToken}` : '';
 
     return this.http
-      .get(PLAYLIST_URL + 'playlistItems?part=snippet', {
+      .post(`${CONVERSION_API_URL}:${PORT_API}/playlistItems`, {
         // arbitrary maxLength to force the need for pagination
-        search: `playlistId=${playlistId}&maxLength=10&key=${PLAYLIST_API_KEY}${pagination}`
+        search: `playlistId=${playlistId}${pagination}`
       })
       // ...and calling .json() on the response to return data
       .map((res: Response) => {
