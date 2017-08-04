@@ -18,14 +18,7 @@ import {
 const _DEV_ = process.env.NODE_ENV === 'dev';
 const SPOOF_COMPLETION: boolean = false;
 
-// TODO - define env vars for api key and prod endpoint
-
-const PLAYLIST_API_KEY = _DEV_
-? require('../../_constants').YOUTUBE_API_KEY // tslint:disable-line:no-var-requires
-: 'get from env';
-const CONVERSION_API_URL: string = _DEV_
-? 'http://www.localhost'
-: 'add prod endpoint';
+const CONVERSION_API_URL: string = 'http://www.localhost';
 const PORT_API: number = 3800;
 const PORT_SOCKET: number = 3838;
 const PLAYLIST_URL = 'https://www.googleapis.com/youtube/v3/';
@@ -46,6 +39,11 @@ export const QUEUE_ITEM_COMPLETE: string = 'QUEUE_ITEM_COMPLETE';
 export const QUEUE_ITEM_CANCEL: string = 'QUEUE_ITEM_CANCEL';
 export const QUEUE_ERROR: string = 'QUEUE_ERROR';
 export const QUEUE_COMPLETE: string = 'QUEUE_COMPLETE';
+
+// TODO - move playlist api requests to service request
+let PLAYLIST_API_KEY : string = _DEV_
+? require('../../_constants').YOUTUBE_API_KEY // tslint:disable-line:no-var-requires
+: 'get from env';
 
 
 @Injectable()
@@ -350,7 +348,6 @@ export class QueueService {
 
   // validate and convert end time to duration
   validateTimestamp(start: string = '0', end: string): any {
-    // TODO - make the form enforce numbers only and split into hh mm ss
     start = start === '' ? '0' : start;
     end = end === '' ? undefined : end;
 

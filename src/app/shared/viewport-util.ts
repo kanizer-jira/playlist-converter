@@ -36,7 +36,7 @@ export class ViewportUtil extends EventEmitter<any> {
     window.addEventListener('orientationchange', this.updateViewport.bind(this));
 
     // setup retina listeners
-    this.retinaQuery = window.matchMedia(RETINA_QUERY); // TODO - polyfill `matchMedia`
+    this.retinaQuery = window.matchMedia(RETINA_QUERY);
     this.updateRetina();
     if(this.retinaQuery.addListener) {
       this.retinaQuery.addListener(this.updateRetina);

@@ -12,8 +12,14 @@ import {
   style,
   animate,
   transition
-} from '@angular/animations';
-
+}                          from '@angular/animations';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ValidatorFn,
+  AbstractControl
+}                          from '@angular/forms';
 import { Subscription }    from 'rxjs';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import {
@@ -72,27 +78,42 @@ export class QueueItemComponent {
   private expandHeight      : number;
   private displayHeight     : number;
   private currentBreakpoint : string;
-  private drawerElem        : any; // TODO - type to correct DOM Element type
-  private drawerState: string = 'collapsed';
+  private drawerElem        : any;
+  private drawerState       : string = 'collapsed';
   private viewportUtil      : ViewportUtil;
+  private formParams        : FormGroup;
 
   constructor(
     public zone: NgZone,
     public changeRef: ChangeDetectorRef,
     private queueService: QueueService,
     public el: ElementRef,
-    public renderer: Renderer
+    public renderer: Renderer,
+    public fb: FormBuilder
   ) {
-    // // examples of element reference
-    // // el.nativeElement.style.backgroundColor = 'yellow';
+    // examples of element reference
+    // el.nativeElement.style.backgroundColor = 'yellow';
     // renderer.setElementStyle(el.nativeElement, 'backgroundColor', 'yellow');
 
-    // TODO - move into parent
+    this.setupForm();
+
     this.viewportUtil = ViewportUtil.gi();
     this.viewportUtil.subscribe( (type: any) => {
-      // console.log('queue-item.ts: viewport event: type:', type);
       this.onBreakpointChange(type);
     });
+  }
+
+  setupForm() {
+    this.formParams = this.fb.group({
+      startTime: ['', this.validateNumber()],
+      endTime: ['', this.validateNumber()]
+    });
+  }
+
+  validateNumber(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      return /([0-9:])+/.test(control.value) ? control.value : null;
+    };
   }
 
   attachSubscribers() {
@@ -158,9 +179,14 @@ export class QueueItemComponent {
     this.subCancel.unsubscribe();
   }
 
-  updateOptions(property: any) {
+  updateOptions(property: any, e: KeyboardEvent = null) {
+    // ghetto enforce numbers
+    if(e) {
+      const control: any = <any>(<Element> e.srcElement);
+      control.value = control.value.replace(/([^0-9:])+/, '');
+    }
+
     this.options = Object.assign({}, this.options, property);
-    // console.log('queue-item.ts: updateOptions: property:', property, this.options);
   }
 
   // getTransitionDelay(): number {
@@ -192,7 +218,6 @@ export class QueueItemComponent {
     // TODO - toggle checkbox
   }
 
-  // TODO - externalize/generalize
   onBreakpointChange(e: any) {
     this.currentBreakpoint = e.viewport || this.currentBreakpoint; // account for retina object
 

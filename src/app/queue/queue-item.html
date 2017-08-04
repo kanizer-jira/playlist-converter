@@ -27,7 +27,9 @@
   </div>
 
   <div class="drawer">
-    <form name="{{ 'options-' + queueItem.videoId }}">
+    <form name="{{ 'options-' + queueItem.videoId }}"
+      [formGroup]="formParams"
+    >
       <div class="column form-group large-3 medium-6 small-12">
         <label for="title">Title:</label>
         <input
@@ -45,15 +47,17 @@
       <div class="column form-group large-3 medium-6 small-12">
         <label for="startTime">Start Time:</label>
         <input
+          formControlName="startTime"
           #startTime
-          (keyup)="updateOptions({ startTime: startTime.value })"
+          (keyup)="updateOptions({ startTime: startTime.value }, $event)"
           type="text" name="startTime" placeholder="eg. 0, 44:01, 1:44:5, etc" />
       </div>
       <div class="column form-group large-3 medium-6 small-12">
         <label for="endTime">End Time:</label>
         <input
+          formControlName="endTime"
           #endTime
-          (keyup)="updateOptions({ endTime: endTime.value })"
+          (keyup)="updateOptions({ endTime: endTime.value }, $event)"
           type="text" name="endTime" placeholder="eg. 0, 44:01, 1:44:5, etc" />
       </div>
     </form>

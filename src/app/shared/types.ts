@@ -1,5 +1,3 @@
-// TODO - cleanup all the redundancy in these types
-
 export interface IPlaylistData {
   playlistId: string;
   playlistTitle: string;
@@ -15,17 +13,11 @@ export interface IPlaylistItem {
   position: number;
   title: string;
   description: string;
-  thumbnails: any; // TODO - convert to IThumbnail
+  thumbnails: any;
   startTime?: string;
   endTime?: string;
   songTitle?: string;
   artist?: string;
-}
-
-export interface IThumbnailItem {
-  url: string;
-  width: number;
-  height: number;
 }
 
 export interface IConversionItem {
@@ -34,18 +26,7 @@ export interface IConversionItem {
   title: string;
   artist: string;
   length: number;
-  file: string; // TODO - convert to URL type
-}
-
-export interface IRingProgressItem {
-  index: number;
-  title: string;
-}
-
-// bound to endpoint data schema
-export interface IArchiveItem {
-  message: string;
-  downloadPath: string;
+  file: string;
 }
 
 // bound to endpoint data schema
@@ -58,4 +39,21 @@ export interface IConversionRequestParam {
   duration?: number;
   songTitle?: string;
   artist?: string;
+}
+
+export interface IThumbnailItem {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface IRingProgressItem {
+  index: number;
+  title: string;
+}
+
+// bound to endpoint data schema
+export interface IArchiveItem {
+  message: string;
+  downloadPath: string;
 }
