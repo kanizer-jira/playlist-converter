@@ -8,7 +8,7 @@ import { SubjectService }                         from '../shared/service/subjec
 import { IPlaylistItem }                          from '../shared/types';
 import { QueueService }                           from '../queue/queue.service';
 
-const SPOOF_SUBMISSION: boolean = true;
+const SPOOF_SUBMISSION: boolean = false;
 
 @Component({
   selector: 'cheapthrills-input',
@@ -57,8 +57,8 @@ export class InputComponent {
           EmitterService.get(this.playlistKey + '-ready')
           .emit(playlistData);
 
-          // close this subject
-          SubjectService.get(this.playlistKey).complete();
+          // // close this subject
+          // SubjectService.get(this.playlistKey).complete();
         }, 500);
       },
       (err: Error) => {
@@ -74,9 +74,7 @@ export class InputComponent {
   onSubmit(event: Event) {
     // disable additional clicks
     this.disabled = true;
-
     let playlistId = this.normalizePlaylistId(this.captureIdForm.value.playlistId);
-
     if(SPOOF_SUBMISSION) {
       playlistId = 'PLV2v9WNyDEGB80tDATwShnqI_P9-biTho';
     }
@@ -90,7 +88,7 @@ export class InputComponent {
   }
 
   normalizePlaylistId(s: string): string {
-    return (s.includes('/') || s.includes('youtube')) ? s.split('playlist?list=').pop() : s;
+    return (s.includes('/') || s.includes('youtube')) ? s.split('list=').pop() : s;
   }
 
 

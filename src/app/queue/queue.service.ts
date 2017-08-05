@@ -24,7 +24,7 @@ const CONVERSION_PROGRESS: string = 'CONVERSION_PROGRESS';
 
 // socket.io instance
 const socketToken: string = Math.random().toString(36).substring(7); // 'unique' token
-const socket = io(`${CONVERSION_API_URL}:${PORT_SOCKET}?playlist=${socketToken}`);
+const socket = io(`${CONVERSION_API_URL}:${PORT_SOCKET}?token=${socketToken}`);
 
 // client side emitter keys - dispatched w/in client scope
 export const QUEUE_ITEM_ERROR: string = 'QUEUE_ITEM_ERROR';
@@ -55,6 +55,7 @@ export class QueueService {
     socket.on(CONVERSION_PROGRESS, obj => {
       // delegate progress socket event
       const ind = this.videoKeys.indexOf(obj.videoId);
+      // console.log('queue.service.ts: progress: videoId:', obj);
       if(ind > -1) {
         // console.log('queue.service.ts: obj:', obj);
         EmitterService.get(QUEUE_ITEM_PROGRESS)
@@ -87,7 +88,7 @@ export class QueueService {
   // just getting the human readable playlist name
   getPlaylistTitle(playlistKey: string, playlistId: string) {
     const request = this.http.post(`${CONVERSION_API_URL}:${PORT_API}/playlist`, {
-      search: `playlistId=${playlistId}`
+      playlistId
     })
       .subscribe(res => {
         request.unsubscribe();
@@ -148,6 +149,7 @@ export class QueueService {
       }
 
       // emit 'model ready' type event
+      // - input is listening
       SubjectService.get(playlistKey).next(this.consolidatedData.items);
     },
     err => {
@@ -162,16 +164,17 @@ export class QueueService {
   //   array because it's like a sequence of responses
   // - <> brackets mean List/Array contents type
   requestPlaylistItems(playlistId: string, pageToken: string = undefined): Observable<IPlaylistData> {
-    const pagination = pageToken ? `&pageToken=${pageToken}` : '';
-
+    console.log('queue.service.ts: playlistId:', playlistId);
     return this.http
       .post(`${CONVERSION_API_URL}:${PORT_API}/playlistItems`, {
-        // arbitrary maxLength to force the need for pagination
-        search: `playlistId=${playlistId}${pagination}`
+        playlistId,
+        pageToken
       })
       // ...and calling .json() on the response to return data
       .map((res: Response) => {
         // returns http response; headers, status, body, etc...
+
+        console.log('queue.service.ts: res.json():', res.json());
         return res.json();
       })
       // ...errors if any
@@ -284,6 +287,7 @@ export class QueueService {
         options: conversionRequestParams
       })
       .map((res: Response) => {
+        // this oddly fires before final progress event
         return res.json();
       })
       .catch((error: any) => {
@@ -332,6 +336,8 @@ export class QueueService {
       EmitterService.get(QUEUE_COMPLETE).emit(err);
       request.unsubscribe();
     });
+// https://goo.gl/video
+
 
   }
 
@@ -341,14 +347,12 @@ export class QueueService {
     end = end === '' ? undefined : end;
 
     // validate timestamp for HH:MM:SS (no ms)
-    // https://goo.gl/ZGoWXS
     const re = new RegExp(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)/);
     const valid = end ? re.test(start) && re.test(end) : re.test(start);
 
     if(!valid) {
       return valid;
     }
-
     // calculate new duration based on trimming points
     return end ? this.calculateDuration(start, end) : true;
   }
@@ -435,7 +439,8 @@ export class QueueService {
 
     if(this.queueIndex >= this.consolidatedData.items.length) {
       this.requestPlaylistArchive();
-      this.resetQueue();
+      // weird race condition and some weird socket dispatch latency
+      setTimeout(this.resetQueue.bind(this), 500);
       return;
     }
 

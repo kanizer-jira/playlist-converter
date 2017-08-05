@@ -179,13 +179,13 @@ export class QueueItemComponent {
     this.subCancel.unsubscribe();
   }
 
-  updateOptions(property: any, e: KeyboardEvent = null) {
-    // ghetto enforce numbers
-    if(e) {
-      const control: any = <any>(<Element> e.srcElement);
-      control.value = control.value.replace(/([^0-9:])+/, '');
-    }
+  // ghetto enforce numbers only display in input field
+  updateInputContents(e: KeyboardEvent) {
+    const control: any = <any>(<Element> e.srcElement);
+    control.value = control.value.replace(/([^0-9:])+/, '');
+  }
 
+  updateOptions(property: any) {
     this.options = Object.assign({}, this.options, property);
   }
 
