@@ -120,11 +120,12 @@ cheapthrills-queue {
     // TODO - use for not-yet-implemented overlay
     .overlay-error {
       position: absolute;
-      background-color: #8e0404;
+      background-color: #ef0909;
       width: calc(100% - 30px);
       height: calc(100% - 20px);
       margin: 0 5px 5px;
       padding: 5px 10px;
+      border-radius: 4px;
       color: white;
       display: flex;
       align-items: center;

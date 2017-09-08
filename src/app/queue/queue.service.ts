@@ -173,8 +173,6 @@ export class QueueService {
       // ...and calling .json() on the response to return data
       .map((res: Response) => {
         // returns http response; headers, status, body, etc...
-
-        console.log('queue.service.ts: res.json():', res.json());
         return res.json();
       })
       // ...errors if any
@@ -270,12 +268,15 @@ export class QueueService {
     err => {
       console.log('queue.service: getConversionData: err:', err);
 
+      // json error message; JSON.parse(_body).error OR message?
       // TODO - test validity of this index value
-      EmitterService.get(QUEUE_ITEM_ERROR + '_' + index).emit(err);
+
+      // error gets passed to updateQueue method instead
+      // EmitterService.get(QUEUE_ITEM_ERROR + '_' + index).emit(JSON.parse(err._body).error);
 
       // interrupt subscription if queue is paused
       this.conversionRequest.unsubscribe();
-      this.updateQueue(index);
+      this.updateQueue(index, new Error(JSON.parse(err._body).error));
     });
   }
 
@@ -336,8 +337,8 @@ export class QueueService {
       EmitterService.get(QUEUE_COMPLETE).emit(err);
       request.unsubscribe();
     });
-// https://goo.gl/video
 
+    // https://goo.gl/video
 
   }
 
@@ -383,7 +384,7 @@ export class QueueService {
       }
     });
 
-    return hrs * 360 + mins * 60 + secs;
+    return hrs * 3600 + mins * 60 + secs;
   }
 
 
@@ -426,16 +427,14 @@ export class QueueService {
   /**
    * update queue
    */
-  updateQueue(index: number, conversionData: IConversionItem = undefined) {
+  updateQueue(index: number, conversionData: IConversionItem|Error) {
     if(!this.queueActive) {
       return;
     }
     this.queueIndex++;
 
     // emitter key is bound to queue-item instance/index
-    EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(
-      conversionData || new Error('This video fails to convert.')
-    );
+    EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(conversionData);
 
     if(this.queueIndex >= this.consolidatedData.items.length) {
       this.requestPlaylistArchive();

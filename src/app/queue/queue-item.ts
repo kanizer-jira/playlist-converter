@@ -83,6 +83,7 @@ export class QueueItemComponent {
   private viewportUtil      : ViewportUtil;
   private formParams        : FormGroup;
 
+
   constructor(
     public zone: NgZone,
     public changeRef: ChangeDetectorRef,
@@ -121,10 +122,9 @@ export class QueueItemComponent {
     // hook up to progress and completion events
     this.subError = EmitterService
     .get(QUEUE_ITEM_ERROR + '_' + this.queueItem.position)
-    .subscribe( (error: any) => {
-      console.log('queue-item.ts: conversion error: error:', error);
+    .subscribe( (errorMsg: string) => {
       // display conversion error
-      this.errorMsg = error.message;
+      this.errorMsg = errorMsg;
     });
 
     this.subInit = EmitterService
@@ -148,15 +148,17 @@ export class QueueItemComponent {
 
     this.subComplete = EmitterService
     .get(QUEUE_ITEM_COMPLETE + '_' + this.queueItem.position)
-    .subscribe( (conversionData: IConversionItem) => {
-      // console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
-      this.errorMsg = '';
-      this.conversionData = conversionData;
-      this.conversionComplete = true;
-      this.active = false;
-      // this.conversionData.link = decodeURIComponent(this.conversionData.link);
-
-      this.changeRef.detectChanges();
+    .subscribe( (conversionData: IConversionItem|Error) => {
+      console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
+      if(conversionData instanceof Error) {
+        this.errorMsg = conversionData.message;
+      } else {
+        this.errorMsg = '';
+        this.conversionData = conversionData;
+        this.conversionComplete = true;
+        this.active = false;
+        // this.conversionData.link = decodeURIComponent(this.conversionData.link);
+      }
     });
 
     this.subCancel = EmitterService
@@ -204,7 +206,7 @@ export class QueueItemComponent {
     return this.drawerElem.offsetHeight;
   }
 
-  onClickExpandToggle(e: MouseEvent) {
+  toggleDrawer() {
     // toggle property to expand/collapse with selector
     this.expand = !this.expand;
     this.displayHeight = this.expand
@@ -212,6 +214,17 @@ export class QueueItemComponent {
     : this.collapseHeight;
 
     this.drawerState = this.expand ? 'expanded' : 'collapsed';
+  }
+
+  onClickExpandToggle(e: MouseEvent) {
+    this.toggleDrawer();
+  }
+
+  onDrawerFocus(e: FocusEvent) {
+    // toggle property to expand/collapse with selector
+    if(this.drawerState === 'collapsed') {
+      this.toggleDrawer();
+    }
   }
 
   onThumbnailClick(e: MouseEvent) {
