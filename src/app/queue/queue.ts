@@ -96,7 +96,15 @@ export class QueueComponent {
   }
 
   onConvertClicked(e: Event) {
-    const optionsArray = this.viewChildren.toArray().map( item => item.options );
+    const optionsArray = this.viewChildren
+      .toArray()
+      .map( (item: QueueItemComponent) => Object.keys(item.formParams.controls)
+        .reduce( (agg: any, key: string) => {
+          agg[key] = item.formParams.get(key).value;
+          return agg;
+        }, {})
+      );
+
     this.qs.updateOptions(optionsArray); // update model with optional field data
     this.qs.startQueue();
   }

@@ -437,9 +437,12 @@ export class QueueService {
     EmitterService.get(`${QUEUE_ITEM_COMPLETE}_${index}`).emit(conversionData);
 
     if(this.queueIndex >= this.consolidatedData.items.length) {
-      this.requestPlaylistArchive();
       // weird race condition and some weird socket dispatch latency
-      setTimeout(this.resetQueue.bind(this), 500);
+      setTimeout(() => {
+        this.requestPlaylistArchive();
+        this.resetQueue.bind(this);
+      }, 500);
+
       return;
     }
 

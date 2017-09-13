@@ -65,6 +65,7 @@ export class QueueItemComponent {
   public conversionComplete : boolean;
   public errorMsg           : string = '';
   public options            : any = {};
+  public formParams         : FormGroup;
   private subError          : Subscription;
   private subInit           : Subscription;
   private subProgress       : Subscription;
@@ -81,8 +82,8 @@ export class QueueItemComponent {
   private drawerElem        : any;
   private drawerState       : string = 'collapsed';
   private viewportUtil      : ViewportUtil;
-  private formParams        : FormGroup;
 
+  private NUMBER_PATTERN    : RegExp = /^[\d:]*$/;
 
   constructor(
     public zone: NgZone,
@@ -106,14 +107,24 @@ export class QueueItemComponent {
 
   setupForm() {
     this.formParams = this.fb.group({
+      songTitle: '',
+      artist: '',
       startTime: ['', this.validateNumber()],
       endTime: ['', this.validateNumber()]
     });
+
+    const test = this.formParams.get('startTime')
+      .valueChanges
+      .forEach( (value: string) => {
+        console.log('queue-item.ts: value:', value);
+      });
   }
 
+  // redundant since handling keypress events
   validateNumber(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
-      return /([0-9:])+/.test(control.value) ? control.value : null;
+      const test = this.NUMBER_PATTERN.test(control.value) ? null : control.value;
+      return test;
     };
   }
 
@@ -149,7 +160,7 @@ export class QueueItemComponent {
     this.subComplete = EmitterService
     .get(QUEUE_ITEM_COMPLETE + '_' + this.queueItem.position)
     .subscribe( (conversionData: IConversionItem|Error) => {
-      console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
+      // console.log('queue-item.ts: conversion complete: conversionData:', conversionData);
       if(conversionData instanceof Error) {
         this.errorMsg = conversionData.message;
       } else {
@@ -181,15 +192,19 @@ export class QueueItemComponent {
     this.subCancel.unsubscribe();
   }
 
-  // ghetto enforce numbers only display in input field
+  // ghetto enforce numbers only display in input field.
   updateInputContents(e: KeyboardEvent) {
-    const control: any = <any>(<Element> e.srcElement);
-    control.value = control.value.replace(/([^0-9:])+/, '');
+    const control = (e.currentTarget as any);
+    if (!this.NUMBER_PATTERN.test(control.value)) {
+      // invalid character, prevent input
+      control.value = control.value.substr(0, control.value.length - 1);
+      e.preventDefault();
+    }
   }
 
-  updateOptions(property: any) {
-    this.options = Object.assign({}, this.options, property);
-  }
+  // updateOptions(property: any) {
+  //   this.options = Object.assign({}, this.options, property);
+  // }
 
   // getTransitionDelay(): number {
   //   const ind: number = this.queueItem.position;
