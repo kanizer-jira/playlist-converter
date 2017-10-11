@@ -7,6 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FailPlugin = require('webpack-fail-plugin');
 const autoprefixer = require('autoprefixer');
 
+const PROD = process.env.NODE_ENV === 'production';
+
 module.exports = {
   module: {
     rules: [
@@ -69,6 +71,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(!PROD),
+      'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     FailPlugin,

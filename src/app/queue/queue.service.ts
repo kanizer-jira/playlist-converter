@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable }        from 'rxjs/Observable';
 import { EmitterService }    from '../shared/service/emitter.service';
 import { SubjectService }    from '../shared/service/subject.service';
+import { ConverterService }  from '../shared/service/converter.service';
 import {
   IPlaylistData,
   IPlaylistItem,
@@ -13,6 +14,18 @@ import {
   IArchiveItem,
   IConversionRequestParam
 }                            from '../shared/types';
+
+const PLAYLIST_API_KEY = __DEV__
+? require('../../_constants').YOUTUBE_API_KEY
+: process.env.YOUTUBE_API_KEY;
+
+const PLAYLIST_URL = 'https://www.googleapis.com/youtube/v3';
+
+
+
+
+
+
 
 const SPOOF_COMPLETION: boolean = false;
 const CONVERSION_API_URL: string = 'http://www.localhost';
@@ -42,36 +55,39 @@ export class QueueService {
   public videoKeys: any[] = []; // bind videoId to queue index
 
   constructor(public http: Http) {
-    this.configureSocket();
+    // TODO - remove socket logic. no need to communicate through http
+    // this.configureSocket();
   }
 
-  configureSocket() {
-    socket.on('connect', () => {
-      console.log('queue.service.ts: connect');
-    });
-    socket.on('disconnect', () => {
-      console.log('queue.service.ts: disconnect');
-    });
-    socket.on(CONVERSION_PROGRESS, obj => {
-      // delegate progress socket event
-      const ind = this.videoKeys.indexOf(obj.videoId);
-      // console.log('queue.service.ts: progress: videoId:', obj);
-      if(ind > -1) {
-        // console.log('queue.service.ts: obj:', obj);
-        EmitterService.get(QUEUE_ITEM_PROGRESS)
-        .emit({
-          obj,
-          ind});
-      } else {
-        console.log('queue.service.ts: socket index error: obj, ind:', obj, ind);
-        EmitterService.get(QUEUE_ITEM_ERROR)
-        .emit({
-          obj: obj,
-          msg: 'This videoId is not indexed'
-        });
-      }
-    });
-  }
+  // TODO - replace socket progress emission with client-side emitter
+
+  // configureSocket() {
+  //   socket.on('connect', () => {
+  //     console.log('queue.service.ts: connect');
+  //   });
+  //   socket.on('disconnect', () => {
+  //     console.log('queue.service.ts: disconnect');
+  //   });
+  //   socket.on(CONVERSION_PROGRESS, obj => {
+  //     // delegate progress socket event
+  //     const ind = this.videoKeys.indexOf(obj.videoId);
+  //     // console.log('queue.service.ts: progress: videoId:', obj);
+  //     if(ind > -1) {
+  //       // console.log('queue.service.ts: obj:', obj);
+  //       EmitterService.get(QUEUE_ITEM_PROGRESS)
+  //       .emit({
+  //         obj,
+  //         ind});
+  //     } else {
+  //       console.log('queue.service.ts: socket index error: obj, ind:', obj, ind);
+  //       EmitterService.get(QUEUE_ITEM_ERROR)
+  //       .emit({
+  //         obj: obj,
+  //         msg: 'This videoId is not indexed'
+  //       });
+  //     }
+  //   });
+  // }
 
 
   // ----------------------------------------------------------------------
@@ -86,10 +102,9 @@ export class QueueService {
   private conversionRequest; // rxjs Subscription - not exported from lib
 
   // just getting the human readable playlist name
-  getPlaylistTitle(playlistKey: string, playlistId: string) {
-    const request = this.http.post(`${CONVERSION_API_URL}:${PORT_API}/playlist`, {
-      playlistId
-    })
+  getPlaylistTitle(playlistKey: string, playlistId: string = 'PLV2v9WNyDEGAdVge-iTs6gBh_hkhJdHt7') {
+    const url = `${PLAYLIST_URL}/playlists?part=snippet&id=${playlistId}&key=${PLAYLIST_API_KEY}`;
+    const request = this.http.get(url)
       .subscribe(res => {
         request.unsubscribe();
         const results = res.json().pageInfo.totalResults;
@@ -121,6 +136,7 @@ export class QueueService {
     const request = this.requestPlaylistItems(playlistId, pageToken)
     .subscribe( (result: IPlaylistData) => {
       const simplifiedVideoObjects = result.items
+      .filter( (item: any) => item.snippet.thumbnails ) // deleted videos don't have `thumbnails` prop
       .map( (item: any) => ({
         videoId: item.snippet.resourceId.videoId,
         thumbnails: item.snippet.thumbnails,
@@ -164,15 +180,14 @@ export class QueueService {
   //   array because it's like a sequence of responses
   // - <> brackets mean List/Array contents type
   requestPlaylistItems(playlistId: string, pageToken: string = undefined): Observable<IPlaylistData> {
-    console.log('queue.service.ts: playlistId:', playlistId);
-    return this.http
-      .post(`${CONVERSION_API_URL}:${PORT_API}/playlistItems`, {
-        playlistId,
-        pageToken
-      })
+    // console.log('queue.service.ts: playlistId:', playlistId);
+    const pagination = pageToken ? `&pageToken=${pageToken}` : '';
+    const url = `${PLAYLIST_URL}/playlistItems?part=snippet&playlistId=${playlistId}&maxLength=10&key=${PLAYLIST_API_KEY}${pagination}`;
+    return this.http.get(url)
       // ...and calling .json() on the response to return data
       .map((res: Response) => {
         // returns http response; headers, status, body, etc...
+        console.log('queue.service.ts: res.json():', res.json());
         return res.json();
       })
       // ...errors if any
